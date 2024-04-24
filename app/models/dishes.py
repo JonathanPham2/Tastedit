@@ -1,13 +1,13 @@
-from models import db, add_prefix_for_prod, SCHEMA, environment
+from .db import db, add_prefix_for_prod, SCHEMA, environment
 from datetime import datetime
 
 from sqlalchemy import Enum
 
 class Dish(db.Model):
-    __tablename__ = "Dishes"
+    __tablename__ = "dishes"
     # set the right table schema for production cause we using 1 databse for many application on render
     if environment == "production":
-        __table_args = {"schema":SCHEMA}
+        __table_args__ = {"schema":SCHEMA}
 
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod("users.id")), nullable=False)
@@ -24,13 +24,13 @@ class Dish(db.Model):
     updated_at = db.Column(db.DateTime, default=datetime.utcnow)
 
     # relationships
-    dish_images = db.relationship("Dish_Images", back_populates="dish", cascade="all, delete, delete-orphan")
-
+    dish_images = db.relationship("DishImage", back_populates="dish", cascade="all, delete, delete-orphan")
+    restaurant = db.relationship("Restaurant", back_populates="dishes")
 
     comments = db.relationship('Comment', back_populates='dish', cascade='all, delete, delete-orphan')
     user = db.relationship('User', back_populates='dishes')
-
+ 
     # join table relationship
-    favorite = db.relationship('Favorite', back_populates='dish', cascade='all , delete, delete-orphan')
+    favorites = db.relationship('Favorite', back_populates='dish', cascade='all , delete, delete-orphan')
 
 
