@@ -1,7 +1,7 @@
-from models import db, SCHEMA, environment
+from .db import db, SCHEMA, environment, add_prefix_for_prod
 from datetime import datetime
 
-class Dish_Image(db.Model):
+class DishImage(db.Model):
     __tablename__ = "dish_images"
 
     if environment == "production":
@@ -16,3 +16,10 @@ class Dish_Image(db.Model):
 
     # relationsip
     dish = db.relationship("Dish", back_populates='dish_images')
+
+
+    def to_dict(self):
+        return {
+            "id": self.id,
+            "image_url": self.image_url
+        }

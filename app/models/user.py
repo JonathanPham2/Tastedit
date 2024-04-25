@@ -17,6 +17,15 @@ class User(db.Model, UserMixin):
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
     updated_at = db.Column(db.DateTime, default=datetime.utcnow)
 
+
+    # Relationship
+    dishes = db.relationship("Dish", back_populates="user", cascade="all, delete, delete-orphan")
+
+    comments = db.relationship("Comment", back_populates="user", cascade="all, delete, delete-orphan")
+
+    # #  join table relationship
+    favorites = db.relationship("Favorite", back_populates="user", cascade="all, delete, delete-orphan")
+
     @property
     def password(self):
         return self.hashed_password
