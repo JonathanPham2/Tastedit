@@ -33,4 +33,22 @@ class Dish(db.Model):
     # join table relationship
     favorites = db.relationship('Favorite', back_populates='dish', cascade='all , delete, delete-orphan')
 
+    def to_dict(self):
+        return {
+            "id":self.id,
+            "user_id": self.user_id,
+            "restaurant_id": self.restaurant_id,
+            "name " : self.name,
+            "spicy_level": self.spicy_level,
+            "vegan":self.vegan,
+            "description": self.description,
+            "price": self.price,
+            "recomended": self.recomended,
+            "rating": self.rating,
+            "created_at": self.created_at.isoformat(),
+            "updated_at": self.updated_at.isoformat()
+               
+        }
+
+
 
