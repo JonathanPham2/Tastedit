@@ -43,8 +43,9 @@ class Dish(db.Model):
             "vegan":self.vegan,
             "description": self.description,
             "price": self.price,
-            "recomended": self.recomended,
+            "recommended": self.recommended,
             "rating": self.rating,
+            "dish_images": [dish_image.to_dict() for dish_image in self.dish_images],
             "created_at": self.created_at.isoformat(),
             "updated_at": self.updated_at.isoformat()
                

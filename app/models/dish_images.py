@@ -16,3 +16,12 @@ class DishImage(db.Model):
 
     # relationsip
     dish = db.relationship("Dish", back_populates='dish_images')
+
+    def to_dict(self):
+        return {
+            "id": self.id,
+            "dish_id": self.dish_id,
+            "image_url": self.image_url
+
+
+        }
