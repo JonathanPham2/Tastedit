@@ -38,7 +38,7 @@ class Dish(db.Model):
             "id":self.id,
             "user_id": self.user_id,
             "restaurant_id": self.restaurant_id,
-            "name " : self.name,
+            "name" : self.name,
             "spicy_level": self.spicy_level,
             "vegan":self.vegan,
             "description": self.description,

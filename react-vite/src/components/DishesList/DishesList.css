@@ -1,0 +1,50 @@
+.dishes-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px; 
+    padding: 20px;
+  }
+  .dish-post-card {
+    background: white;
+    border-radius: 15px; 
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    padding: 15px; 
+    overflow: hidden;
+    transition: transform 0.3s; 
+
+  }
+  
+  
+  .dish-post-card:hover {
+    transform: translateY(-15px); 
+  }
+
+
+  .image-container {
+    height: 200px; 
+    overflow: hidden; 
+    border-radius: 10px; 
+    margin-bottom: 10px; 
+    transition: 0.5;
+  }
+  
+  .image-container img {
+    padding: 10px;
+    width: 100%;
+    height: 100%; 
+    object-fit: cover; 
+
+
+  }
+
+  .dish-post-card h1 {
+    font-size: 1.5em; 
+    margin-top: 0; 
+    margin-bottom: 0.5em; 
+  }
+  
+  .dish-post-card p {
+    font-size: 1em; 
+    color: #666;
+    margin: 5px 0; 
+  }
