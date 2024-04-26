@@ -42,8 +42,8 @@ body, html {
     transition: all 0.3s ease;
   }
   .explore-button:hover {
-    background: #ffda77; /* Lighter shade on hover */
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2); /* Subtle shadow for depth */
+    background: #ffda77; 
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2); 
     transform: scale(1.05);
   }
 
