@@ -3,6 +3,7 @@ import { selectorDishesArray, thunkFetchDishes } from "../../redux/dishes";
 import { useEffect } from "react";
 import DishesList from "../DishesList";
 import './LandingPage.css'
+import Navigation from "../Navigation/Navigation";
 
 
 const LandingPage = () => {
@@ -19,15 +20,12 @@ const LandingPage = () => {
     return (
         <main className="landing-page">
             <div className="landing-background">
+                 <Navigation/>
                 <h1 className="welcome-text">Welcome to Tastedit</h1>
-                <p>Explore and share the best dishes</p>
+                <p className="explore-text">Explore and share the best dishes</p>
                 <button className="explore-button" >Explore now</button>
             </div>
-
-
             <DishesList  dishes={dishes}/>
-
-
         </main>
     )
 
