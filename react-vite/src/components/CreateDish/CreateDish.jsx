@@ -6,12 +6,12 @@ import { CSSTransition } from "react-transition-group"
 
 // initialize proteins so we can map and display it
 const proteins = [
-    {name: "Beef", icon: "../../public/icons/beef.png"},
-    {name: "Fish", icon: "../../public/icons/fish.png"},
-    {name: "Chicken", icon:"../../public/icons/chicken.png"},
-    {name: "Lamb", icon: "../../public/icons/lamb.png"},
-    {name: "Pork", icon: "../../public/icons/pork.png"},
-    {name: "Planted-base", icon: "../../public/icons/planted.png"},
+    {name: "Beef", icon: "../../public/beef.png"},
+    {name: "Fish", icon: "../../public/fish.png"},
+    {name: "Chicken", icon:"../../public/chicken.png"},
+    {name: "Lamb", icon: "../../public/lamb.png"},
+    {name: "Pork", icon: "../../public/pork.png"},
+    {name: "Planted-base", icon: "../../public/planted.png"},
 
 ]
 
