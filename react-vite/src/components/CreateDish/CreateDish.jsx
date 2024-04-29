@@ -2,15 +2,23 @@ import { useState, useEffect} from "react"
 import "./CreateDish.css"
 import { FaStar } from "react-icons/fa"
 import { CSSTransition } from "react-transition-group"
+import beefIcon from "../../../dist/beef.png"
+import fishIcon from "../../../dist/fish.png"
+import chickenIcon from "../../../dist/chicken.png"
+import lambIcon from "../../../dist/lamb.png"
+import porkIcon from "../../../dist/pork.png"
+import plantedBaseIcon from "../../../dist/planted.png"
+import logo from "../../../dist/favicon.ico"
+
 
 
 // initialize proteins so we can map and display it
 const proteins = [
-    {name: "Beef", icon: "/beef.png"},
-    {name: "Fish", icon: "/fish.png"},
-    {name: "Chicken", icon:"/chicken.png"},
-    {name: "Lamb", icon: "/lamb.png"},
-    {name: "Pork", icon: "/pork.png"},
+    {name: "Beef", icon: beefIcon},
+    {name: "Fish", icon: fishIcon},
+    {name: "Chicken", icon:chickenIcon},
+    {name: "Lamb", icon: lambIcon},
+    {name: "Pork", icon: porkIcon},
     {name: "Planted-base", icon: "/planted.png"},
 
 ]
@@ -262,7 +270,7 @@ const stageContent = () => {
     return (
         <main className="create-form-container">
             <div className="util-container">
-                <a href="/"><img className="logo-image" src="/favicon.ico" alt="logo" /></a>
+                <a href="/"><img className="logo-image" src={logo} alt="logo" /></a>
                 <button>Save and Exit</button>
             </div>
             

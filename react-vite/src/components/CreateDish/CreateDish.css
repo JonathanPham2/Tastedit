@@ -72,6 +72,7 @@ h2 {
     /* box-shadow: 0 0 2px 2px rgba(69, 69, 67, 0.6), inset 0 0 8px 2px rgba(26, 26, 26, 0.6); */
     align-items: center;
     position: relative;
+    justify-content:center;
 
 }
 .name-protein input {
@@ -93,10 +94,10 @@ h2 {
 }
 /* this part for floating label */
 .floating-dish-name {
-    position: absolute;
+    /* position: absolute; */
     pointer-events: none;
-    top: 85px ;
-    left: 760px;
+    top: 100px ;
+    left: 630px;
     transition: top 0.3s ease, left 0.3s ease;
     font-family: 'Poppins', sans-serif;
     text-shadow: 2px 2px 20px rgba(0,0, 0, 0.8);
@@ -329,16 +330,18 @@ textarea {
     font-family: 'Poppins', sans-serif;
     border: none;
     cursor: pointer;
+
   }
 
   .dropdown-content {
     display: none;
     position: absolute;
-    background-color: #f9f9f9;
+    background-color: #3f2020;
     min-width: 160px;
     box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
     z-index: 1;
-    left:600px;
+    /* left:px; */
+    border-radius: 10px;
   }
 
   .dropdown-content button {
@@ -346,8 +349,11 @@ textarea {
     padding: 12px 16px;
     text-decoration: none;
     display: block;
+    width: 100%;
+    font-family: 'Poppins', sans-serif;
+
   }
-  .dropdown-content button:hover {background-color: #f1f1f1}
+  .dropdown-content button:hover {background-color: #ffc107}
 
 /* Show the dropdown menu on hover */
 .dropdown:hover .dropdown-content {
@@ -357,4 +363,6 @@ textarea {
 
   .dropdown:hover .drop-button{
     background-color: #3e8e41;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2); 
+
   }
