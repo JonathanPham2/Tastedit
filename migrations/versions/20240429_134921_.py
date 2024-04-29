@@ -1,8 +1,8 @@
-"""all model added
+"""empty message
 
-Revision ID: 64d5135907d7
+Revision ID: 0ba433b0d017
 Revises: 
-Create Date: 2024-04-24 14:45:43.404208
+Create Date: 2024-04-29 13:49:21.986504
 
 """
 from alembic import op
@@ -11,11 +11,13 @@ import os
 environment = os.getenv("FLASK_ENV")
 SCHEMA = os.environ.get("SCHEMA")
 
+
 # revision identifiers, used by Alembic.
-revision = '64d5135907d7'
+revision = '0ba433b0d017'
 down_revision = None
 branch_labels = None
 depends_on = None
+
 
 
 def upgrade():
@@ -49,8 +51,10 @@ def upgrade():
     sa.Column('name', sa.String(length=255), nullable=False),
     sa.Column('spicy_level', sa.Enum('no spice', 'mild', 'medium', 'very spicy', name='spicy_level_types'), nullable=False),
     sa.Column('vegan', sa.Boolean(), nullable=False),
+    sa.Column('cuisine', sa.String(length=50), nullable=False),
+    sa.Column('protein_type', sa.Enum('Beef', 'Chicken', 'Lamb', 'Fish', 'Pork', 'Planted-base', name='protein_type'), nullable=True),
     sa.Column('description', sa.Text(), nullable=False),
-    sa.Column('price', sa.Numeric(), nullable=False),
+    sa.Column('price', sa.Enum('Budget-friendly', 'Moderate', 'Expensive', name='price'), nullable=True),
     sa.Column('recommended', sa.Boolean(), nullable=False),
     sa.Column('rating', sa.Integer(), nullable=True),
     sa.Column('created_at', sa.DateTime(), nullable=True),
@@ -88,16 +92,11 @@ def upgrade():
     sa.ForeignKeyConstraint(['dish_id'], ['dishes.id'], ),
     sa.ForeignKeyConstraint(['user_id'], ['users.id'], ),
     sa.PrimaryKeyConstraint('id')
+
     )
 
     if environment == "production":
         op.execute(f"ALTER TABLE users SET SCHEMA {SCHEMA};")
-        op.execute(f"ALTER TABLE restaurants SET SCHEMA {SCHEMA};")
-        op.execute(f"ALTER TABLE dishes SET SCHEMA {SCHEMA};")
-        op.execute(f"ALTER TABLE comments SET SCHEMA {SCHEMA};")
-        op.execute(f"ALTER TABLE dish_images SET SCHEMA {SCHEMA};")
-        op.execute(f"ALTER TABLE favorites SET SCHEMA {SCHEMA};")
-        
     # ### end Alembic commands ###
 
 
