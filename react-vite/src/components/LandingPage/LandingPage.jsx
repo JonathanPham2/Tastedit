@@ -21,8 +21,10 @@ const LandingPage = () => {
         <main className="landing-page">
             <div className="landing-background">
                  <Navigation/>
-                <h1 className="welcome-text">Welcome to Tastedit</h1>
-                <p className="explore-text">Explore and share the best dishes</p>
+                 <div className="welcome-container">
+                    <h1 className="welcome-text">Welcome to Tastedit</h1>
+                    <p className="explore-text">Explore and share the best dishes</p>
+                </div>
                 <button className="explore-button" >Explore now</button>
             </div>
             <DishesList  dishes={dishes}/>

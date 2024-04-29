@@ -4,6 +4,7 @@ import SignupFormPage from '../components/SignupFormPage';
 import Layout from './Layout';
 // import DishesList from '../components/DishesList';
 import LandingPage from '../components/LandingPage';
+import CreateDish from '../components/CreateDish';
 
 export const router = createBrowserRouter([
   {
@@ -12,6 +13,10 @@ export const router = createBrowserRouter([
       {
         path: "/",
         element: <LandingPage/>
+      },
+      {
+        path: "/new",
+        element: <CreateDish/>
       },
       
       

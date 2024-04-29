@@ -16,8 +16,10 @@ class Dish(db.Model):
     # using Enum to define spicy levels 
     spicy_level = db.Column(Enum("no spice", "mild", "medium", "very spicy", name="spicy_level_types"), nullable=False)
     vegan = db.Column(db.Boolean, nullable=False)
+    cuisine = db.Column(db.String(50), nullable=False)
+    protein_type = db.Column(Enum("Beef", "Chicken", "Lamb", "Fish", "Pork", "Planted-base"))
     description = db.Column(db.Text, nullable=False)
-    price = db.Column(db.Numeric, nullable=False)
+    price = db.Column(Enum("Budget-friendly", "Moderate", "Expensive"))
     recommended = db.Column(db.Boolean, nullable=False)
     rating = db.Column(db.Integer)
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
@@ -41,6 +43,8 @@ class Dish(db.Model):
             "name" : self.name,
             "spicy_level": self.spicy_level,
             "vegan":self.vegan,
+            "cuisine": self.cuisine,
+            "protein_type": self.protein_type,
             "description": self.description,
             "price": self.price,
             "recommended": self.recommended,

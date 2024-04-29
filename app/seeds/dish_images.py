@@ -2,58 +2,60 @@ from app.models import db, DishImage, environment, SCHEMA
 from sqlalchemy.sql import text
 
 def seed_dish_images():
-    image1 = DishImage(
+    images = [
+        DishImage(
             dish_id= 1,
             image_url="https://tastedit-bucket.s3.amazonaws.com/project-pictures/sweet-spicy-pizza-1.jpeg"
             
-        )
-    image2 = DishImage(
-            dish_id=1 ,
-            image_url="https://tastedit-bucket.s3.amazonaws.com/project-pictures/sweet-spicy-pizza-2.jpeg"
+        ),
+        DishImage(
+                dish_id=2 ,
+                image_url="https://tastedit-bucket.s3.amazonaws.com/project-pictures/Chicken-Curry-1.jpeg"
+                
+        ),
+        DishImage(
+                dish_id=3 ,
+                image_url="https://tastedit-bucket.s3.amazonaws.com/project-pictures/Mango-Sorbet-with-Mint.jpg"
             
-        )
-    image3 = DishImage(
-            dish_id=1 ,
-            image_url="https://tastedit-bucket.s3.amazonaws.com/project-pictures/sweet-spicy-pizza-3.jpeg"
+        ),
+        DishImage(
+                dish_id=4 ,
+                image_url="https://tastedit-bucket.s3.amazonaws.com/project-pictures/dish-pictures/green-curry.jpeg"
             
-        )
-    image4 = DishImage(
-            dish_id=1 ,
-            image_url="https://tastedit-bucket.s3.amazonaws.com/project-pictures/sweet-spicy-pizza-4.jpeg"
+        ),
+        DishImage(
+                dish_id=5 ,
+                image_url="https://tastedit-bucket.s3.amazonaws.com/project-pictures/dish-pictures/Easy-Vegan-Mushroom-Risotto.png"
             
-        )
-    image5 = DishImage(
-            dish_id=2 ,
-            image_url="https://tastedit-bucket.s3.amazonaws.com/project-pictures/Chicken-Curry-1.jpeg"
-            
-        )
-    image6 = DishImage(
-            dish_id= 2,
-            image_url="https://tastedit-bucket.s3.amazonaws.com/project-pictures/Chicken-Curry-Recipe-2.jpeg"
-            
-        )
-    image7 = DishImage(
-            dish_id= 2,
-            image_url="https://tastedit-bucket.s3.amazonaws.com/project-pictures/Chicken-Curry-Recipe-3-.jpeg"
-            
-        )
-    image8 = DishImage(
-            dish_id= 2,
-            image_url="https://tastedit-bucket.s3.amazonaws.com/project-pictures/Chicken-Curry-Recipe-4.jpeg"
-            
-        )
-    image9 = DishImage(
-            dish_id=3 ,
-            image_url="https://tastedit-bucket.s3.amazonaws.com/project-pictures/mango_sorbet-1.jpeg"
-            
-        )
-    image10 = DishImage(
-            dish_id= 3,
-            image_url="https://tastedit-bucket.s3.amazonaws.com/project-pictures/mango_sorbet4-2.jpeg"
-            
-        )
+        ),
 
-    db.session.add_all([image1, image2,image3,image4,image5,image6,image7,image8,image9,image10,])
+        DishImage(
+                dish_id= 6,
+                image_url="https://tastedit-bucket.s3.amazonaws.com/project-pictures/dish-pictures/featured-grilled-salmon.jpeg"
+            
+        ),
+
+        DishImage(
+                dish_id= 7,
+                image_url="https://tastedit-bucket.s3.amazonaws.com/project-pictures/dish-pictures/1.jpg"
+                
+            ),
+         DishImage(
+            dish_id= 8,
+            image_url="https://tastedit-bucket.s3.amazonaws.com/project-pictures/dish-pictures/cheeseburger-1.webp"
+            
+        ),
+         DishImage(
+            dish_id=9 ,
+            image_url="https://tastedit-bucket.s3.amazonaws.com/project-pictures/dish-pictures/pork-ramen.jpeg"
+            
+        ),
+   
+    
+            
+    ]
+
+    db.session.add_all(images)
     db.session.commit()
 
 def undo_dish_images():

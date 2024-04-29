@@ -23,18 +23,17 @@
    
     
   }
+  .welcome-container {
+    z-index: 2;
+    background: linear-gradient( to right,  #f3d915, #ffe98f, #bce906);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    
+  }
   
 
 
-   .welcome-text {
-    font-family: 'Poppins', sans-serif;
-    /* color: #ffffff; */
-    color:#ffc107 ;
-    margin-bottom: 0.5em;
-    font-size: 2.5em;
-    text-shadow: 2px 2px 4px rgba(0,0, 0, 0.5);
-    z-index: 2;
-  }
+   
 
   .explore-text {
     z-index: 2;

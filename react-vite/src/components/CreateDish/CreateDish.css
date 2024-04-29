@@ -1,0 +1,339 @@
+.create-form-container {
+   background: linear-gradient(120deg, #2c3e50, #4c5c68);
+   padding-bottom: 100px
+
+}
+h2 {
+    font-family: 'Poppins', sans-serif;
+
+    color:#ffc107 ;
+      /* margin-bottom: 0.5em; */
+      font-size:1.7em;
+      outline: none;
+      text-decoration: none;
+      text-shadow: 2px 2px 8px rgba(0,0, 0, 0.8);
+
+}
+.logo-image {
+    width: 3em;
+}
+.util-container button, .back-next-button button, .stars-container svg {
+    cursor: pointer; 
+    transition: background-color 0.3s; 
+}
+
+.util-container button:hover, .back-next-button button:hover {
+    background-color: #ececec; 
+}
+.vegan-section {
+    height: 700px;
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    box-shadow: 0 0 2px 2px rgba(69, 69, 67, 0.6), inset 0 0 8px 2px rgba(26, 26, 26, 0.6);
+    
+
+}
+.vegan-button {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+}
+
+.name-protein {
+    height: 700px;
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    box-shadow: 0 0 2px 2px rgba(69, 69, 67, 0.6), inset 0 0 8px 2px rgba(26, 26, 26, 0.6);
+    align-items: center;
+    position: relative;
+
+}
+.name-protein input {
+    margin: 0 100px;
+    width: 400px;
+    height: 30px;
+    border-bottom: 2px solid #9b9b9b;
+    outline: 0;
+    font-size: 1.5em;
+    border-radius: 5px;
+    border: none;
+    /* color: #fff; */
+    padding: 7px 0;
+    /* background: transparent; */
+    transition: border-color 0.2s;
+    margin-top: 70px;
+    position: relative;
+    
+}
+/* this part for floating label */
+.dish-name:placeholder-shown + .label-name .content-name,
+.dish-name:focus ~ .label-name .content-name {
+    transform: translateY(-150%);
+    font-size: 1em;
+    color: #ffc107;
+}
+
+
+
+.label-name {
+    position: absolute;
+    top: 65px;
+    left: 320px;
+    pointer-events: none;
+    border-top: 20px solid transparent;
+    transition: top 0.3s ease, left 0.3s ease;
+    font-family: 'Poppins', sans-serif;
+    font-size: 20px;
+    text-shadow: 2px 2px 20px rgba(0,0, 0, 0.8);
+
+}
+
+ .label-name .content-name {
+    width: fit-content;
+    position: relative;
+    display: block;
+    /* padding: 0 4px; */
+    line-height: 1.5em;
+    color:black;
+    transition: transform 0.2s ease-in-out, color 0.2s ease;
+    font-size: 20px;
+    text-shadow: 2px 2px 20px rgba(0,0, 0, 0.8);
+    left: 4px;
+    /* top: px;  */
+    
+
+    
+}
+
+
+.dish-name:not ~.label-name .content-name {
+    transform: translateY(-150%);
+    font-size: 20px; 
+    color: #ffc107;
+    text-shadow: 2px 2px 20px rgba(0,0, 0, 0.8);
+
+
+}
+
+
+/* cuisine floating label */
+cuisine-text:placeholder-shown ~ .cuisine-name .cuisine-content,
+cuisine-text:focus ~ .cuisine-name .cuisine-content {
+    transform: translateY(-150%);
+    /* font-size: 1em; */
+    color: #ffc107;
+}
+.cuisine-name {
+    position: absolute;
+    top: 555px;
+    left: 320px;
+    font-family: 'Poppins', sans-serif;
+     /* color: #ffc107; */
+    transition: top 0.3s ease, left 0.3s ease;
+
+}
+.cuisine-name .cuisine-content {
+    width: fit-content;
+    position: relative;
+    display: block;
+    padding: 0 4px;
+    line-height: 1.5em;
+    transition: transform 0.2s ease-in-out, color 0.2s ease;
+    font-size: 20px;
+    text-shadow: 2px 2px 20px rgba(0,0, 0, 0.8);
+    font-family: 'Poppins', sans-serif;
+
+
+    
+}
+.cuisine-text:focus + .cuisine-name {
+    top:510px;
+    font-size: 20px;
+    text-shadow: 2px 2px 20px rgba(0,0, 0, 0.8);
+    font-family: 'Poppins', sans-serif;
+    color: #ffc107; 
+    
+    
+
+}
+input:not(:placeholder-shown) + .label-name .content-name, .cuisine-name, .cuisine-content
+input:focus + .label-name .content-name {
+  transform: translateY(-165%);
+  color: #ffc107;
+  font-size: 20px; /* Smaller size when the label moves up */
+}
+/* -------------------------------------------------- */
+.protein-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+    justify-content: center;
+    align-items: center;
+    grid-template-rows: minmax(100px, auto);
+    margin-left: 350px;
+    margin-right: 350px;
+    
+
+}
+
+.protein-button {
+    border: none;
+    background: none;
+    width: 10em;
+    height: 10em;
+    box-shadow: 0 0 2px 2px rgba(69, 69, 67, 0.6), inset 0 0 8px 2px rgba(89, 89, 87, 0.6);
+   
+}
+
+.protein-button.selected {
+    border: 2px solid #4caf50; 
+   
+}
+
+.protein-icon {
+    width: 100px; 
+    height: 90px;
+    
+   
+}
+
+.last-section {
+    height: 700px;
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    box-shadow: 0 0 2px 2px rgba(69, 69, 67, 0.6), inset 0 0 8px 2px rgba(26, 26, 26, 0.6);
+    
+}
+.back-next-button {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+}
+.back-next-button button {
+    width: 45%;
+}
+
+
+.section {
+    opacity: 1;
+    visibility: visible;
+    transition: opacity 0.5s ease, visibility 0s 0.5s, max-height 0.5s ease; 
+    max-height: 1000px; 
+}
+
+.hidden {
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.5s ease, visibility 0s 0s, max-height 0.5s ease; 
+    max-height: 0; 
+    overflow: hidden;
+}
+
+textarea {
+    min-height: 100px; 
+    margin: 0 20px; 
+
+
+}
+.button-yes, .button-no {
+    /* background-color: white;
+    padding: 10px 20px;
+    margin: 5px;
+    border: 1px solid #ccc;
+    transition: all 0.3s ease; */
+    background: #ffc107;
+    color: #2c3e50; 
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    font-weight: bold;
+    transition: all 0.3s ease;
+}
+
+.button-yes:hover, .button-no:hover {
+    /* background-color: #f7f7f7;
+    border-color: #bbb; */
+    background: #ffda77; 
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2); 
+    transform: scale(1.05);
+}
+
+
+/* This section for stars */
+.stars-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+}
+.empty-star {
+    color: rgb(151, 146, 146);
+    font-size: 50px;
+}
+.filled-star {
+    color:#ffc107;
+    font-size: 50px;
+}
+
+.stage-3-button-container {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+}
+.upload-image{
+    height: 700px;
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    box-shadow: 0 0 2px 2px rgba(69, 69, 67, 0.6), inset 0 0 8px 2px rgba(26, 26, 26, 0.6);
+
+}
+
+.file-inputs-container {
+    margin-bottom: 32px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 50px;
+    
+  }
+  
+  /*
+    As the htmlFor property requires a unique id, here we simply add a 2 to the end of the original id name. Unless you are allowing multiple images, this is not actually necessary.
+    One file input could be named anything that you desire. Just note that if you have multiple, they all need different names!
+  */
+  
+  #post-image-input {
+    visibility: hidden;
+  }
+  
+  /*
+    As before, we simply style the label as a button
+    In this configuration, the button itself will also provide the thumbnail.
+  */
+  
+  .file-input-labels-noname {
+    position: absolute;
+    top: 200px;
+    /* right: 0px; */
+    display: block;
+    border-radius: 6px;
+    color: var(--minimal-border);
+    background-color: var(--minimal-background);
+    width: 120px;
+    height: 120px;
+    transition: all 0.3s ease-in-out;
+  }
+  
+  .file-input-labels-noname:hover {
+    cursor: pointer;
+  }
+  .thumbnails-noname {
+    width: 200px;
+    height: 200px;
+    border: 2px solid var(--minimal-border);
+    border-radius: 6px;
+  }

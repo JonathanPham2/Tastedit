@@ -5,7 +5,7 @@ const DishesList = ({dishes}) => {
         <div className="dishes-list ">
             {dishes.map(dish => (
                 <div key={dish.id} className="dish-post-card">
-                    {dish.dish_images.slice(2).map(image => (
+                    {dish.dish_images.map(image => (
                         <div key={image.id} className="image-container">
                             <img id={`image-${image.id}`} src={image.image_url} alt={dish.name} />
                         </div>
