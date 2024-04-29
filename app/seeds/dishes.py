@@ -47,7 +47,7 @@ def seed_dishes():
             rating=5,
         ),
         Dish(
-        user_id=4,
+        user_id=1,
         restaurant_id=1,
         name="Spicy Thai Green Curry",
         spicy_level="medium",
@@ -60,7 +60,7 @@ def seed_dishes():
         rating=5
     ),
     Dish(
-        user_id=5,
+        user_id=2,
         restaurant_id=2,
         name="Vegan Mushroom Risotto",
         spicy_level="no spice",
@@ -73,7 +73,7 @@ def seed_dishes():
         rating=4
     ),
     Dish(
-        user_id=6,
+        user_id=3,
         restaurant_id=3,
         name="Grilled Salmon",
         spicy_level="mild",
@@ -86,7 +86,7 @@ def seed_dishes():
         rating=5
     ),
     Dish(
-        user_id=7,
+        user_id=1,
         restaurant_id=4,
         name="Lamb Kebab",
         spicy_level="very spicy",
@@ -99,7 +99,7 @@ def seed_dishes():
         rating=3
     ),
     Dish(
-        user_id=8,
+        user_id=2,
         restaurant_id=5,
         name="Classic Cheeseburger",
         spicy_level="no spice",
@@ -112,7 +112,7 @@ def seed_dishes():
         rating=4
     ),
     Dish(
-        user_id=9,
+        user_id=3,
         restaurant_id=6,
         name="Pork Ramen",
         spicy_level="medium",
