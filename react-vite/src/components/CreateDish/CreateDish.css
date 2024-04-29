@@ -3,6 +3,32 @@
    padding-bottom: 100px
 
 }
+/* This is for transition delay for stage chaning */
+
+.section-transition-enter {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  .section-transition-enter-active {
+    opacity: 1;
+    transform: scale(1);
+    transition: opacity 500ms, transform 500ms;
+  }
+  .section-transition-exit {
+    opacity: 1;
+    transform: scale(1);
+  }
+  .section-transition-exit-active {
+    opacity: 0;
+    transform: scale(0.95);
+    transition: opacity 500ms, transform 500ms;
+  }
+  
+/* ---------------------------- */
+
+
+
+
 h2 {
     font-family: 'Poppins', sans-serif;
 
@@ -22,15 +48,13 @@ h2 {
     transition: background-color 0.3s; 
 }
 
-.util-container button:hover, .back-next-button button:hover {
-    background-color: #ececec; 
-}
+
 .vegan-section {
     height: 700px;
     display: flex;
     flex-direction: column;
     text-align: center;
-    box-shadow: 0 0 2px 2px rgba(69, 69, 67, 0.6), inset 0 0 8px 2px rgba(26, 26, 26, 0.6);
+    /* box-shadow: 0 0 2px 2px rgba(69, 69, 67, 0.6), inset 0 0 8px 2px rgba(26, 26, 26, 0.6); */
     
 
 }
@@ -45,7 +69,7 @@ h2 {
     display: flex;
     flex-direction: column;
     text-align: center;
-    box-shadow: 0 0 2px 2px rgba(69, 69, 67, 0.6), inset 0 0 8px 2px rgba(26, 26, 26, 0.6);
+    /* box-shadow: 0 0 2px 2px rgba(69, 69, 67, 0.6), inset 0 0 8px 2px rgba(26, 26, 26, 0.6); */
     align-items: center;
     position: relative;
 
@@ -68,102 +92,51 @@ h2 {
     
 }
 /* this part for floating label */
-.dish-name:placeholder-shown + .label-name .content-name,
-.dish-name:focus ~ .label-name .content-name {
-    transform: translateY(-150%);
-    font-size: 1em;
-    color: #ffc107;
-}
-
-
-
-.label-name {
+.floating-dish-name {
     position: absolute;
-    top: 65px;
-    left: 320px;
     pointer-events: none;
-    border-top: 20px solid transparent;
+    top: 85px ;
+    left: 760px;
     transition: top 0.3s ease, left 0.3s ease;
     font-family: 'Poppins', sans-serif;
-    font-size: 20px;
     text-shadow: 2px 2px 20px rgba(0,0, 0, 0.8);
 
+
 }
-
- .label-name .content-name {
-    width: fit-content;
-    position: relative;
-    display: block;
-    /* padding: 0 4px; */
-    line-height: 1.5em;
-    color:black;
-    transition: transform 0.2s ease-in-out, color 0.2s ease;
-    font-size: 20px;
-    text-shadow: 2px 2px 20px rgba(0,0, 0, 0.8);
-    left: 4px;
-    /* top: px;  */
-    
-
-    
-}
-
-
-.dish-name:not ~.label-name .content-name {
-    transform: translateY(-150%);
-    font-size: 20px; 
+.dish-name:focus+.floating-dish-name {
+    top: 50.5px;
+    transition: top 0.3s ease, left 0.3s ease;
+    font-family: 'Poppins', sans-serif;
     color: #ffc107;
-    text-shadow: 2px 2px 20px rgba(0,0, 0, 0.8);
-
+    text-shadow: 2px 2px 20px rgba(0,0, 0, 0.8)
 
 }
-
-
-/* cuisine floating label */
-cuisine-text:placeholder-shown ~ .cuisine-name .cuisine-content,
-cuisine-text:focus ~ .cuisine-name .cuisine-content {
-    transform: translateY(-150%);
-    /* font-size: 1em; */
-    color: #ffc107;
-}
-.cuisine-name {
+/* ------------------------------------------------------ */
+/* cuisine floating  */
+.floating-cuisine {
     position: absolute;
-    top: 555px;
-    left: 320px;
-    font-family: 'Poppins', sans-serif;
-     /* color: #ffc107; */
+    pointer-events: none;
+    top: 550px ;
+    left: 760px;
     transition: top 0.3s ease, left 0.3s ease;
-
-}
-.cuisine-name .cuisine-content {
-    width: fit-content;
-    position: relative;
-    display: block;
-    padding: 0 4px;
-    line-height: 1.5em;
-    transition: transform 0.2s ease-in-out, color 0.2s ease;
-    font-size: 20px;
-    text-shadow: 2px 2px 20px rgba(0,0, 0, 0.8);
     font-family: 'Poppins', sans-serif;
-
-
-    
-}
-.cuisine-text:focus + .cuisine-name {
-    top:510px;
-    font-size: 20px;
     text-shadow: 2px 2px 20px rgba(0,0, 0, 0.8);
+}
+.cuisine-text:focus+ .floating-cuisine {
+    top: 519px;
+    transition: top 0.3s ease, left 0.3s ease;
     font-family: 'Poppins', sans-serif;
-    color: #ffc107; 
-    
-    
+    text-shadow: 2px 2px 20px rgba(0,0, 0, 0.8);
+    color: #ffc107;
+    text-shadow: 2px 2px 20px rgba(0,0, 0, 0.8);
 
+
+    
 }
-input:not(:placeholder-shown) + .label-name .content-name, .cuisine-name, .cuisine-content
-input:focus + .label-name .content-name {
-  transform: translateY(-165%);
-  color: #ffc107;
-  font-size: 20px; /* Smaller size when the label moves up */
-}
+
+
+
+
 /* -------------------------------------------------- */
 .protein-grid {
     display: grid;
@@ -204,7 +177,7 @@ input:focus + .label-name .content-name {
     display: flex;
     flex-direction: column;
     text-align: center;
-    box-shadow: 0 0 2px 2px rgba(69, 69, 67, 0.6), inset 0 0 8px 2px rgba(26, 26, 26, 0.6);
+    /* box-shadow: 0 0 2px 2px rgba(69, 69, 67, 0.6), inset 0 0 8px 2px rgba(26, 26, 26, 0.6); */
     
 }
 .back-next-button {
@@ -217,20 +190,7 @@ input:focus + .label-name .content-name {
 }
 
 
-.section {
-    opacity: 1;
-    visibility: visible;
-    transition: opacity 0.5s ease, visibility 0s 0.5s, max-height 0.5s ease; 
-    max-height: 1000px; 
-}
 
-.hidden {
-    opacity: 0;
-    visibility: hidden;
-    transition: opacity 0.5s ease, visibility 0s 0s, max-height 0.5s ease; 
-    max-height: 0; 
-    overflow: hidden;
-}
 
 textarea {
     min-height: 100px; 
@@ -288,12 +248,15 @@ textarea {
     display: flex;
     flex-direction: column;
     text-align: center;
-    box-shadow: 0 0 2px 2px rgba(69, 69, 67, 0.6), inset 0 0 8px 2px rgba(26, 26, 26, 0.6);
+    /* box-shadow: 0 0 2px 2px rgba(69, 69, 67, 0.6), inset 0 0 8px 2px rgba(26, 26, 26, 0.6); */
 
 }
 
+
+/* Image upload-------------------------------------------------- */
+
 .file-inputs-container {
-    margin-bottom: 32px;
+    /* margin-bottom: 32px; */
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -301,22 +264,11 @@ textarea {
     
   }
   
-  /*
-    As the htmlFor property requires a unique id, here we simply add a 2 to the end of the original id name. Unless you are allowing multiple images, this is not actually necessary.
-    One file input could be named anything that you desire. Just note that if you have multiple, they all need different names!
-  */
   
-  #post-image-input {
-    visibility: hidden;
-  }
   
-  /*
-    As before, we simply style the label as a button
-    In this configuration, the button itself will also provide the thumbnail.
-  */
   
   .file-input-labels-noname {
-    position: absolute;
+    /* position: absolute; */
     top: 200px;
     /* right: 0px; */
     display: block;
@@ -337,3 +289,20 @@ textarea {
     border: 2px solid var(--minimal-border);
     border-radius: 6px;
   }
+
+  /* Progress bar */
+
+  .progress-bar-container {
+    width: 100%;
+    background-color: #ddd;
+    margin: 20px 0;
+
+  }
+  .progress-bar {
+    height: 5px;
+    background-color:#ffc107;
+    
+    transition: width 1s ease-in-out;
+    
+  }
+
