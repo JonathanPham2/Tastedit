@@ -6,12 +6,12 @@ import { CSSTransition } from "react-transition-group"
 
 // initialize proteins so we can map and display it
 const proteins = [
-    {name: "Beef", icon: "../../beef.png"},
-    {name: "Fish", icon: "../../fish.png"},
-    {name: "Chicken", icon:"../../chicken.png"},
-    {name: "Lamb", icon: "../../amb.png"},
-    {name: "Pork", icon: "../../pork.png"},
-    {name: "Planted-base", icon: "../../planted.png"},
+    {name: "Beef", icon: "/beef.png"},
+    {name: "Fish", icon: "/fish.png"},
+    {name: "Chicken", icon:"/chicken.png"},
+    {name: "Lamb", icon: "/lamb.png"},
+    {name: "Pork", icon: "/pork.png"},
+    {name: "Planted-base", icon: "/planted.png"},
 
 ]
 
@@ -262,7 +262,7 @@ const stageContent = () => {
     return (
         <main className="create-form-container">
             <div className="util-container">
-                <a href="/"><img className="logo-image" src="../../favicon.ico" alt="logo" /></a>
+                <a href="/"><img className="logo-image" src="/favicon.ico" alt="logo" /></a>
                 <button>Save and Exit</button>
             </div>
             
