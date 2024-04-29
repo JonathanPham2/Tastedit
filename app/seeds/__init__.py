@@ -20,7 +20,7 @@ def seed():
         # Make sure to add all your other model's undo functions below
         undo_dish_images()
         undo_dishes()
-        undo_restaurants
+        undo_restaurants()
         undo_users()
     seed_users()
     seed_restaurants()
