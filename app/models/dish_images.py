@@ -5,7 +5,7 @@ class DishImage(db.Model):
     __tablename__ = "dish_images"
 
     if environment == "production":
-        __table_args = {"schema":SCHEMA}
+        __table_args__ = {"schema":SCHEMA}
 
 
     id = db.Column(db.Integer, primary_key=True)
