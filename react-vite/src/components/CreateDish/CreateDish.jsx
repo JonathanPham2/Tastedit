@@ -24,6 +24,7 @@ const CreateDish = () => {
     const [cuisine, setCuisine] = useState("")
     const [description, setDescription] = useState("")
     const [recommended, setRecommended] = useState(null)
+    const [price, setPrice] = useState("")
     const [starRating, setStarRating] = useState(0)
     const [starHover, setStarHover] = useState(0)
     const [imageUrl, setImageUrl] = useState(null)
@@ -155,7 +156,7 @@ const stageContent = () => {
     switch (transitionStage) {
         case 1:
             return (
-                <section key="stage1" className={`vegan-section`}>
+                <section  className={`vegan-section`}>
                         <h2>Is this a vegan dish?</h2>
                         <div className="vegan-button">
                         <button className="button-yes" onClick={() => {
@@ -170,7 +171,7 @@ const stageContent = () => {
             )
         case 2:
             return (
-                <section key="stage2" className={`name-protein`}>
+                <section  className={`name-protein`}>
                         {/* <h2>What is the name of your dish ?</h2> */}
                         <input 
                         className="dish-name"
@@ -214,6 +215,15 @@ const stageContent = () => {
                 <section key="stage3" className={`last-section`}>
                 <h2>What's in your dish? Tell us about it!</h2>
                 <textarea onChange={(e) => setDescription(e.target.value)} id="description" type="text" value={description} />
+                <div className="dropdown">
+                    <button className="drop-button">Choose the price </button>
+                    <div className="dropdown-content">
+                    <button onClick={() => setPrice('Budget-friendly')}>Mild</button>
+                    <button onClick={() => setPrice('Moderate')}>Moderate</button>
+                    <button onClick={() => setPrice('Expensive')}>Expensive</button>
+                        
+                    </div>
+                </div>
 
                 <h2>Would you recommend this dish to others?</h2>
                     <div className="stage-3-button-container">
@@ -257,7 +267,7 @@ const stageContent = () => {
             </div>
             
              <CSSTransition
-                in={transitionStage === stage }
+                in={transitionStage === stage}
                 timeout={500}
                 classNames="section-transition"
                 unmountOnExit
