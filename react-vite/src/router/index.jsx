@@ -5,6 +5,7 @@ import Layout from './Layout';
 // import DishesList from '../components/DishesList';
 import LandingPage from '../components/LandingPage';
 import CreateDish from '../components/CreateDish';
+import DishDetail from '../components/DishDetail';
 
 export const router = createBrowserRouter([
   {
@@ -18,6 +19,11 @@ export const router = createBrowserRouter([
         path: "/new",
         element: <CreateDish/>
       },
+      {
+        path: "/dishes/:id",
+        element: <DishDetail />
+      }
+
       
       
       

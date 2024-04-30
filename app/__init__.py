@@ -8,8 +8,10 @@ from .models import db, User
 from .api.user_routes import user_routes
 from .api.auth_routes import auth_routes
 from .api.routes.dish_routes import dish_routes
+from .api.routes.restaurants_routes import restaurant_routes
 from .seeds import seed_commands
 from .config import Config
+
 
 app = Flask(__name__, static_folder='../react-vite/dist', static_url_path='/')
 
@@ -31,6 +33,9 @@ app.register_blueprint(user_routes, url_prefix='/api/users')
 app.register_blueprint(auth_routes, url_prefix='/api/auth')
 #  dishes routes
 app.register_blueprint(dish_routes, url_prefix="/api/dishes")
+# restaurants routes
+app.register_blueprint(restaurant_routes, url_prefix="/api/restaurants")
+
 #
 db.init_app(app)
 Migrate(app, db)

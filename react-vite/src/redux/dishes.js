@@ -70,10 +70,13 @@ export const thunkFetchDishes = () => async (dispatch) => {
         return new Error("Thunk fetch failed ")
     }
 }
+
+// selector 
 const selectorDishes = (state) => state.dishes
 export const selectorDishesArray = createSelector(selectorDishes, (dishes) => Object.values(dishes))
+const initialState = {}
 
-const dishReducer = (state= {}, action) => {
+const dishReducer = (state= initialState, action) => {
     switch(action.type){
         case LOAD_DISHES: {
             const normalizedDishState = {}
@@ -82,6 +85,10 @@ const dishReducer = (state= {}, action) => {
         }
         case POST_DISH: {
             return {...state, [action.payload.id]: action.payload}
+        }
+        case LOAD_DISH_BY_ID: {
+            return {...state}
+            
         }
         default:
             return state

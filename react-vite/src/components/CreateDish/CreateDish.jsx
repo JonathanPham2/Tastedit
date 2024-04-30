@@ -10,8 +10,11 @@ import porkIcon from "../../../dist/pork.png"
 import plantedBaseIcon from "../../../dist/planted.png"
 import logo from "../../../dist/favicon.ico"
 import { thunkPostDish } from "../../redux/dishes"
-import { useDispatch } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
 import { ToastContainer,  toast} from "react-toastify"
+import { selectorRestaurantsArray, thunkFetchRestaurant } from "../../redux/restaurants"
+import { useNavigate } from "react-router-dom"
+
 
 
 
@@ -41,9 +44,17 @@ const CreateDish = () => {
     const [imageUrl, setImageUrl] = useState(null)
     const [file, setFile] = useState(null)
     const [spicyLevel, setSpicyLevel] = useState("")
+    const [restaurant, setRestaurant] = useState(null)
     const [transitionStage, setTransitionStage] = useState(1)
     const nodeRef = useRef(null)
     const dispatch = useDispatch()
+    const restaurants = useSelector(selectorRestaurantsArray)
+    const navigate = useNavigate()
+
+    // fetch restaurant
+    useEffect(() => {
+        dispatch(thunkFetchRestaurant())
+    },[dispatch])
  
     const progressPercent = ((stage - 1) / (4 -1)) *100 // stage - 1 because we want the progress bar at 0% when we at first stage
     // (4-1) 4 is the total stages that we have and 4-1 is because even though we have 4 stages but only 3 tranistions
@@ -152,6 +163,7 @@ const handleSubmit = (e) => {
     const formData = new FormData();    
 
     formData.append("name", dishName)
+    formData.append("restaurant_id", restaurant.id)
     formData.append("vegan", vegan)
     formData.append("spicy_level", spicyLevel)
     formData.append("cuisine", cuisine)
@@ -161,11 +173,13 @@ const handleSubmit = (e) => {
     formData.append("recommended", recommended)
     formData.append("rating", starRating)
     formData.append("images", file)
+
+   
     
 
     dispatch(thunkPostDish(formData)).then(newDish => {
         toast.success("Successfully uploaded dish", {
-            onClose: () => Navigate(`/dishes/${newDish.id}`)
+            onClose: () => navigate(`/dishes`)
         })
         
     })
@@ -232,6 +246,16 @@ const stageContent = () => {
                             <option value="mild">Mild</option><option value="medium">Medium</option>
                             <option value="very spicy">Very Spicy</option>
                         </select>
+                        <div className="restaurants-buttons-container">
+                            <button className="restaurant-button-dropdown">{ !restaurant ? `Choose your restaurant` : restaurant.name}</button>
+                            <div className="restaurant-content">
+                        {restaurants?.map(restaurant => (
+                            <button onClick={() => setRestaurant(restaurant)} key={restaurant.id}>{restaurant.name}</button>
+
+                        ))}
+                        </div>
+
+                        </div>
 
                         
         
@@ -285,12 +309,12 @@ const stageContent = () => {
         
     }
 }
-console.log(vegan)
+// console.log("restaurant id ----------------", typeof restaurant.id)
 
     return (
         <main className="create-form-container">
-            <ToastContainer position="top" autoClose={300} hideProgressBar={true} closeOnClick rtl={false} pauseOnFocusLoss draggable />
             <div className="util-container">
+            <ToastContainer position="top-right" autoClose={300} hideProgressBar={false} newestOnTop={false} closeOnClick rtl={false} pauseOnFocusLoss draggable pauseOnHover />
                 <a href="/"><img className="logo-image" src={logo} alt="logo" /></a>
                 <button>Save and Exit</button>
             </div>

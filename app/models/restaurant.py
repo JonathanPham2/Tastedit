@@ -18,15 +18,15 @@ class Restaurant(db.Model):
     # relationship 
     dishes = db.relationship("Dish", back_populates="restaurant")
 
-def to_dict(self):
-    return {
-        "id":self.id,
-        "name": self.name,
-        "state": self.state,
-        "city": self.city,
-        "street": self.street,
-        "description": self.description,
-        "created_at": self.created_at
-    }
+    def to_dict(self):
+        return {
+            "id":self.id,
+            "name": self.name,
+            "state": self.state,
+            "city": self.city,
+            "street": self.street,
+            "description": self.description,
+            "created_at": self.created_at
+        }
 
     

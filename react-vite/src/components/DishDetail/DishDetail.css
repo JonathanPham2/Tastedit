@@ -1,0 +1,13 @@
+
+.dish-detail-main{
+   background: linear-gradient(120deg, #2c3e50, #4c5c68);
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    
+    
+}
+.dish-view-container {
+    margin: 0 auto;
+}

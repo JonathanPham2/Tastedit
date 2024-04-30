@@ -30,6 +30,8 @@ def post_dish():
     user_id = current_user.id
 
     if form.validate_on_submit():
+        print("---------------",form)
+        # print("---------------------------------", form['restaurant_id'])
     #    take out csrf and image field because our dish model dont have it
         excluded_fields =["csrf_token", "images"]
         dish_data = {key: value for key, value in form.data.items() if key not in excluded_fields }
@@ -51,6 +53,7 @@ def post_dish():
         
         return jsonify(new_dish.to_dict()),201
     else:
+        print("-------------------------------",form.errors)
         return form.errors,400
     
 @dish_routes.route("/<int:id>", methods=["PUT"])

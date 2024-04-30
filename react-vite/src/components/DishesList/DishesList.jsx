@@ -1,10 +1,14 @@
+import { useNavigate } from 'react-router-dom'
 import './DishesList.css'
 
+
 const DishesList = ({dishes}) => {
+    const navigate = useNavigate()
+
     return (
         <div className="dishes-list ">
             {dishes.map(dish => (
-                <div key={dish.id} className="dish-post-card">
+                <div onClick={() => navigate(`/dishes/${dish.id}`) } key={dish.id} className="dish-post-card">
                     {dish.dish_images.map(image => (
                         <div key={image.id} className="image-container">
                             <img id={`image-${image.id}`} src={image.image_url} alt={dish.name} />
