@@ -38,7 +38,7 @@ def post_dish():
         for image in form.images.data:
             image.filename  = get_unique_filename(image.filename)
             upload = upload_file_to_s3(image)
-            print(upload)
+            print("this is the error",upload)
             if "url" not in upload:
                 # if there is not url key meaning uploading fail
                 return {"message": "Upload to aws failed"}

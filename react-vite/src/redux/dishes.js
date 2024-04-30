@@ -3,6 +3,7 @@ import { createSelector } from 'reselect'
 // Action type constants:
 const LOAD_DISHES = "/dishes"  // load all dishes
 
+const POST_DISH = "/dishes/new"
 const LOAD_DISH_BY_ID = "/dishes/id" // load dish by id
 
 const UPDATE_DISH = "/dish/update" // update dish post
@@ -18,6 +19,11 @@ export const loadDishById = dish => ({
     type:LOAD_DISH_BY_ID,
     payload: dish
 })
+export const postDish = dish => ({
+    type: POST_DISH,
+    payload: dish
+
+})
 
 export const updateDish = dish => ({
     type:UPDATE_DISH,
@@ -30,6 +36,25 @@ export const deleteDish = id => ({
 })
 // using selector here for dishes post 
 // Thunk action
+
+
+// Post dish
+export const thunkPostDish = (formData) => async (dispatch) => {
+    const res = await fetch("/api/dishes/new", {
+        method: "POST",
+        body: formData
+    })
+    if(res.ok) {
+        const dish = await res.json()
+        dispatch(postDish(dish))
+        console.log(dish)
+        return dish
+    }
+    else{
+        return "post thunk error"
+    }
+
+}
 
 //Fetch all dishes
 
@@ -54,6 +79,9 @@ const dishReducer = (state= {}, action) => {
             const normalizedDishState = {}
             action.payload.map(dish => normalizedDishState[dish.id]=dish)
             return normalizedDishState
+        }
+        case POST_DISH: {
+            return {...state, [action.payload.id]: action.payload}
         }
         default:
             return state

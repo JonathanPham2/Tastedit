@@ -1,4 +1,4 @@
-import { useState, useEffect} from "react"
+import { useState, useEffect, useRef} from "react"
 import "./CreateDish.css"
 import { FaStar } from "react-icons/fa"
 import { CSSTransition } from "react-transition-group"
@@ -9,6 +9,9 @@ import lambIcon from "../../../dist/lamb.png"
 import porkIcon from "../../../dist/pork.png"
 import plantedBaseIcon from "../../../dist/planted.png"
 import logo from "../../../dist/favicon.ico"
+import { thunkPostDish } from "../../redux/dishes"
+import { useDispatch } from "react-redux"
+import { ToastContainer,  toast} from "react-toastify"
 
 
 
@@ -39,6 +42,8 @@ const CreateDish = () => {
     const [file, setFile] = useState(null)
     const [spicyLevel, setSpicyLevel] = useState("")
     const [transitionStage, setTransitionStage] = useState(1)
+    const nodeRef = useRef(null)
+    const dispatch = useDispatch()
  
     const progressPercent = ((stage - 1) / (4 -1)) *100 // stage - 1 because we want the progress bar at 0% when we at first stage
     // (4-1) 4 is the total stages that we have and 4-1 is because even though we have 4 stages but only 3 tranistions
@@ -152,10 +157,18 @@ const handleSubmit = (e) => {
     formData.append("cuisine", cuisine)
     formData.append("protein_type", protein)
     formData.append("description", description)
-    // formData.append("price", price)
+    formData.append("price", price)
     formData.append("recommended", recommended)
     formData.append("rating", starRating)
     formData.append("images", file)
+    
+
+    dispatch(thunkPostDish(formData)).then(newDish => {
+        toast.success("Successfully uploaded dish", {
+            onClose: () => Navigate(`/dishes/${newDish.id}`)
+        })
+        
+    })
 }
 
 
@@ -170,7 +183,12 @@ const stageContent = () => {
                         <button className="button-yes" onClick={() => {
                             setVegan(true)
                             setStage(2)}}>Yes</button>
-                        <button className="button-yes" onClick={() => setStage(2)}>No</button>
+                        <button className="button-yes" onClick={() => {
+                            
+                            setStage(2)
+                            setVegan(false)
+                            
+                            }}>No</button>
                         </div>
                     
 
@@ -188,7 +206,7 @@ const stageContent = () => {
                         <div className="floating-dish-name" style={dishName ? {top: "50.5px", color: "#ffc107", text_shadow: "2px 2px 20px rgba(0,0, 0, 0.8)"}: null}><label>What is the name of your dish?</label></div>
                         <h2>Select the protein type:</h2>
                         <div className="protein-grid">
-                            {proteins.map(({name, icon})=> (
+                            {vegan === true ? proteins.map(({name, icon})=> (
                                 <button key={name}
                                 className={`protein-button ${protein === name ? "selected" : ""}`}
                                 onClick={() => handleProteinClick(name)}>
@@ -197,7 +215,9 @@ const stageContent = () => {
                                 </button>
                     
 
-                            ))}
+                            )): <button key={proteins[5].name} className={`protein-button ${protein === proteins[5].name ? "selected": null}` } onClick={() => handleProteinClick(proteins[5].name)}>
+                                    <img src={proteins[5].icon} alt={proteins[5].name} className="protein-icon"/>
+                                </button>}
                         </div>
                         {/* <h2>What cuisine is your dish ?</h2> */}
                         <input className="cuisine-text" type="text"
@@ -226,7 +246,7 @@ const stageContent = () => {
                 <div className="dropdown">
                     <button className="drop-button">Choose the price </button>
                     <div className="dropdown-content">
-                    <button onClick={() => setPrice('Budget-friendly')}>Mild</button>
+                    <button onClick={() => setPrice('Budget-friendly')}>Budget-friendly</button>
                     <button onClick={() => setPrice('Moderate')}>Moderate</button>
                     <button onClick={() => setPrice('Expensive')}>Expensive</button>
                         
@@ -265,10 +285,11 @@ const stageContent = () => {
         
     }
 }
-
+console.log(vegan)
 
     return (
         <main className="create-form-container">
+            <ToastContainer position="top" autoClose={300} hideProgressBar={true} closeOnClick rtl={false} pauseOnFocusLoss draggable />
             <div className="util-container">
                 <a href="/"><img className="logo-image" src={logo} alt="logo" /></a>
                 <button>Save and Exit</button>
@@ -279,8 +300,9 @@ const stageContent = () => {
                 timeout={500}
                 classNames="section-transition"
                 unmountOnExit
+                nodeRef={nodeRef}
              >
-                <div>
+                <div ref={nodeRef}>
                     {stageContent()}
                 </div>
 
