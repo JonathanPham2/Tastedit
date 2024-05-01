@@ -57,6 +57,40 @@ export const thunkFetchCurrent = () => async (dispatch) => {
     }
 }
 
+//Delete
+export const thunkDeleteDish = (id) => async (dispatch) => {
+    const res = await fetch(`/api/dishes/${id}`, {
+        method: "DELETE"
+    })
+    if(res.ok) {
+        const id = await res.json()
+        dispatch(deleteDish(id))
+        return res
+
+    }
+    else {
+        return "thunk delete erorr"
+    }
+}
+
+
+
+// update dish
+
+export const thunkUpdateDish = (id, formData) => async (dispatch) => {
+    const res = await fetch(`/api/dishes/${id}`, {
+        method: "PUT",
+        body: formData
+    })
+    if (res.ok) {
+        const dish = await res.json()
+        dispatch(updateDish(dish))
+        return dish
+    }
+    else {
+        return "thunk error from update"
+    }
+} 
 
 // Post dish
 export const thunkPostDish = (formData) => async (dispatch) => {
@@ -123,10 +157,18 @@ const dishReducer = (state= initialState, action) => {
             return {...state, [action.payload.id]: action.payload}
             
         }
+        case UPDATE_DISH: {
+            return {...state, [action.payload.id]: action.payload}
+        }
         case CURRENT_USER_DISH: {
             const normalizedDishState = {}
             action.payload.map(dish => normalizedDishState[dish.id]=dish)
             return normalizedDishState
+        }
+        case DELETE_DISH: {
+            const newDishState = {...state}
+            delete newDishState[action.payload.id]
+            return newDishState
         }
         default:
             return state

@@ -44,7 +44,8 @@ function ProfileButton() {
   const logout = (e) => {
     e.preventDefault();
     dispatch(thunkLogout());
-    closeMenu();
+    closeMenu()
+    navigate("/");
   };
 
   return (

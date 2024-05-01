@@ -193,7 +193,16 @@ h2 {
     border: 2px solid #4caf50; 
    
 }
+.button-yes.selected {
+  /* border: 1px solid #4caf50;  */
+  background-color: #3e8e41;
 
+}
+.button-no.selected {
+  /* border: 1px solid #4caf50;  */
+  background-color: #3e8e41;
+
+}
 .protein-icon {
     width: 100px; 
     height: 90px;
@@ -409,6 +418,7 @@ textarea {
     font-family: 'Poppins', sans-serif;
     border: none;
     cursor: pointer;
+    width: 140px;
 
   }
 
@@ -416,7 +426,7 @@ textarea {
     display: none;
     position: absolute;
     background-color: #3f2020;
-    min-width: 160px;
+    width: 160px;
     box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
     z-index: 1;
     /* left:px; */
@@ -430,11 +440,11 @@ textarea {
     display: block;
     width: 100%;
     font-family: 'Poppins', sans-serif;
+    
 
   }
   .dropdown-content button:hover {background-color: #ffc107}
 
-/* Show the dropdown menu on hover */
 .dropdown:hover .dropdown-content {
   display: block;
 }
@@ -448,15 +458,7 @@ textarea {
 
 
 
-/* .Toastify__slide-enter, .Toastify__slide-exit {
-  transition: transform 300000ms ease-in-out;
-} */
-.toast-me{
-  transition: all 0.3s ease-in-out;
-  color: #ffc107;
 
-  
-}
 /* animation for noti */
 /* ----------------------------------------------------------- */
 /* making it look like buzzzz */
@@ -519,4 +521,15 @@ textarea {
 
 .fade-out{
   animation: fade-out 0.3s ease-in both;
+}
+
+
+
+/* ========================== */
+/* ERROR DIV */
+.error-div {
+  height: 0px;
+  /* max-width: 404px; */
+  color: red;
+  text-transform: capitalize;
 }

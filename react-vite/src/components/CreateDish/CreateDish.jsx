@@ -7,9 +7,9 @@ import fishIcon from "../../../dist/fish.png"
 import chickenIcon from "../../../dist/chicken.png"
 import lambIcon from "../../../dist/lamb.png"
 import porkIcon from "../../../dist/pork.png"
-import plantedBaseIcon from "../../../dist/planted.png"
+// import plantedBaseIcon from "../../../dist/planted.png"
 import logo from "../../../dist/favicon.ico"
-import { thunkPostDish } from "../../redux/dishes"
+import { currentUserDish, thunkPostDish } from "../../redux/dishes"
 import { useDispatch, useSelector } from "react-redux"
 import { ToastContainer,  toast, cssTransition} from "react-toastify"
 import { selectorRestaurantsArray, thunkFetchRestaurant } from "../../redux/restaurants"
@@ -48,6 +48,7 @@ const CreateDish = () => {
     const [restaurant, setRestaurant] = useState(null)
     const [transitionStage, setTransitionStage] = useState(1)
     const [isLoading, setIsLoading] = useState(false)
+    const [errors, setErrors] = useState({})
     const nodeRef = useRef(null)
     const dispatch = useDispatch()
     const restaurants = useSelector(selectorRestaurantsArray)
@@ -68,7 +69,7 @@ const CreateDish = () => {
     // fetch restaurant
     useEffect(() => {
         dispatch(thunkFetchRestaurant())
-    },[])
+    },[dispatch])
  
     const progressPercent = ((stage - 1) / (4 -1)) *100 // stage - 1 because we want the progress bar at 0% when we at first stage
     // (4-1) 4 is the total stages that we have and 4-1 is because even though we have 4 stages but only 3 tranistions
@@ -133,31 +134,75 @@ const CreateDish = () => {
 
 
     const validateCurrentStage = () => {
-        switch (stage) {
-            case 1:
-                return vegan !== undefined;
-            case 2:
-                return dishName.trim() !== "" && (vegan || protein !== "") && cuisine !== "" && spicyLevel !== "";
-            case 3:
-                return description.trim() !== "" && recommended !== null && starRating !== 0;
-            case 4:
-                return file !== null;
-            default:
-                return false;
+        
+        let newErrors = {}
+        
+        if(stage ===2 ){
+            if(!dishName.trim() || dishName < 5 ){
+                newErrors.dishName = "Dish name is required and must be more than 5 characters long"
+                
+
+            }
+            if(!cuisine.trim()){
+                newErrors.cuisine = "Cuisine is required"
+               
+                
+            }
+            if(!protein && !vegan){
+                newErrors.protein = "Protein is required"
+               
+                
+            }
+            if(restaurant === null ){
+                newErrors.restaurant = "Restaurant is required"
+              
+            }
+            
         }
+        else if(stage === 3 ){
+            if(!description.trim() || description.length < 10){
+                newErrors.description = "Description is required or at least 10 characters long  "
+               
+            }
+            if(recommended === null) {
+                newErrors.recommended = "Please choose yes or no"
+               
+            }
+            if(!price){
+                newErrors.price = "Please choose the price"
+                
+            }
+            if(starRating < 1){
+                newErrors.starRating = "Please rate your dish"
+                
+
+            }
+        }
+        else if(stage === 4) {
+            if(!file) {
+                newErrors.file = "Please upload at least one image "
+
+            }
+        }
+        return newErrors
+        
+    
     };
     // handle next button
     const handleNext = () => {
-        console.log("Current Stage before increment:", stage);
-        if(validateCurrentStage() ){
+        const errors = validateCurrentStage()
+        if(Object.keys(errors).length === 0 ){
             
-            setStage(currentStage => {
-                console.log("Updating stage from", currentStage, "to", currentStage + 1);
-                
-                   return currentStage +1
-                
-            })
+           setStage(currentStage => currentStage + 1)
+            
         }
+       
+        else {
+        setErrors(errors)
+
+        }
+
+    
 
     }
 
@@ -169,7 +214,7 @@ const CreateDish = () => {
 
     let timerId = null
 
-    const swirl = cssTransition({
+    const fade = cssTransition({
         enter: "fade-in",
         exit: "fade-out"
       });
@@ -204,20 +249,19 @@ const CreateDish = () => {
         
 
         dispatch(thunkPostDish(formData)).then(newDish => {
-            console.log("----------------------",newDish)
         timerId = setTimeout(()=> {
                 setIsLoading(false)
                 if(newDish.id) {
                     toast.dark("Successfully Uploaded", {
                         onClose:() => navigate("/"),
-                        transition: swirl
+                        transition: fade
 
                     }
                 )
                 }
                 else {
                     toast.dark(`${newDish.statusText}`,{
-                        transition:swirl
+                        transition:fade
                     })
                 }
 
@@ -230,9 +274,9 @@ const CreateDish = () => {
             //     })
             //    }
             
-        }).catch(error => {
+        }).catch( error => {
             setIsLoading(false);
-            toast.error("Error posting dish")
+            toast.error("Error posting dish", error)
         })
     }
 
@@ -271,6 +315,7 @@ const stageContent = () => {
                         required
                         value={dishName} onChange={(e) => setDishName(e.target.value)} id="dish_name" type="text" />
                         <div className="floating-dish-name" style={dishName ? {top: "39%", color: "#ffc107", text_shadow: "2px 2px 20px rgba(0,0, 0, 0.8)"}: null}><label>What is the name of your dish?</label></div>
+                        <div className="error-div">{errors.dishName && <span>{errors.dishName}</span>}</div>
                         </div>
                         <h2>Select the protein type:</h2>
                         
@@ -289,8 +334,9 @@ const stageContent = () => {
                                     <img src={proteins[5].icon} alt={proteins[5].name} className="protein-icon"/>
                                 </button>}
                         </div>
+                        {/* ERROR DIV */}
+                        <div className="error-div">{errors.protein && <span>{errors.protein}</span>}</div>
                         
-                        {/* <h2>What cuisine is your dish ?</h2> */}
                         <div className="cuisine-text-container">
                         <input className="cuisine-text" type="text"
                             id="cuisine"
@@ -299,22 +345,26 @@ const stageContent = () => {
                             onChange={(e) => setCuisine(e.target.value)}
                          /><div className="floating-cuisine" style={cuisine ? {top: "40%", color: "#ffc107", text_shadow: "2px 2px 20px rgba(0,0, 0, 0.8)"}: null}><label>What cuisine is your dish ?</label></div>
                          </div>
+                         {/* ERROR DIV */}
+                         <div className="error-div">{errors.cuisine && <span>{errors.cuisine}</span>}</div>
                          <h2>Choose the spicy level</h2>
                         <select onChange={(e) => setSpicyLevel(e.target.value)} value={spicyLevel} name="spicy_level" id="spicy_level">
                             <option value="no spice">No Spice</option>
                             <option value="mild">Mild</option><option value="medium">Medium</option>
                             <option value="very spicy">Very Spicy</option>
                         </select>
+
                         <div className="restaurants-buttons-container">
                             <button className="restaurant-button-dropdown">{ !restaurant ? `Choose your restaurant` : restaurant.name}</button>
                             <div className="restaurant-content">
-                        {restaurants?.map(restaurant => (
-                            <button onClick={() => setRestaurant(restaurant)} key={restaurant.id}>{restaurant.name}</button>
+                                {restaurants?.map(restaurant => (
+                                    <button onClick={() => setRestaurant(restaurant)} key={restaurant.id}>{restaurant.name}</button>
 
-                        ))}
-                        </div>
-
-                        </div>
+                                ))}
+                                </div>
+                         </div>
+                         {/* ERROR DIV */}
+                        <div className="error-div">{errors.restaurant && <span>{errors.restaurant}</span>}</div>
 
                         
         
@@ -326,8 +376,10 @@ const stageContent = () => {
                 <section key="stage3" className={`last-section`}>
                 <h2>What's in your dish? Tell us about it!</h2>
                 <textarea onChange={(e) => setDescription(e.target.value)} id="description" type="text" value={description} />
+                {/* ERROR DIV */}
+                <div className="error-div">{errors.description && <span>{errors.description}</span>}</div>
                 <div className="dropdown">
-                    <button className="drop-button">Choose the price </button>
+                    <button className="drop-button">{price !== "" ? `${price}` : "Choose the price"} </button>
                     <div className="dropdown-content">
                     <button onClick={() => setPrice('Budget-friendly')}>Budget-friendly</button>
                     <button onClick={() => setPrice('Moderate')}>Moderate</button>
@@ -335,14 +387,20 @@ const stageContent = () => {
                         
                     </div>
                 </div>
+                {/* ERROR DIV */}
+                <div className="error-div">{errors.price && <span>{errors.price}</span>}</div>
 
                 <h2>Would you recommend this dish to others?</h2>
                     <div className="stage-3-button-container">
-                        <button className="button-yes" onClick={() => setRecommended(true)}>Yes</button>
-                        <button className="button-no" onClick={() => setRecommended(false)}>No</button>
+                        <button className={`button-yes ${recommended ? "selected" : null}`} onClick={() => setRecommended(true)}>Yes</button>
+                        <button className={`button-no ${!recommended ? "selected" : null}`} onClick={() => setRecommended(false)}>No</button>
                     </div>
+                    {/* ERROR DIV */}
+                    <div className="error-div">{errors.recommended && <span>{errors.recommended}</span>}</div>
                 <h2>How many stars would you give your dish</h2>
                 <div className="stars-container">{starRender()} Stars</div>
+                {/* ERROR DIV */}
+                <div className="error-div">{errors.starRating && <span>{errors.starRating}</span>}</div>
                 
             </section>
            
@@ -356,7 +414,8 @@ const stageContent = () => {
                             <input type="file" accept="image/png, image/jpeg, image/jpg" onChange={fileWrap}/>
                             <label htmlFor="post-image-input" className="file-input-labels-noname"><img src={imageUrl} className="thumbnails-noname"></img></label>
                         </div>
-                        
+                        {/* ERROR DIV */}
+                        <div className="error-div">{errors.file && <span>{errors.file}</span>}</div>
 
                     </section>
                    
@@ -368,7 +427,6 @@ const stageContent = () => {
         
     }
 }
-console.log("restaurant id ----------------", isLoading)
 
     return (
         <main className="create-form-container">

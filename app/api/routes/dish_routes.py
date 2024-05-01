@@ -74,7 +74,7 @@ def edit_dish(id):
 
     if form.validate_on_submit():
         #  field that can update in dish model
-        fields_to_update= ["name", "spicy_level", "vegan", "description", "price", "recommended", "rating"]
+        fields_to_update= ["name","cuisine", "spicy_level", "vegan", "description", "price", "recommended", "rating"]
         # loop through the fields_to_update and if there is a field in the form update that field for dish 
         for field in fields_to_update:
             if field in form.data:
@@ -102,7 +102,12 @@ def edit_dish(id):
         # commit to database
         db.session.commit()
         return jsonify(dish_to_update.to_dict()),200
+    
+
+    print(form.errors,"eerororo=----------------------------------")
     return form.errors, 500
+
+       
 
                 
 @dish_routes.route("/<int:id>", methods=["DELETE"])
