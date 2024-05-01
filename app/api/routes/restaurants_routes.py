@@ -12,3 +12,4 @@ def get_all_restaurants():
     print("----------------",restaurants)
 
     return jsonify([restaurant.to_dict() for restaurant in restaurants])
+

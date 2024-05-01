@@ -1,6 +1,4 @@
-.profile-dropdown {
-  position: absolute;
-}
+
 
 .home-profile {
   display: flex;
@@ -52,6 +50,42 @@
 
 .profile-button {
   margin-right: 90px;
+  width: fit-content;
+
+}
+.profile-button  > button {
+  margin-left: 150px;
+  transition: all 10s ease-in-out ;
+
+
+}
+.profile-icon {
+  width: 20px;
+
+  
+}
+.profile-dropdown {
+  /* position: absolute; */
+  list-style: none;
+  border: 0.3px #eeeeed thin;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+  padding: 0;
+  background: linear-gradient(120deg, #2c3e50, #4c5c68);
+  box-shadow: 0 0 8px 2px rgba(69, 69, 67, 0.6), inset 0 0 8px 2px rgba(89, 89, 87, 0.6);
+  color:rgb(3, 3, 3);
+  width: 10rem;
+  font-family: 'Poppins', sans-serif;
+  border-radius: 4px;
+  padding-left: 1.5rem;
+  padding-top: 5px;
+  height: 100px;
+  gap: 7px;
+  color: #ffc107;
+
+
 }
 
 
@@ -62,6 +96,26 @@
   gap: 2rem;
   padding-top: 0.6rem;
   color: white;
+}
+
+.bowl-food {
+  display: flex;
+  gap: 5px;
+}
+.bowl-food:hover{
+  background-color: #cccc1f;
+  border-radius: 4px;
+  box-shadow: 0 0 2px 2px rgba(249, 249, 6, 0.977), inset 0 0 8px 2px rgba(254, 254, 48, 0.979);
+  cursor: pointer;
+  color: white;
+}
+.edit-button:hover {
+  background-color: #cccc1f;
+  border-radius: 4px;
+  box-shadow: 0 0 2px 2px rgba(249, 249, 6, 0.977), inset 0 0 8px 2px rgba(254, 254, 48, 0.979);
+  cursor: pointer;
+  color: white;
+
 }
 /* ------------------------------------ */
 .login-button {

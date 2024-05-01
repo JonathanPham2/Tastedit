@@ -73,10 +73,11 @@ h2 {
     align-items: center;
     position: relative;
     justify-content:center;
+    /* gap: 5px; */
 
 }
-.name-protein input {
-    margin: 0 100px;
+.dish-name-container > input {
+    margin: 20px;
     width: 400px;
     height: 30px;
     border-bottom: 2px solid #9b9b9b;
@@ -92,39 +93,64 @@ h2 {
     position: relative;
     
 }
+.cuisine-text {
+  margin: 20px;
+  width: 400px;
+  height: 30px;
+  border-bottom: 2px solid #9b9b9b;
+  outline: 0;
+  font-size: 1.5em;
+  border-radius: 5px;
+  border: none;
+  /* color: #fff; */
+  padding: 7px 0;
+  /* background: transparent; */
+  transition: border-color 0.2s;
+  margin-top: 70px;
+  position: relative;
+
+}
 /* this part for floating label */
+.dish-name-container{
+  position: relative;
+}
 .floating-dish-name {
-    /* position: absolute; */
+    position: absolute;
     pointer-events: none;
-    top: 100px ;
-    left: 630px;
+    top: 62% ;
+    left: 5%;
     transition: top 0.3s ease, left 0.3s ease;
     font-family: 'Poppins', sans-serif;
     text-shadow: 2px 2px 20px rgba(0,0, 0, 0.8);
 
 
 }
-.dish-name:focus+.floating-dish-name {
-    top: 50.5px;
+.dish-name:focus+ .floating-dish-name {
+    top: 39%;
     transition: top 0.3s ease, left 0.3s ease;
     font-family: 'Poppins', sans-serif;
     color: #ffc107;
     text-shadow: 2px 2px 20px rgba(0,0, 0, 0.8)
 
 }
+
 /* ------------------------------------------------------ */
 /* cuisine floating  */
+
+.cuisine-text-container{
+  position: relative;
+}
 .floating-cuisine {
     position: absolute;
     pointer-events: none;
-    top: 550px ;
-    left: 760px;
+    top: 61%;
+    left: 5%;
     transition: top 0.3s ease, left 0.3s ease;
     font-family: 'Poppins', sans-serif;
     text-shadow: 2px 2px 20px rgba(0,0, 0, 0.8);
 }
 .cuisine-text:focus+ .floating-cuisine {
-    top: 519px;
+    top: 40%;
     transition: top 0.3s ease, left 0.3s ease;
     font-family: 'Poppins', sans-serif;
     text-shadow: 2px 2px 20px rgba(0,0, 0, 0.8);
@@ -141,15 +167,17 @@ h2 {
 /* -------------------------------------------------- */
 .protein-grid {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(4, 1fr) ;
     gap: 10px;
     justify-content: center;
     align-items: center;
     grid-template-rows: minmax(100px, auto);
-    margin-left: 350px;
-    margin-right: 350px;
-    
+    margin: 0 auto
+    /* height:276.66px; */
 
+}
+.protein-grid-container {
+  min-height: 276.66px;
 }
 
 .protein-button {
@@ -417,3 +445,78 @@ textarea {
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2); 
 
   }
+
+
+
+/* .Toastify__slide-enter, .Toastify__slide-exit {
+  transition: transform 300000ms ease-in-out;
+} */
+.toast-me{
+  transition: all 0.3s ease-in-out;
+  color: #ffc107;
+
+  
+}
+/* animation for noti */
+/* ----------------------------------------------------------- */
+/* making it look like buzzzz */
+
+@keyframes fade-in {
+  0% {
+    transform: rotate(0) scale(0);
+    opacity: 0;
+  }
+  91% {
+    transform: rotate(0) scale(1.1);
+    opacity: 1;
+  }
+  92% {
+    transform: rotate(0) scale(1);
+    opacity: 1;
+  }
+  93% {
+    transform: rotate(0) scale(0.9);
+    opacity: 1;
+  }
+  94% {
+    transform: rotate(0) scale(0.85);
+    opacity: 1;
+  }
+  95% {
+    transform: rotate(0) scale(1);
+    opacity: 1;
+  }
+  96% {
+    transform: rotate(0) scale(0.9);
+    opacity: 1;
+  }
+  99% {
+    transform: rotate(0) scale(0.95);
+    opacity: 1;
+  }
+  100% {
+    transform: rotate(0) scale(1);
+    opacity: 1;
+
+  }
+}
+
+.fade-in {
+  animation: fade-in 0.4s ease-out both;
+}
+
+
+@keyframes fade-out{
+  0% {
+    transform: rotate(0) scale(1);
+    opacity: 1;
+  }
+  100% {
+    transform: rotate(0) scale(0);
+    opacity: 0;
+  }
+}
+
+.fade-out{
+  animation: fade-out 0.3s ease-in both;
+}

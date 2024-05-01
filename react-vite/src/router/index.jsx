@@ -6,6 +6,7 @@ import Layout from './Layout';
 import LandingPage from '../components/LandingPage';
 import CreateDish from '../components/CreateDish';
 import DishDetail from '../components/DishDetail';
+import ManageDish from '../components/ManageDish';
 
 export const router = createBrowserRouter([
   {
@@ -16,12 +17,16 @@ export const router = createBrowserRouter([
         element: <LandingPage/>
       },
       {
-        path: "/new",
+        path: "/dishes/new",
         element: <CreateDish/>
       },
       {
         path: "/dishes/:id",
         element: <DishDetail />
+      },
+      {
+        path: "/dishes/current",
+        element: <ManageDish/>
       }
 
       

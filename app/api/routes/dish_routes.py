@@ -29,6 +29,7 @@ def post_dish():
     form['csrf_token'].data = request.cookies["csrf_token"]  
     user_id = current_user.id
 
+
     if form.validate_on_submit():
         print("---------------",form)
         # print("---------------------------------", form['restaurant_id'])
@@ -53,8 +54,7 @@ def post_dish():
         
         return jsonify(new_dish.to_dict()),201
     else:
-        print("-------------------------------",form.errors)
-        return form.errors,400
+        return form.errors, 400
     
 @dish_routes.route("/<int:id>", methods=["PUT"])
 @login_required
@@ -106,6 +106,7 @@ def edit_dish(id):
 
                 
 @dish_routes.route("/<int:id>", methods=["DELETE"])
+@login_required
 def delete_dish(id):
     dish_to_delete = Dish.query.get(id)
     if not dish_to_delete:
@@ -120,17 +121,9 @@ def delete_dish(id):
     return jsonify({"id":id}), 200
 
 
+@dish_routes.route("/current", methods=["GET"])
+@login_required
+def get_user_dishes():
+    dishes = Dish.query.filter(Dish.user_id == current_user.id).all()
+    return jsonify([dish.to_dict() for dish in dishes])
 
-
-
-        
-    
-        
-
-    
-
-
-       
-
-
-    

@@ -46,7 +46,33 @@
   }
   
   .dish-post-card p {
-    font-size: 1em; 
+    font-size: 15px; 
     color: #666;
     margin: 5px 0; 
+    background-color: #f9f9f9;
+    border: 1px solid #ddd; 
+    border-radius: 5px; 
+    padding: 10px; 
+    /* height: px; */
+    
+  }
+
+  .dish-post-card-info {
+    /* height: 35%; */
+    font-size: 15px; 
+    color: #666;
+    margin: 5px 0; 
+    background-color: #f9f9f9;
+    border: 1px solid #ddd; 
+    border-radius: 5px; 
+    padding: 10px; 
+    /* height: px; */
+    /* font-family: ; */
+    
+  }
+  /* ---------------------------- */
+  /* User manage */
+  .user-manage-container {
+    height: 25px;
+    width: 100%;
   }

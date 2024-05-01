@@ -11,9 +11,10 @@ import plantedBaseIcon from "../../../dist/planted.png"
 import logo from "../../../dist/favicon.ico"
 import { thunkPostDish } from "../../redux/dishes"
 import { useDispatch, useSelector } from "react-redux"
-import { ToastContainer,  toast} from "react-toastify"
+import { ToastContainer,  toast, cssTransition} from "react-toastify"
 import { selectorRestaurantsArray, thunkFetchRestaurant } from "../../redux/restaurants"
 import { useNavigate } from "react-router-dom"
+import LoadingScreen from "../LoadingScreen"
 
 
 
@@ -43,18 +44,31 @@ const CreateDish = () => {
     const [starHover, setStarHover] = useState(0)
     const [imageUrl, setImageUrl] = useState(null)
     const [file, setFile] = useState(null)
-    const [spicyLevel, setSpicyLevel] = useState("")
+    const [spicyLevel, setSpicyLevel] = useState("no spice")
     const [restaurant, setRestaurant] = useState(null)
     const [transitionStage, setTransitionStage] = useState(1)
+    const [isLoading, setIsLoading] = useState(false)
     const nodeRef = useRef(null)
     const dispatch = useDispatch()
     const restaurants = useSelector(selectorRestaurantsArray)
     const navigate = useNavigate()
+    
 
+
+    // -----------------------------------
+    // this useEffect for checking if vegan true we will render all the proteins if false we will only render planted base for now
+    useEffect(()=> {
+        if(vegan){
+            setProtein("Planted-base")
+        }
+        else {
+            setProtein("")
+        }
+    },[vegan])
     // fetch restaurant
     useEffect(() => {
         dispatch(thunkFetchRestaurant())
-    },[dispatch])
+    },[])
  
     const progressPercent = ((stage - 1) / (4 -1)) *100 // stage - 1 because we want the progress bar at 0% when we at first stage
     // (4-1) 4 is the total stages that we have and 4-1 is because even though we have 4 stages but only 3 tranistions
@@ -78,6 +92,7 @@ const CreateDish = () => {
     
         // Check for max image size of 5Mb
         if (tempFile.size > 5000000) {
+            toast.error("File size should be less than 5MB")
         
           return
         }
@@ -85,8 +100,7 @@ const CreateDish = () => {
         const newImageURL = URL.createObjectURL(tempFile); 
         setImageUrl(newImageURL);
         setFile(tempFile);
-        // setFilename(tempFile.name);
-        // setOptional("");
+        
       }
 
 
@@ -123,7 +137,7 @@ const CreateDish = () => {
             case 1:
                 return vegan !== undefined;
             case 2:
-                return dishName.trim() !== "" && (vegan || (protein !== "" && cuisine !== "")) && spicyLevel !== "";
+                return dishName.trim() !== "" && (vegan || protein !== "") && cuisine !== "" && spicyLevel !== "";
             case 3:
                 return description.trim() !== "" && recommended !== null && starRating !== 0;
             case 4:
@@ -152,38 +166,75 @@ const CreateDish = () => {
         setProtein(proteinName);
     
     }
-// console.log(dishName,vegan,protein, cuisine,description, recommended, starRating,spicyLevel, file )
-const handleSubmit = (e) => {
-    e.preventDefault();
-    if(!validateCurrentStage()){
-        console.log("not validate")
-    }
 
-    // initialize form data
-    const formData = new FormData();    
+    let timerId = null
 
-    formData.append("name", dishName)
-    formData.append("restaurant_id", restaurant.id)
-    formData.append("vegan", vegan)
-    formData.append("spicy_level", spicyLevel)
-    formData.append("cuisine", cuisine)
-    formData.append("protein_type", protein)
-    formData.append("description", description)
-    formData.append("price", price)
-    formData.append("recommended", recommended)
-    formData.append("rating", starRating)
-    formData.append("images", file)
+    const swirl = cssTransition({
+        enter: "fade-in",
+        exit: "fade-out"
+      });
 
-   
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        clearTimeout(timerId)
+        if(!validateCurrentStage()){
+            toast.error("Please fill all the required fields")
+            return
+        }
+
+        setIsLoading(true)
+
+        // initialize form data
+        const formData = new FormData();
+
+        formData.append("name", dishName)
+        formData.append("restaurant_id", restaurant.id)
+        formData.append("vegan", vegan)
+        formData.append("spicy_level", spicyLevel)
+        formData.append("cuisine", cuisine)
+        formData.append("protein_type", protein)
+        formData.append("description", description)
+        formData.append("price", price)
+        formData.append("recommended", recommended)
+        formData.append("rating", starRating)
+        formData.append("images", file)
+
     
-
-    dispatch(thunkPostDish(formData)).then(newDish => {
-        toast.success("Successfully uploaded dish", {
-            onClose: () => navigate(`/dishes`)
-        })
         
-    })
-}
+
+        dispatch(thunkPostDish(formData)).then(newDish => {
+            console.log("----------------------",newDish)
+        timerId = setTimeout(()=> {
+                setIsLoading(false)
+                if(newDish.id) {
+                    toast.dark("Successfully Uploaded", {
+                        onClose:() => navigate("/"),
+                        transition: swirl
+
+                    }
+                )
+                }
+                else {
+                    toast.dark(`${newDish.statusText}`,{
+                        transition:swirl
+                    })
+                }
+
+
+
+            },1000)
+            // if(newDish) {
+            //     toast.success("Successfully Uploaded", {
+            //         onClose:() => navigate("/")
+            //     })
+            //    }
+            
+        }).catch(error => {
+            setIsLoading(false);
+            toast.error("Error posting dish")
+        })
+    }
 
 
 
@@ -196,7 +247,8 @@ const stageContent = () => {
                         <div className="vegan-button">
                         <button className="button-yes" onClick={() => {
                             setVegan(true)
-                            setStage(2)}}>Yes</button>
+                            setStage(2)
+                            }}>Yes</button>
                         <button className="button-yes" onClick={() => {
                             
                             setStage(2)
@@ -213,33 +265,40 @@ const stageContent = () => {
             return (
                 <section  className={`name-protein`}>
                         {/* <h2>What is the name of your dish ?</h2> */}
+                        <div className="dish-name-container">
                         <input 
                         className="dish-name"
                         required
                         value={dishName} onChange={(e) => setDishName(e.target.value)} id="dish_name" type="text" />
-                        <div className="floating-dish-name" style={dishName ? {top: "50.5px", color: "#ffc107", text_shadow: "2px 2px 20px rgba(0,0, 0, 0.8)"}: null}><label>What is the name of your dish?</label></div>
+                        <div className="floating-dish-name" style={dishName ? {top: "39%", color: "#ffc107", text_shadow: "2px 2px 20px rgba(0,0, 0, 0.8)"}: null}><label>What is the name of your dish?</label></div>
+                        </div>
                         <h2>Select the protein type:</h2>
+                        
                         <div className="protein-grid">
-                            {vegan === true ? proteins.map(({name, icon})=> (
+                            {vegan === false ? proteins.map(({name, icon})=> (
                                 <button key={name}
                                 className={`protein-button ${protein === name ? "selected" : ""}`}
                                 onClick={() => handleProteinClick(name)}>
                                     <img src={icon} alt={name} className="protein-icon" />
                                     <span>{name}</span>
                                 </button>
+                                
                     
 
                             )): <button key={proteins[5].name} className={`protein-button ${protein === proteins[5].name ? "selected": null}` } onClick={() => handleProteinClick(proteins[5].name)}>
                                     <img src={proteins[5].icon} alt={proteins[5].name} className="protein-icon"/>
                                 </button>}
                         </div>
+                        
                         {/* <h2>What cuisine is your dish ?</h2> */}
+                        <div className="cuisine-text-container">
                         <input className="cuisine-text" type="text"
                             id="cuisine"
                             name="cuisine"
                             value={cuisine}
                             onChange={(e) => setCuisine(e.target.value)}
-                         /><div className="floating-cuisine" style={cuisine ? {top: "519px", color: "#ffc107", text_shadow: "2px 2px 20px rgba(0,0, 0, 0.8)"}: null}><label>What cuisine is your dish ?</label></div>
+                         /><div className="floating-cuisine" style={cuisine ? {top: "40%", color: "#ffc107", text_shadow: "2px 2px 20px rgba(0,0, 0, 0.8)"}: null}><label>What cuisine is your dish ?</label></div>
+                         </div>
                          <h2>Choose the spicy level</h2>
                         <select onChange={(e) => setSpicyLevel(e.target.value)} value={spicyLevel} name="spicy_level" id="spicy_level">
                             <option value="no spice">No Spice</option>
@@ -309,15 +368,18 @@ const stageContent = () => {
         
     }
 }
-// console.log("restaurant id ----------------", typeof restaurant.id)
+console.log("restaurant id ----------------", isLoading)
 
     return (
         <main className="create-form-container">
+
+             <ToastContainer position="top-right" autoClose={3000} hideProgressBar={false} newestOnTop={false} closeOnClick rtl={false} pauseOnFocusLoss draggable pauseOnHover bodyClassName={"toast-me"}/>
             <div className="util-container">
-            <ToastContainer position="top-right" autoClose={300} hideProgressBar={false} newestOnTop={false} closeOnClick rtl={false} pauseOnFocusLoss draggable pauseOnHover />
                 <a href="/"><img className="logo-image" src={logo} alt="logo" /></a>
                 <button>Save and Exit</button>
             </div>
+            {isLoading && <LoadingScreen/>}
+
             
              <CSSTransition
                 in={transitionStage === stage}
@@ -331,6 +393,7 @@ const stageContent = () => {
                 </div>
 
              </CSSTransition>
+        
 
                 {/* {stage === 1 && (
                     <section className={`vegan-section ${stage === 1 ? "section" : "hidden"}`}>

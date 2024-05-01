@@ -10,4 +10,98 @@
 }
 .dish-view-container {
     margin: 0 auto;
+    background-color: aliceblue;
+    width: 66%;
+    height: 56%;
+    border-radius: 5px;
+    box-shadow: 0 0 8px 2px rgba(69, 69, 67, 0.6), inset 0 0 8px 2px rgba(89, 89, 87, 0.6);
+    display: flex;
+    /* position: relative; */
+    /* flex-direction: column; */
+}
+.image-container2 {
+    display: flex;
+    justify-content: center;
+    margin: 0 auto;
+    margin-top: 20px;
+    width: 100%;
+    height: auto;
+}
+
+.dish-image {
+    max-width: 100%;
+    border-radius: 10px;
+    height: 20rem;
+    object-fit: cover;
+}
+.image-box {
+    overflow: hidden;
+    height:20rem ;
+    border-radius: 1rem;
+    box-shadow:0 2rem 1.3rem rgba(0,0,0,0.7);
+    transition: all 0.5s ease-in-out;
+
+}
+.dish-details-container {
+    display: flex;
+    font-size: 1.2rem;
+    text-shadow: 0px 1px 11px rgba(177, 169, 169, 0.935);
+    font-family: 'Open Sans', sans-serif;
+    color: #232a29;
+    margin-right:1.2rem;
+    box-shadow:0 1rem 2.3rem rgb(182, 176, 176);
+    height: 80%;
+    border-radius: 5px;
+    margin-top: 1.2rem;
+    flex-direction: column;
+    align-items: center;
+    border: 1px solid lightgrey;
+
+}
+.image-box:hover {
+    transform: scale(1.1);
+    transition: all 0.5s ease-in-out;
+}
+.dish-details-container {
+    flex: 1 1 50%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    padding: 20px;
+    font-size: 1rem;
+    color: #333;
+}
+
+.dish-details-container h2 {
+    font-size: 1.8rem;
+    color: #ffc107;
+    margin-bottom: 10px;
+}
+.dish-info p {
+    background-color: #f9f9f9;
+    border: 1px solid #ddd; 
+    border-radius: 5px; 
+    padding: 10px; 
+    margin: 5px 0; 
+    font-size: 14px; 
+    width: 200px;
+}
+
+hr {
+    width: 400px;
+} 
+.comment-count-container {
+    display: flex;
+    
+}
+.line-break {
+    border: 0.2px solid #ada3a3;
+    width: 0;
+    height: 20px;
+    display: inline-block;
+    margin-left: 180px;
+}
+.comment-count-container span {
+    margin-left: 5px;
 }

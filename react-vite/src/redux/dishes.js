@@ -10,6 +10,8 @@ const UPDATE_DISH = "/dish/update" // update dish post
 
 const DELETE_DISH = "dish/delete" // delete dish post
 
+const CURRENT_USER_DISH = "/dishes/current"
+
 // Action creator
 export const loadDishes = dishes => ({
     type:LOAD_DISHES,
@@ -30,12 +32,30 @@ export const updateDish = dish => ({
     payload: dish
 })
 
+export const currentUserDish = dishes =>({
+    type: CURRENT_USER_DISH,
+    payload: dishes
+})
+
 export const deleteDish = id => ({
     type: DELETE_DISH,
     payload: id
 })
 // using selector here for dishes post 
 // Thunk action
+
+//fetch current user dish
+export const thunkFetchCurrent = () => async (dispatch) => {
+    const res = await fetch("/api/dishes/current")
+    if(res.ok) {
+        const dishes = await res.json()
+        dispatch(currentUserDish(dishes))
+        return res
+    }
+    else {
+        return "thunk error"
+    }
+}
 
 
 // Post dish
@@ -47,11 +67,11 @@ export const thunkPostDish = (formData) => async (dispatch) => {
     if(res.ok) {
         const dish = await res.json()
         dispatch(postDish(dish))
-        console.log(dish)
         return dish
     }
     else{
-        return "post thunk error"
+        console.log(res)
+        return res
     }
 
 }
@@ -60,15 +80,28 @@ export const thunkPostDish = (formData) => async (dispatch) => {
 
 export const thunkFetchDishes = () => async (dispatch) => {
     const res =  await fetch("/api/dishes/")
-    console.log(res)
     if(res.ok){
         const dishes = await res.json()
         dispatch(loadDishes(dishes))
         return res
     }
     else {
-        return new Error("Thunk fetch failed ")
+        return"Thunk fetch failed "
     }
+}
+// Fetch sing dish
+export const thunkFetchSingleDish= (id) => async(dispatch)=> {
+    const res = await fetch(`/api/dishes/${id}`)
+    if(res.ok) {
+        const dish  = await res.json()
+        dispatch(loadDishById(dish))
+        return res
+    }
+    else {
+        return "Fetch error"
+
+    }
+
 }
 
 // selector 
@@ -87,8 +120,13 @@ const dishReducer = (state= initialState, action) => {
             return {...state, [action.payload.id]: action.payload}
         }
         case LOAD_DISH_BY_ID: {
-            return {...state}
+            return {...state, [action.payload.id]: action.payload}
             
+        }
+        case CURRENT_USER_DISH: {
+            const normalizedDishState = {}
+            action.payload.map(dish => normalizedDishState[dish.id]=dish)
+            return normalizedDishState
         }
         default:
             return state
