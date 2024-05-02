@@ -97,11 +97,11 @@ def upgrade():
 
     if environment == "production":
         op.execute(f"ALTER TABLE users SET SCHEMA {SCHEMA};")
-        op.execute(f"ALTER TABLE restaurants SET SCHEMA {SCHEMA};")
-        op.execute(f"ALTER TABLE dishes SET SCHEMA {SCHEMA};")
-        op.execute(f"ALTER TABLE comments SET SCHEMA {SCHEMA};")
-        op.execute(f"ALTER TABLE dish_images SET SCHEMA {SCHEMA};")
-        op.execute(f"ALTER TABLE favorites SET SCHEMA {SCHEMA};")
+        # op.execute(f"ALTER TABLE restaurants SET SCHEMA {SCHEMA};")
+        # op.execute(f"ALTER TABLE dishes SET SCHEMA {SCHEMA};")
+        # op.execute(f"ALTER TABLE comments SET SCHEMA {SCHEMA};")
+        # op.execute(f"ALTER TABLE dish_images SET SCHEMA {SCHEMA};")
+        # op.execute(f"ALTER TABLE favorites SET SCHEMA {SCHEMA};")
         
         
     # ### end Alembic commands ###
