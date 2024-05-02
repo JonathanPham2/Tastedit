@@ -40,6 +40,7 @@ jmespath = "==1.0.1"
 s3transfer = "==0.10.1"
 urllib3 = "==1.26.18"
 faker = "*"
+eventlet = "*"
 
 [dev-packages]
 
