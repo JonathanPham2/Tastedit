@@ -1,5 +1,6 @@
 {
   "dependencies": {
-    "reselect": "^5.1.0"
+    "reselect": "^5.1.0",
+    "socket.io-client": "^4.7.5"
   }
 }

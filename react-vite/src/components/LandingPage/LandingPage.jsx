@@ -1,21 +1,26 @@
 import { useDispatch, useSelector } from "react-redux";
 import { selectorDishesArray, thunkFetchDishes } from "../../redux/dishes";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import DishesList from "../DishesList";
 import './LandingPage.css'
 import Navigation from "../Navigation/Navigation";
+import io from "socket.io-client"
 
 
 const LandingPage = () => {
     const dispatch = useDispatch()
+    const [dishes, setDishes] = useState([])
 
     // getting the dishes from selector in redux state 
-    const dishes =  useSelector(selectorDishesArray)
+    const fetchedDishes =  useSelector(selectorDishesArray)
     
     //Using thunk to fetch dishes from backend api
     useEffect(() => {
         dispatch(thunkFetchDishes())
     }, [dispatch])
+
+    useEffect
+
 
     return (
         <main className="landing-page">
@@ -27,7 +32,7 @@ const LandingPage = () => {
                 </div>
                 <button className="explore-button" >Explore now</button>
             </div>
-            <DishesList  dishes={dishes}/>
+            <DishesList  dishes={fetchedDishes}/>
         </main>
     )
 

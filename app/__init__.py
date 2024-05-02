@@ -11,6 +11,7 @@ from .api.routes.dish_routes import dish_routes
 from .api.routes.restaurants_routes import restaurant_routes
 from .seeds import seed_commands
 from .config import Config
+from .socket import socketio
 
 
 app = Flask(__name__, static_folder='../react-vite/dist', static_url_path='/')
@@ -29,6 +30,7 @@ def load_user(id):
 app.cli.add_command(seed_commands)
 
 app.config.from_object(Config)
+socketio.init_app(app)
 app.register_blueprint(user_routes, url_prefix='/api/users')
 app.register_blueprint(auth_routes, url_prefix='/api/auth')
 #  dishes routes

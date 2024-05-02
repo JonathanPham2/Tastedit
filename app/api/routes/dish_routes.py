@@ -3,6 +3,7 @@ from flask_login import login_required, current_user
 from app.models import Dish, db, DishImage
 from app.forms import AddDishForm
 from app.aws import upload_file_to_s3, get_unique_filename, remove_file_from_s3
+# from app import socketio
 
 
 from flask_login import login_required, current_user
@@ -51,7 +52,7 @@ def post_dish():
         #  commit to database
         db.session.add(new_dish)
         db.session.commit()
-        
+        # socketio.emit("dish_added", new_dish.to_dict(), broadcast=True)
         return jsonify(new_dish.to_dict()),201
     else:
         return form.errors, 400
