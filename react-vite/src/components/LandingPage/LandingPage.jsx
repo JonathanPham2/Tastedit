@@ -35,7 +35,14 @@ const LandingPage = () => {
     })
 
     useEffect(() => {
-        const socket = io("http://127.0.0.1:8000")
+        let backendUrl
+        if(import.meta.env.MODE === "production"){
+            backendUrl = "https://tastedit.onrender.com" // production enviroment
+        }
+        else{
+            backendUrl = "http://127.0.0.1:8000" // development
+        }
+        const socket = io(backendUrl)
         socket.on("dish_added", (newDish) => {
             toast.dark("New Dish have been added ", {
                 transition: fade
