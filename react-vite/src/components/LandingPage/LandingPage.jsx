@@ -12,7 +12,7 @@ import { FaDeaf } from "react-icons/fa";
 const LandingPage = () => {
     const dispatch = useDispatch()
     const [dishes, setDishes] = useState([])
-    const socketRef = useRef
+    const socketRef = useRef(null)
 
     // getting the dishes from selector in redux state 
     const fetchedDishes =  useSelector(selectorDishesArray)
@@ -34,26 +34,26 @@ const LandingPage = () => {
         enter: "fade-in",
         exit: "fade-out"
     })
-
+     // real-time notification 
+    //   initialize web socket
     useEffect(() => {
-        let backendUrl
-        if(import.meta.env.MODE === "production"){
-            backendUrl = "https://tastedit.onrender.com" // production enviroment
-        }
-        else{
-            backendUrl = "http://127.0.0.1:8000" // development
-        }
-         socketRef.current = io(backendUrl)
+        if(!socketRef.current){
+            let backendUrl = meta.env.MODE === "production" ? "https://tastedit.onrender.com" : "http://127.0.0.1:8000"
+        
+        socketRef.current = io(backendUrl)
         socketRef.current.on("dish_added", (newDish) => {
             toast.dark("New Dish have been added ", {
                 transition: fade
             })
             setDishes(prevDishes => [newDish, ...prevDishes])
         })
+    }
 
         return () => {
+            if(socketRef.current){
             socketRef.current.disconnect()
-        }
+            socketRef.current = null
+        }}
     },[])
 
 

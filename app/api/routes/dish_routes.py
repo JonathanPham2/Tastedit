@@ -33,8 +33,6 @@ def post_dish():
 
 
     if form.validate_on_submit():
-        print("---------------",form)
-        # print("---------------------------------", form['restaurant_id'])
     #    take out csrf and image field because our dish model dont have it
         excluded_fields =["csrf_token", "images"]
         dish_data = {key: value for key, value in form.data.items() if key not in excluded_fields }
@@ -43,7 +41,6 @@ def post_dish():
         for image in form.images.data:
             image.filename  = get_unique_filename(image.filename)
             upload = upload_file_to_s3(image)
-            print("this is the error",upload)
             if "url" not in upload:
                 # if there is not url key meaning uploading fail
                 return {"message": "Upload to aws failed"}
