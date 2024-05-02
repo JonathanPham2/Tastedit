@@ -33,7 +33,7 @@ app.config.from_object(Config)
 if os.environ.get("FLASK_ENV") == "production":
     cors_origin = ["https://tastedit.onrender.com"]
 else:
-    cors_origin = ["*"]
+    cors_origin = ["http://localhost:5173", "http://127.0.0.1:5173", "*"]
 #  initialize socket
 socketio.init_app(app, cors_allowed_origins=cors_origin)
 app.register_blueprint(user_routes, url_prefix='/api/users')

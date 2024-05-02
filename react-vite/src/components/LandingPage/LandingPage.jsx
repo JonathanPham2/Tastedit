@@ -35,20 +35,20 @@ const LandingPage = () => {
         exit: "fade-out"
     })
      // real-time notification 
-    //   initialize web socket
+    //   initialize web socket connect between client side and back end  on landing page whe user at landing page they will receive live update and noti if another user post new dish
     useEffect(() => {
         if(!socketRef.current){
-            let backendUrl = meta.env.MODE === "production" ? "https://tastedit.onrender.com" : "http://127.0.0.1:8000"
-        
-        socketRef.current = io(backendUrl)
-        socketRef.current.on("dish_added", (newDish) => {
-            toast.dark("New Dish have been added ", {
-                transition: fade
+            let backendUrl = import.meta.env.MODE === "production" ? "https://tastedit.onrender.com" : "http://127.0.0.1:8000"
+            socketRef.current = io(backendUrl)
+            socketRef.current.on("dish_added", (newDish) => {
+                toast.dark("New Dish have been added ", {
+                    transition: fade
+                })
+                // updaing the dishes state for to trigger re render 
+                setDishes(prevDishes => [newDish, ...prevDishes])
             })
-            setDishes(prevDishes => [newDish, ...prevDishes])
-        })
     }
-
+    // clear the connect when unmount
         return () => {
             if(socketRef.current){
             socketRef.current.disconnect()
