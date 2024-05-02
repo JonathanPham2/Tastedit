@@ -28,7 +28,7 @@ def seed():
     seed_restaurants()
     seed_dishes()
     seed_dish_images()
-    seed_dish_images()
+    seed_favorite()
 
     # Add other seed functions here
 
