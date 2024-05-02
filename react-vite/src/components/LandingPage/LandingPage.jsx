@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from "react-redux";
 import { selectorDishesArray, thunkFetchDishes } from "../../redux/dishes";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import DishesList from "../DishesList";
 import './LandingPage.css'
 import Navigation from "../Navigation/Navigation";
@@ -12,6 +12,7 @@ import { FaDeaf } from "react-icons/fa";
 const LandingPage = () => {
     const dispatch = useDispatch()
     const [dishes, setDishes] = useState([])
+    const socketRef = useRef
 
     // getting the dishes from selector in redux state 
     const fetchedDishes =  useSelector(selectorDishesArray)
@@ -42,8 +43,8 @@ const LandingPage = () => {
         else{
             backendUrl = "http://127.0.0.1:8000" // development
         }
-        const socket = io(backendUrl)
-        socket.on("dish_added", (newDish) => {
+         socketRef.current = io(backendUrl)
+        socketRef.current.on("dish_added", (newDish) => {
             toast.dark("New Dish have been added ", {
                 transition: fade
             })
@@ -51,7 +52,7 @@ const LandingPage = () => {
         })
 
         return () => {
-            socket.disconnect()
+            socketRef.current.disconnect()
         }
     },[])
 
