@@ -43,7 +43,7 @@ const CreateDish = () => {
     const [starRating, setStarRating] = useState(0)
     const [starHover, setStarHover] = useState(0)
     const [imageUrl, setImageUrl] = useState(null)
-    const [file, setFile] = useState(null)
+    const [file, setFile] = useState("")
     const [spicyLevel, setSpicyLevel] = useState("no spice")
     const [restaurant, setRestaurant] = useState(null)
     const [transitionStage, setTransitionStage] = useState(1)
@@ -179,6 +179,7 @@ const CreateDish = () => {
             }
         }
         else if(stage === 4) {
+            console.log("Stage 4 validation running", file);
             if(!file) {
                 newErrors.file = "Please upload at least one image "
 
@@ -223,8 +224,12 @@ const CreateDish = () => {
     const handleSubmit = (e) => {
         e.preventDefault();
         clearTimeout(timerId)
-        if(!validateCurrentStage()){
-            toast.error("Please fill all the required fields")
+        const errors = validateCurrentStage()
+        if(Object.keys(errors).length > 0){
+            setErrors(errors)
+            toast.dark("Please fill all the required fields",{
+                transition: fade
+            })
             return
         }
 
@@ -267,7 +272,7 @@ const CreateDish = () => {
 
 
 
-            },1000)
+            },600)
             // if(newDish) {
             //     toast.success("Successfully Uploaded", {
             //         onClose:() => navigate("/")
@@ -409,15 +414,19 @@ const stageContent = () => {
         case 4:
             return (
                 <section key="stage4" className="upload-image">
+                    <div className="error-div">{errors.file && <span>{errors.file}</span>}</div>
                         <h2>Add some photos of your dish</h2>
+                         {/* ERROR DIV */}
+                         
                         <div className="file-inputs-container">
-                            <input type="file" accept="image/png, image/jpeg, image/jpg" onChange={fileWrap}/>
+                            <input required type="file" accept="image/png, image/jpeg, image/jpg" onChange={fileWrap}/>
                             <label htmlFor="post-image-input" className="file-input-labels-noname"><img src={imageUrl} className="thumbnails-noname"></img></label>
+                            
                         </div>
-                        {/* ERROR DIV */}
-                        <div className="error-div">{errors.file && <span>{errors.file}</span>}</div>
+                
 
                     </section>
+                    
                    
 
             )
@@ -427,11 +436,12 @@ const stageContent = () => {
         
     }
 }
+console.log(file, stage, errors, "-=------------------------------")
 
     return (
         <main className="create-form-container">
 
-             <ToastContainer position="top-right" autoClose={3000} hideProgressBar={false} newestOnTop={false} closeOnClick rtl={false} pauseOnFocusLoss draggable pauseOnHover bodyClassName={"toast-me"}/>
+             <ToastContainer position="top-right" autoClose={3000} hideProgressBar={false} newestOnTop={false} closeOnClick rtl={false} pauseOnFocusLoss draggable/>
             <div className="util-container">
                 <a href="/"><img className="logo-image" src={logo} alt="logo" /></a>
                 <button>Save and Exit</button>
@@ -451,98 +461,7 @@ const stageContent = () => {
                 </div>
 
              </CSSTransition>
-        
 
-                {/* {stage === 1 && (
-                    <section className={`vegan-section ${stage === 1 ? "section" : "hidden"}`}>
-                        <h2>Is this a vegan dish?</h2>
-                        <div className="vegan-button">
-                        <button className="button-yes" onClick={() => {
-                            setVegan(true)
-                            setStage(2)}}>Yes</button>
-                        <button className="button-yes" onClick={() => setStage(2)}>No</button>
-                        </div>
-                    
-
-                    </section>
-                   
-
-                )}
-                 */}
-
-
-                
-                {/* {stage === 2 &&(
-                    <section className={`name-protein  ${stage === 2 ? "section" : "hidden"} `}>
-                       
-                        <input 
-                        className="dish-name"
-                        required
-                        value={dishName} onChange={(e) => setDishName(e.target.value)} id="dish_name" type="text" />
-                        <div className="floating-dish-name" style={dishName ? {top: "50.5px", color: "#ffc107", text_shadow: "2px 2px 20px rgba(0,0, 0, 0.8)"}: null}><label>What is the name of your dish?</label></div>
-                        <h2>Select the protein type:</h2>
-                        <div className="protein-grid">
-                            {proteins.map(({name, icon})=> (
-                                <button key={name}
-                                className={`protein-button ${protein === name ? "selected" : ""}`}
-                                onClick={() => handleProteinClick(name)}>
-                                    <img src={icon} alt={name} className="protein-icon" />
-                                    <span>{name}</span>
-                                </button>
-                    
-
-                            ))}
-                        </div>
-                       
-                        <input className="cuisine-text" type="text"
-                            id="cuisine"
-                            name="cuisine"
-                            value={cuisine}
-                            onChange={(e) => setCuisine(e.target.value)}
-                         /><div className="floating-cuisine" style={cuisine ? {top: "519px", color: "#ffc107", text_shadow: "2px 2px 20px rgba(0,0, 0, 0.8)"}: null}><label>What cuisine is your dish ?</label></div>
-                         <h2>Choose the spicy level</h2>
-                        <select onChange={(e) => setSpicyLevel(e.target.value)} value={spicyLevel} name="spicy_level" id="spicy_level">
-                            <option value="no spice">No Spice</option>
-                            <option value="mild">Mild</option><option value="medium">Medium</option>
-                            <option value="very spicy">Very Spicy</option>
-                        </select>
-                        <button onClick={handleNext}>Next</button>
-                        
-        
-                    </section>
-                    
-                )}
-            */}
-                {/* {stage === 3 &&(
-                   
-                    <section className={`last-section  ${stage === 3 ? "section" : "hidden"} `}>
-                        <h2>What's in your dish? Tell us about it!</h2>
-                        <textarea onChange={(e) => setDescription(e.target.value)} id="description" type="text" value={description} />
-
-                        <h2>Would you recommend this dish to others?</h2>
-                            <div className="stage-3-button-container">
-                                <button className="button-yes" onClick={() => setRecommended(true)}>Yes</button>
-                                <button className="button-no" onClick={() => setRecommended(false)}>No</button>
-                            </div>
-                        <h2>How many stars would you give your dish</h2>
-                        <div className="stars-container">{starRender()} Stars</div>
-                        <button onClick={() => setStage(currentStage => currentStage - 1)}>Back</button>
-                    </section>
-                   
-                )} 
-                {stage === 4 && (
-                  
-                    <section className="upload-image">
-                        <h2>Add some photos of your dish</h2>
-                        <div className="file-inputs-container">
-                            <input type="file" accept="image/png, image/jpeg, image/jpg" onChange={fileWrap}/>
-                            <label htmlFor="post-image-input" className="file-input-labels-noname"><img src={imageUrl} className="thumbnails-noname"></img></label>
-                        </div>
-                        
-
-                    </section>
-                   
-                )} */}
 
                 <div className="progress-bar-container">
                     <div className="progress-bar" style={{width: `${progressPercent}%`}}></div>
@@ -558,7 +477,7 @@ const stageContent = () => {
                     <div>
                         <button onClick={() => setStage(currentStage => currentStage - 1)}>Back</button>
                         
-                        <button className="post-dish" disabled={!validateCurrentStage()} onClick={handleSubmit}>
+                        <button className="post-dish"  onClick={handleSubmit}>
                         POST
                         </button>
                     </div>

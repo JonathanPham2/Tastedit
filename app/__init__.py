@@ -30,7 +30,8 @@ def load_user(id):
 app.cli.add_command(seed_commands)
 
 app.config.from_object(Config)
-socketio.init_app(app)
+#  initialize socket
+socketio.init_app(app, cors_allowed_origins="*")
 app.register_blueprint(user_routes, url_prefix='/api/users')
 app.register_blueprint(auth_routes, url_prefix='/api/auth')
 #  dishes routes
