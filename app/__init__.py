@@ -28,10 +28,14 @@ def load_user(id):
 
 # Tell flask about our seed commands
 app.cli.add_command(seed_commands)
-
 app.config.from_object(Config)
+# Setting up cors policy
+if os.environ.get("FLASK_ENV") == "production":
+    cors_origin = ["https://tastedit.onrender.com"]
+else:
+    cors_origin = ["*"]
 #  initialize socket
-socketio.init_app(app, cors_allowed_origins="*")
+socketio.init_app(app, cors_allowed_origins=cors_origin)
 app.register_blueprint(user_routes, url_prefix='/api/users')
 app.register_blueprint(auth_routes, url_prefix='/api/auth')
 #  dishes routes
