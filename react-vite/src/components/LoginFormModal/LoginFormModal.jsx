@@ -30,8 +30,8 @@ function LoginFormModal() {
   const handleDemoLogin = () =>{
     const email = "demo@aa.io"
     const password = "password"
-    dispatch(thunkLogin({email, password}))
     closeModal()
+    dispatch(thunkLogin({email, password}))
     return
   }
 

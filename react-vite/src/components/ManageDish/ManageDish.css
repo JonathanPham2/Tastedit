@@ -5,7 +5,16 @@
    height: 100vh;
    display: flex;
    flex-direction: column;
+   /* width: 100%; */
 
+}
+.name {
+  background: linear-gradient(120deg, #2c3e50, #4c5c68);
+  
+}
+.my-dishes {
+  text-align: center;
+  font-size: 30px;
 }
 
 

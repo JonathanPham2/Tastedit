@@ -57,6 +57,7 @@ const CreateDish = () => {
 
 
     // -----------------------------------
+    
     // this useEffect for checking if vegan true we will render all the proteins if false we will only render planted base for now
     useEffect(()=> {
         if(vegan){
@@ -143,8 +144,8 @@ const CreateDish = () => {
                 
 
             }
-            if(!cuisine.trim()){
-                newErrors.cuisine = "Cuisine is required"
+            if(!cuisine.trim()|| cuisine.trim().length >15 ){
+                newErrors.cuisine = "Cuisine is required and must be less than 15 characters"
                
                 
             }
@@ -179,7 +180,6 @@ const CreateDish = () => {
             }
         }
         else if(stage === 4) {
-            console.log("Stage 4 validation running", file);
             if(!file) {
                 newErrors.file = "Please upload at least one image "
 
@@ -193,6 +193,7 @@ const CreateDish = () => {
     const handleNext = () => {
         const errors = validateCurrentStage()
         if(Object.keys(errors).length === 0 ){
+            setErrors({})
             
            setStage(currentStage => currentStage + 1)
             
@@ -436,7 +437,7 @@ const stageContent = () => {
         
     }
 }
-console.log(file, stage, errors, "-=------------------------------")
+
 
     return (
         <main className="create-form-container">
@@ -475,7 +476,10 @@ console.log(file, stage, errors, "-=------------------------------")
                 
                 {stage === 4 &&  (
                     <div>
-                        <button onClick={() => setStage(currentStage => currentStage - 1)}>Back</button>
+                        <button onClick={() => {setStage(currentStage => currentStage - 1)
+                        
+                        
+                        }}>Back</button>
                         
                         <button className="post-dish"  onClick={handleSubmit}>
                         POST

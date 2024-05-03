@@ -42,6 +42,7 @@ urllib3 = "==1.26.18"
 faker = "*"
 eventlet = "==0.30.2"
 gevent = "*"
+email-validator = "*"
 
 [dev-packages]
 

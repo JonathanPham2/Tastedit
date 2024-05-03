@@ -5,6 +5,7 @@ import { useEffect } from "react"
 import Navigation from "../Navigation/Navigation"
 import "./ManageDish.css"
 import { ToastContainer,  toast, cssTransition} from "react-toastify"
+import { FcGallery } from "react-icons/fc"
 
 
 const ManageDish = () => {
@@ -37,8 +38,13 @@ const ManageDish = () => {
     
     return (
         <main className="manage-container">
+            <div className="name">
              <ToastContainer position="top-right" autoClose={3000} hideProgressBar={false} newestOnTop={false} closeOnClick rtl={false} pauseOnFocusLoss draggable />
             <Navigation />
+                <div className="my-dishes">
+                    <h2>My Dishes <FcGallery /></h2>
+                    </div>
+
             {dishes.length === 0 && (
                 <div style={{textAlign:"center" , height: "80vh"}}><h2>Currently have no dish!!!</h2></div>
              )}
@@ -46,6 +52,7 @@ const ManageDish = () => {
             {user === null && (
                 <div style={{textAlign: "center"}}><h2 style={{color: "red"}}>NOT LOGIN YET!!!</h2></div>
             )}
+            </div>
 
         </main>
     )

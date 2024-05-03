@@ -9,6 +9,7 @@ import { MdMessage,MdEdit, MdSave } from "react-icons/md";
 
 
 
+
 const DishDetail = () => {
     const { id } = useParams()
     const user = useSelector(state => state.session.user)
@@ -21,8 +22,10 @@ const DishDetail = () => {
     //     dispatch(thunkFetchSingleDish(parseInt(id)))
     // },[dispatch,id])
 
+    
+
     useEffect(() => {
-        if (!dish) {
+        if (!dish.comments) {
             dispatch(thunkFetchSingleDish(parseInt(id)));
         } else {
             setEditData({
@@ -42,6 +45,8 @@ const DishDetail = () => {
             [e.target.name]: e.target.value
         });
     };
+
+
     
 
     const saveChanges = () => {
@@ -73,7 +78,7 @@ const DishDetail = () => {
             <LoadingScreen/>
         )
     }
-
+console.log(dish.comments)
     
 
     return (
@@ -93,10 +98,10 @@ const DishDetail = () => {
                 {/* Did not imeplement edit for vegan, image, recommended yet */}
                 <div className="dish-details-container">
                 {editMode && user?.id === dish.user_id ? (
-                        <div className="edit-container">
+                        <div className="dish-info">
                             <input type="text" value={editData.name} name="name" onChange={handleChange} />
+                            <textarea id="box-description" name="description" value={editData.description} onChange={handleChange} />
                             <input type="text" value={editData.cuisine} name="cuisine" onChange={handleChange}/>
-                            <textarea name="description" value={editData.description} onChange={handleChange} />
                             <input type="text" value={editData.price} name="price" onChange={handleChange} />
                             <select name="spicy level" id="spicy_level" value={editData.spicy_level} onChange={handleChange}>
                                 <option value="no spice">no spice</option>
@@ -110,11 +115,11 @@ const DishDetail = () => {
                     ) : (
                         <>
                             <h2>{dish.name}</h2>
-                            <p>{dish.description}</p>
                             <div className="dish-info">
+                                 <p>{dish.description}</p>
+                                <p>Cuisine: {dish.cuisine}</p>
                                 <p>Price Level <span role="img" aria-label="money">💰</span>: {dish.price}</p>
                                 <p>Spicy Level: {dish.spicy_level}</p>
-                                <p>Cuisine: {dish.cuisine}</p>
                                 <p>Rating: {dish.rating}</p>
                             </div>
 
@@ -123,7 +128,7 @@ const DishDetail = () => {
                     )}
                     <hr />
                     <div className="comment-count-container">
-                        <MdMessage /><span>2</span> 
+                        <MdMessage /><span>{dish.comments.length}</span> 
                     </div>
 
 
@@ -131,28 +136,13 @@ const DishDetail = () => {
 
 
 
-
-
-
-                    {/* <h2>{dish.name}</h2>
-                    <p>{dish.description}</p>
-                    <div className="dish-detail-list">
-                    <div className="dish-info">
-                <p>Price Level <span role="img" aria-label="money">💰</span>: {dish.price}</p>
-                <p>Spicy Level: {dish.spicy_level}</p>
-                <p>Rating: {dish.rating}</p>
-               
-            </div>
-            <hr />
-            <div className="comment-count-container"><MdMessage/><span>2</span>
-                <div className="line-break"></div>
-            </div> */}
-
-
                     {/* </div> */}
 
 
                 </div>
+
+            </section>
+            <section className="comment-container">
 
             </section>
         </main>

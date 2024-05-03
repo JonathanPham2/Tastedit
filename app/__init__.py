@@ -33,9 +33,18 @@ app.config.from_object(Config)
 if os.environ.get("FLASK_ENV") == "production":
     cors_origin = ["https://tastedit.onrender.com"]
 else:
-    cors_origin = ["http://localhost:5173", "http://127.0.0.1:5173", "*"]
+    cors_origin = ["http://localhost:5173", "http://127.0.0.1:5173", "http://127.0.0.1:8000"]
 #  initialize socket
 socketio.init_app(app, cors_allowed_origins=cors_origin)
+
+@socketio.on('connect')
+def handle_connect():
+        print('Client connected')
+
+@socketio.on('disconnect')
+def handle_disconnect():
+    print('Client disconnected')
+
 app.register_blueprint(user_routes, url_prefix='/api/users')
 app.register_blueprint(auth_routes, url_prefix='/api/auth')
 #  dishes routes

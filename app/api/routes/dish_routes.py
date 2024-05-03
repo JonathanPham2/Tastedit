@@ -5,9 +5,7 @@ from app.forms import AddDishForm
 from app.aws import upload_file_to_s3, get_unique_filename, remove_file_from_s3
 # from app import socketio
 from app.socket import socketio
-
-
-from flask_login import login_required, current_user
+from sqlalchemy.orm import joinedload
 
 dish_routes = Blueprint('dishes', __name__)
 
@@ -19,8 +17,11 @@ def get_all_dishes():
 
 @dish_routes.route("/<int:id>", methods=["GET"])
 def get_dish_by_id(id):
-    dish = Dish.query.get(id)
-    return jsonify(dish.to_dict())
+    dish = Dish.query.options(joinedload(Dish.comments)).get(id)
+    print(dish)
+    dish_data = dish.to_dict()
+    dish_data["comments"] = [comment.to_dict() for comment in dish.comments]
+    return jsonify(dish_data)
 
 
 @dish_routes.route("/new", methods=["POST"])
@@ -101,9 +102,6 @@ def edit_dish(id):
         # commit to database
         db.session.commit()
         return jsonify(dish_to_update.to_dict()),200
-    
-
-    print(form.errors,"eerororo=----------------------------------")
     return form.errors, 500
 
        
@@ -129,5 +127,7 @@ def delete_dish(id):
 @login_required
 def get_user_dishes():
     dishes = Dish.query.filter(Dish.user_id == current_user.id).all()
+    # Need to add function that delete image on aws
+
     return jsonify([dish.to_dict() for dish in dishes])
 

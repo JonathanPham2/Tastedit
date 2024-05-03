@@ -4,6 +4,8 @@
     gap: 20px; 
     padding: 20px;
     padding-top: 50px;
+    /* height: 100%; */
+    /* background-color: #666; */
   }
   .dish-post-card {
     background: white;

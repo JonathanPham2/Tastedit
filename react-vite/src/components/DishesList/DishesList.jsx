@@ -5,7 +5,8 @@ import { FcCancel } from "react-icons/fc";
 import { FiThumbsDown } from "react-icons/fi";
 import { FiThumbsUp } from "react-icons/fi";
 import { FaStar } from 'react-icons/fa';
-
+import { LazyLoadImage } from "react-lazy-load-image-component"
+import 'react-lazy-load-image-component/src/effects/blur.css';
 // This function help to generate stars on the card
 const starRender = (rating) => {
     let stars = []
@@ -19,6 +20,8 @@ const starRender = (rating) => {
 const DishesList = ({dishes, isManage, handleDelete}) => {
     const navigate = useNavigate()
 
+    
+
     return (
         <div className="dishes-list ">
             {dishes.map(dish => (
@@ -26,7 +29,14 @@ const DishesList = ({dishes, isManage, handleDelete}) => {
                     <div onClick={() => navigate(`/dishes/${dish.id}`) } >
                     {dish.dish_images.map(image => (
                         <div key={image.id} className="image-container">
-                            <img src={image.image_url} alt={dish.name} />
+                                <LazyLoadImage
+                                key={image.id}
+                                alt={dish.name}
+                                src={image.image_url}
+                                effect="blur"
+                                width={"100%"}
+                                height={"100%"}
+                                />
                         </div>
                     ))}
                     <section className='dish-post-card-info'>
