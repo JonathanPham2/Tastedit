@@ -399,7 +399,7 @@ const stageContent = () => {
                 <h2>Would you recommend this dish to others?</h2>
                     <div className="stage-3-button-container">
                         <button className={`button-yes ${recommended ? "selected" : null}`} onClick={() => setRecommended(true)}>Yes</button>
-                        <button className={`button-no ${!recommended ? "selected" : null}`} onClick={() => setRecommended(false)}>No</button>
+                        <button className={`button-no ${recommended === false ? "selected" : null}`} onClick={() => setRecommended(false)}>No</button>
                     </div>
                     {/* ERROR DIV */}
                     <div className="error-div">{errors.recommended && <span>{errors.recommended}</span>}</div>
@@ -420,7 +420,7 @@ const stageContent = () => {
                          {/* ERROR DIV */}
                          
                         <div className="file-inputs-container">
-                            <input required type="file" accept="image/png, image/jpeg, image/jpg" onChange={fileWrap}/>
+                            <input required type="file" accept="image/png, image/jpeg, image/jpg, image/webp" onChange={fileWrap}/>
                             <label htmlFor="post-image-input" className="file-input-labels-noname"><img src={imageUrl} className="thumbnails-noname"></img></label>
                             
                         </div>

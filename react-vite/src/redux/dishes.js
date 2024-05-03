@@ -147,7 +147,7 @@ const dishReducer = (state= initialState, action) => {
     switch(action.type){
         case LOAD_DISHES: {
             const normalizedDishState = {}
-            action.payload.map(dish => normalizedDishState[dish.id]=dish)
+            action.payload.forEach(dish => normalizedDishState[dish.id]=dish)
             return normalizedDishState
         }
         case POST_DISH: {

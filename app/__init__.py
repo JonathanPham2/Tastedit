@@ -9,6 +9,7 @@ from .api.user_routes import user_routes
 from .api.auth_routes import auth_routes
 from .api.routes.dish_routes import dish_routes
 from .api.routes.restaurants_routes import restaurant_routes
+from .api.routes.comments import comments_routes
 from .seeds import seed_commands
 from .config import Config
 from .socket import socketio
@@ -51,6 +52,8 @@ app.register_blueprint(auth_routes, url_prefix='/api/auth')
 app.register_blueprint(dish_routes, url_prefix="/api/dishes")
 # restaurants routes
 app.register_blueprint(restaurant_routes, url_prefix="/api/restaurants")
+# comment routes
+app.register_blueprint(comments_routes, url_prefix="/api/dishes")
 
 #
 db.init_app(app)

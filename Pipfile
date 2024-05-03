@@ -39,10 +39,13 @@ botocore = "==1.34.90"
 jmespath = "==1.0.1"
 s3transfer = "==0.10.1"
 urllib3 = "==1.26.18"
-faker = "*"
+faker = "==25.0.0"
 eventlet = "==0.30.2"
-gevent = "*"
+gevent = "==24.2.1"
 email-validator = "*"
+dnspython = "==1.16.0"
+"zope.event" = "==5.0"
+"zope.interface" = "==6.3"
 
 [dev-packages]
 
