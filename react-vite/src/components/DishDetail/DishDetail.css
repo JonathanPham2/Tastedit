@@ -141,10 +141,11 @@
     width: 100%;
     max-width: 500px;
     margin: 20px 0;
-    margin-bottom: 100px;
+    /* margin-bottom: 100px; */
+    max-height: 500px;
     align-items: center;
-    /* text-align: left; */
-    /* overflow-y: hidden; */
+    overflow-x: hidden;
+    
     
     
 }
@@ -163,6 +164,11 @@
     margin: 5px 0; 
     font-size: 14px; 
     width: 400px;
+    height: 100px;
+}
+.comment-content input {
+  width: 100%;
+  height: 30px;
 }
 .user-name {
     font-weight: bold;
@@ -194,3 +200,71 @@
 
 
 }
+
+
+/* animation for noti */
+/* ----------------------------------------------------------- */
+/* making it look like buzzzz */
+
+@keyframes fade-in {
+    0% {
+      transform: rotate(0) scale(0);
+      opacity: 0;
+    }
+    91% {
+      transform: rotate(0) scale(1.1);
+      opacity: 1;
+    }
+    92% {
+      transform: rotate(0) scale(1);
+      opacity: 1;
+    }
+    93% {
+      transform: rotate(0) scale(0.9);
+      opacity: 1;
+    }
+    94% {
+      transform: rotate(0) scale(0.85);
+      opacity: 1;
+    }
+    95% {
+      transform: rotate(0) scale(1);
+      opacity: 1;
+    }
+    96% {
+      transform: rotate(0) scale(0.9);
+      opacity: 1;
+    }
+    99% {
+      transform: rotate(0) scale(0.95);
+      opacity: 1;
+    }
+    100% {
+      transform: rotate(0) scale(1);
+      opacity: 1;
+  
+    }
+  }
+  
+  .fade-in {
+    animation: fade-in 0.4s ease-out both;
+  }
+  
+  
+  @keyframes fade-out{
+    0% {
+      transform: rotate(0) scale(1);
+      opacity: 1;
+    }
+    100% {
+      transform: rotate(0) scale(0);
+      opacity: 0;
+    }
+  }
+  
+  .fade-out{
+    animation: fade-out 0.3s ease-in both;
+  }
+
+  
+  

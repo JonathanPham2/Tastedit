@@ -7,6 +7,7 @@ import { FiThumbsUp } from "react-icons/fi";
 import { FaStar } from 'react-icons/fa';
 import { LazyLoadImage } from "react-lazy-load-image-component"
 import 'react-lazy-load-image-component/src/effects/blur.css';
+import React from 'react';
 // This function help to generate stars on the card
 const starRender = (rating) => {
     let stars = []
@@ -17,7 +18,7 @@ const starRender = (rating) => {
 }
 
 
-const DishesList = ({dishes, isManage, handleDelete}) => {
+const DishesList = React.memo(({dishes, isManage, handleDelete}) => {
     const navigate = useNavigate()
 
     
@@ -71,5 +72,5 @@ const DishesList = ({dishes, isManage, handleDelete}) => {
     )
 
     
-}
+})
 export default DishesList

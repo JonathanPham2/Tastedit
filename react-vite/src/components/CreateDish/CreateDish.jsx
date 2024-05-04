@@ -273,7 +273,7 @@ const CreateDish = () => {
 
 
 
-            },600)
+            },300)
             // if(newDish) {
             //     toast.success("Successfully Uploaded", {
             //         onClose:() => navigate("/")

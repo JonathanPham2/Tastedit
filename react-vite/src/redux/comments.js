@@ -3,6 +3,7 @@ import { createSelector } from 'reselect'
 
 
 // Action constants
+const LOAD_MORE_COMMENTS =  "/comments/more"
 
 const LOAD_COMMENTS = "dishes/:id/comments"
 
@@ -16,6 +17,11 @@ const CLEAR_COMMENTS = "/clear/comments"
 
 
 // Action creator
+
+const loadMoreComments = comments => ({
+    type: LOAD_MORE_COMMENTS,
+    payload: comments
+})
 
 
 const loadComments = comments => ({
@@ -43,6 +49,29 @@ export const clearComment = () => ({
     type: CLEAR_COMMENTS
 })
 // thunk action
+
+export const thunkLoadMoreComments = (id,page) => async(dispatch) => {
+    const res =  await fetch(`/api/dishes/${id}/comments?page=${page}&per_page=3`)
+    if(res.ok){
+    
+        const moreComments = await res.json()
+        if(moreComments.length === 0 ){
+            return {errorMessage: "No more comments to load"}
+        }
+        dispatch(loadMoreComments(moreComments))
+
+    }
+    else if(res.status < 500) {
+        const errorMessages = await res.json()
+        return errorMessages
+    }
+    else {
+        return {server: "Something went wrong. Please try again"}
+    }
+}
+
+
+
 // fetch all comment
 
 export const thunkFetchComments = (id)=> async(dispatch) => {
@@ -78,6 +107,32 @@ export const thunkPostComment = (id, formData) => async(dispatch) => {
         return {server: "Something went wrong. Please try again"}
     }
 }
+
+// Edit comment Thunk
+
+export const ThunkEditComment = (id,formData)=> async(dispatch) => {
+    const res = await fetch(`/api/dishes/comments/${id}`,{
+        method:"PUT",
+        body: formData
+
+    })
+    if(res.ok){
+        const comment = await res.json()
+        dispatch(editComment(comment))
+    }
+    else if(res.status < 500) {
+        const errorMessages = await res.json()
+        return errorMessages
+    }
+    else {
+        return {server: "Something went wrong. Please try again"}
+    }
+}
+
+
+
+
+
 const selectorComments = (state) => state.comments
 export const selectorCommentsArray = createSelector(selectorComments, (comments) =>
     Object.values(comments))
@@ -94,8 +149,19 @@ const commentReducer = (state ={}, action ) => {
             })
             return newState
         }
+        case LOAD_MORE_COMMENTS:{
+            const newState = {...state}
+            action.payload.forEach(comment =>{
+                newState[comment.id] = comment
+            
+            })
+            return newState
+        }
         case POST_COMMENT:
             return{...state,[action.payload.id]:action.payload}
+        case EDIT_COMMENT:{
+            return {...state,[action.payload.id]:action.payload}
+        }
         case CLEAR_COMMENTS :
             return {}
         default:

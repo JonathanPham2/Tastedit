@@ -2,12 +2,22 @@ import { useDispatch, useSelector } from "react-redux"
 import { useParams } from "react-router-dom"
 import Navigation from "../Navigation/Navigation"
 import "./DishDetail.css"
-import { useEffect, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import { thunkFetchSingleDish, thunkUpdateDish, } from "../../redux/dishes"
 import LoadingScreen from "../LoadingScreen"
 import { MdMessage,MdEdit, MdSave } from "react-icons/md";
-import { clearComment, selectorCommentsArray, thunkFetchComments, thunkPostComment } from "../../redux/comments"
+import { ThunkEditComment, clearComment, selectorCommentsArray, thunkFetchComments, thunkLoadMoreComments, thunkPostComment } from "../../redux/comments"
+import { ToastContainer,  toast, cssTransition} from "react-toastify"
+import { BiCommentEdit } from "react-icons/bi";
+import { FaRegTrashCan } from "react-icons/fa6";
 
+
+
+
+const fade = cssTransition ({
+    enter: "fade-in",
+    exit: "fade-out"
+})
 
 
 
@@ -16,15 +26,39 @@ const DishDetail = () => {
     const user = useSelector(state => state.session.user)
     const dish = useSelector(state => state.dishes[id])
     const comments = useSelector(selectorCommentsArray)
+    const [currentPage, setCurrentPage] = useState(1)
     const [commentData, setCommentData] = useState("")
+    const [isLoadComment, setIsLoadComment] = useState(true)
+    const [editCommentId, setEditCommentId] = useState(null)
+    const [editCommentData, setEditCommentData] = useState("")
     const dispatch = useDispatch()
     const [editMode, setEditMode] = useState(false);
     const [editData, setEditData] = useState({});
+    const editInPutRef = useRef(null)
 
-    // useEffect(()=> {
-    //     dispatch(thunkFetchSingleDish(parseInt(id)))
-    // },[dispatch,id])
+    
+    // css effect
+    // handle click outside of comment edit mode
+    useEffect(() => {
+        const handleClickOutside = (e) => {
+            e.stopPropagation()
+            if( editCommentId&& editInPutRef.current && !editInPutRef.current.contains(e.target)){
+    
+                setEditCommentId(null)
+                setEditCommentData("")
+            }
+        }
 
+        document.addEventListener("mousedown", handleClickOutside)
+
+        return () => {
+            document.removeEventListener("moussedown", handleClickOutside)
+        }
+        
+    },[editCommentId])
+
+
+    
     
 // fetch dish if not exist yet
     useEffect(() => {
@@ -58,22 +92,49 @@ const DishDetail = () => {
             [e.target.name]: e.target.value
         });
     };
-    const sortedComments = comments.sort((a,b)=>{
-        return new Date(b.created_at) - new Date(a.created_at)
-    })
+    // const sortedComments = comments.sort((a,b)=>{
+    //     return new Date(b.created_at) - new Date(a.created_at)
+    // })
 
 //  post comment
 const submitComment = async () => {
-    const formData = new FormData();
-    formData.append("comment", commentData)
-    const serverResponse = await dispatch(thunkPostComment(id,formData))
+
+    if(editCommentId){
+        const formData = new FormData()
+        console.log(editCommentData)
+        formData.append("comment", editCommentData)
+        
+        const serverResponse = await dispatch(ThunkEditComment(editCommentId,formData))
+        
+        if(serverResponse){
+            toast.dark("Edit failed. Please try again", {
+                transition: fade
+            })
+        }
+
+        else {
+
+            setEditCommentId(null)
+            setEditCommentData("")
+        }
+
     
-    if(serverResponse){
-        console.log(serverResponse)
     }
-    else {
-        setCommentData("")
-    }
+
+
+
+    else if(!editCommentId && !editCommentData){
+            const formData = new FormData();
+            formData.append("comment", commentData)
+            const serverResponse = await dispatch(thunkPostComment(id,formData))
+    
+                if(serverResponse){
+                    console.log(serverResponse)
+                    }
+                    else {
+                        setCommentData("")
+                    }
+        }
 
 
 }
@@ -81,9 +142,53 @@ const submitComment = async () => {
      const enterKey = (e) => {
         if(e.key ==="Enter" && !e.shiftKey){
             e.preventDefault()
+
+        
+            if(user){
             submitComment(e)
+            }
+            else{
+                return
+            }
         }
     }
+// Edit comment toggle
+// we have to pass down the comment and use that comment id
+// to match the edit comment id so it when we hit edit it won't trigger all the comment 
+    const toggleEdit =  (comment) => {
+        // if it already match and user hit edit again meaning to close it
+        if(editCommentId === comment.id){
+            setEditCommentId(null)
+            setEditCommentData("")
+        }
+        else {
+           setEditCommentId(comment.id)
+           setEditCommentData(comment.comment)
+        }
+    
+        
+    }
+
+
+// Load more comments function
+    const loadMoreComments = async () => {
+        let nextPage = currentPage + 1
+       const response = await  dispatch(thunkLoadMoreComments(id, nextPage))
+
+       if(response){
+            toast.dark(response.errorMessage,{
+                transition: fade
+            })
+            setIsLoadComment(false)
+        
+       }
+       else {
+        setCurrentPage(nextPage)
+       }
+    }
+    
+
+
 
     const saveChanges = () => {
         const formData = new FormData();
@@ -120,6 +225,7 @@ const submitComment = async () => {
     return (
         <main className="dish-detail-main">
             <Navigation />
+            <ToastContainer position="top-right" autoClose={3000} hideProgressBar={false} newestOnTop={false} closeOnClick rtl={false} pauseOnFocusLoss draggable/>
             
             <section className="dish-view-container">
                 <div className="image-container2">
@@ -149,7 +255,7 @@ const submitComment = async () => {
                             <button onClick={() => setEditMode(false)}>Cancel</button>
                         </div>
                     ) : (
-                        <>
+                        <div>
                             <h3>{dish.name}</h3>
                             <div className="grid-dish-info">
                                 <div className="dish-info">
@@ -169,7 +275,7 @@ const submitComment = async () => {
                             </div>
 
                            {user?.id === dish.user_id && <button onClick={() => setEditMode(true)}><MdEdit /> Edit</button>}
-                        </>
+                        </div>
                     )}
                     <hr/>
                     <div className="comment-count-container">
@@ -190,21 +296,42 @@ const submitComment = async () => {
             <div className="comment-input">
                 <section className="comment-container">
 
-                    <>
+                    <div>
                         <h2>Comments</h2>
+                        <div ref={editInPutRef}>
                         {comments.map(comment => (
                             <div key={comment.id} className="comment-content">
-                            <p className="user-name">Anomnymous</p>
-                            <p  key={comment.id}>{comment.comment}</p>
+                                <p className="user-name">Anomnymous</p>
+                                {editCommentId === comment.id ? (<input onKeyDown={enterKey}  value={editCommentData} onChange={(e) =>setEditCommentData(e.target.value)} />) :<p>{comment.comment}</p>}
+                                {user.id === comment.user_id && (
+                                    <div className="user-comment-action">
+                                        {editCommentId === comment.id ? (
+                                        <><button onClick={submitComment}>Submit</button>
+                                        <button onClick={() => setEditCommentId(null)}>Cancel</button></>): 
+                                        <><button onClick={() => toggleEdit(comment)}><BiCommentEdit />
+                                        </button>
+                                        <button><FaRegTrashCan /></button></>
+                                        
+                                    }
+                                        
+
+
+                                    </div>
+
+
+                                )}
+                        
                             </div>
                         ))}
-                    </>
+                        </div>
+                    </div>
 
                 </section>
                 <section className="input-comment-box">
                     
-                    <textarea onKeyDown={enterKey} value={commentData} className="text-field" name="comment" onChange={(e) => setCommentData(e.target.value)} ></textarea>
+                    <textarea  onKeyDown={enterKey} value={commentData} className="text-field" name="comment" onChange={(e) => setCommentData(e.target.value)} ></textarea>
                     <button onClick={submitComment} disabled={!commentData.trim()}>Submit</button>
+                    <button onClick={loadMoreComments} disabled={!isLoadComment}>Load More Comments</button>
 
                 </section>
             </div>
