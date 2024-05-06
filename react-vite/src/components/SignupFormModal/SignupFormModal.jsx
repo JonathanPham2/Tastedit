@@ -39,9 +39,11 @@ function SignupFormModal() {
   };
 
   return (
-    <>
+    <div className="signup-form-container">
       <h1>Sign Up</h1>
+      <div className="login-error-div">
       {errors.server && <p>{errors.server}</p>}
+      </div>
       <form onSubmit={handleSubmit}>
         <label>
           Email
@@ -52,7 +54,8 @@ function SignupFormModal() {
             required
           />
         </label>
-        {errors.email && <p>{errors.email}</p>}
+        <div className="login-error-div">
+        {errors.email && <p>{errors.email}</p>}</div>
         <label>
           Username
           <input
@@ -62,7 +65,8 @@ function SignupFormModal() {
             required
           />
         </label>
-        {errors.username && <p>{errors.username}</p>}
+        <div className="login-error-div">
+        {errors.username && <p>{errors.username}</p>}</div>
         <label>
           Password
           <input
@@ -72,7 +76,8 @@ function SignupFormModal() {
             required
           />
         </label>
-        {errors.password && <p>{errors.password}</p>}
+        <div className="login-error-div">
+        {errors.password && <p>{errors.password}</p>}</div>
         <label>
           Confirm Password
           <input
@@ -82,10 +87,59 @@ function SignupFormModal() {
             required
           />
         </label>
-        {errors.confirmPassword && <p>{errors.confirmPassword}</p>}
+        <div className="login-error-div">
+        {errors.confirmPassword && <p>{errors.confirmPassword}</p>}</div>
         <button type="submit">Sign Up</button>
       </form>
-    </>
+    </div>
+  
+    // <div>
+    //   <h1>Sign Up</h1>
+    //   {errors.server && <p>{errors.server}</p>}
+    //   <form onSubmit={handleSubmit}>
+    //     <label>
+    //       Email
+    //       <input
+    //         type="text"
+    //         value={email}
+    //         onChange={(e) => setEmail(e.target.value)}
+    //         required
+    //       />
+    //     </label>
+    //     {errors.email && <p>{errors.email}</p>}
+    //     <label>
+    //       Username
+    //       <input
+    //         type="text"
+    //         value={username}
+    //         onChange={(e) => setUsername(e.target.value)}
+    //         required
+    //       />
+    //     </label>
+    //     {errors.username && <p>{errors.username}</p>}
+    //     <label>
+    //       Password
+    //       <input
+    //         type="password"
+    //         value={password}
+    //         onChange={(e) => setPassword(e.target.value)}
+    //         required
+    //       />
+    //     </label>
+    //     {errors.password && <p>{errors.password}</p>}
+    //     <label>
+    //       Confirm Password
+    //       <input
+    //         type="password"
+    //         value={confirmPassword}
+    //         onChange={(e) => setConfirmPassword(e.target.value)}
+    //         required
+    //       />
+    //     </label>
+    //     {errors.confirmPassword && <p>{errors.confirmPassword}</p>}
+    //     <button type="submit">Sign Up</button>
+    //   </form>
+    // </div>
   );
 }
 

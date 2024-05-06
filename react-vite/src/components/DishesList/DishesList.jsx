@@ -8,6 +8,7 @@ import { FaStar } from 'react-icons/fa';
 import { LazyLoadImage } from "react-lazy-load-image-component"
 import 'react-lazy-load-image-component/src/effects/blur.css';
 import React from 'react';
+import { useModal } from '../../context/Modal';
 // This function help to generate stars on the card
 const starRender = (rating) => {
     let stars = []
@@ -20,6 +21,7 @@ const starRender = (rating) => {
 
 const DishesList = React.memo(({dishes, isManage, handleDelete}) => {
     const navigate = useNavigate()
+   const  {setModalContent} = useModal()
 
     
 

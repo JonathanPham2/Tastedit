@@ -1,9 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { thunkLogout } from "../../redux/session";
-import OpenModalMenuItem from "./OpenModalMenuItem";
-import LoginFormModal from "../LoginFormModal";
-import SignupFormModal from "../SignupFormModal";
 import profileIcon from "../../../dist/profile-picture.jpg"
 import { FaBowlFood } from "react-icons/fa6";
 import { GrSign } from "react-icons/gr";
@@ -61,9 +58,9 @@ function ProfileButton() {
               <div> <MdAlternateEmail /> {user.email}</div>
               <div onClick={() =>navigate("/dishes/new")}  className="bowl-food"><FaBowlFood/>Post Dish</div>
               <div onClick={() => navigate("/dishes/current")} className="edit-button"><FaEdit /> Manage Dish</div>
-              <li>
-                <button onClick={logout}>Log Out</button>
-              </li>
+              <div>
+                <button className="logout-button" onClick={logout}>Log Out</button>
+              </div>
             </>
           )
           }

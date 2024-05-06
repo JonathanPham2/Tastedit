@@ -44,7 +44,6 @@ const DishDetail = () => {
     const deleteRef = useRef(null)
 
    
-   console.log("hu")
 
     
     // css effect
@@ -87,7 +86,7 @@ const DishDetail = () => {
     },[editCommentId, deleteCommentId])
 
 
-
+// console.log(commentData)
     
     
 // fetch dish if not exist yet
@@ -104,7 +103,7 @@ const DishDetail = () => {
                 rating: dish.rating
             });
         }
-    }, [dispatch, id]);
+    }, [dispatch, id, dish]);
     
     // fetch comments when mount and clear comment state when unmounts
 
@@ -189,6 +188,7 @@ const toggleDeleteConfirm = (e, commentId) => {
        }
        else {
         toast.dark("Successfully delete comment")
+        setDeleteCommentId(null)
        }
     }   
     
@@ -240,10 +240,11 @@ const toggleDeleteConfirm = (e, commentId) => {
        }
        else {
         setCurrentPage(nextPage)
+        
        }
     }
     
-
+console.log(isLoadComment)
 
 
     const saveChanges = () => {
@@ -298,18 +299,35 @@ const toggleDeleteConfirm = (e, commentId) => {
                 <div className="dish-details-container">
                 {editMode && user?.id === dish.user_id ? (
                         <div className="grid-dish-input">
+                            <label style={{fontWeight: "bold"}}>Dish name:
                             <input className="input-field" type="text" value={editData.name} name="name" onChange={handleChange} />
-                            <textarea  id="box-description" name="description" value={editData.description} onChange={handleChange} />
-                            <input className="input-field"  type="text" value={editData.cuisine} name="cuisine" onChange={handleChange}/>
-                            <input className="input-field"  type="text" value={editData.price} name="price" onChange={handleChange} />
-                            <select name="spicy_level" id="spicy_level" value={editData.spicy_level} onChange={handleChange}>
+                            </label>
+                            <label style={{fontWeight: "bold"}}>Description:
+
+                            <textarea id="box-description" name="description" value={editData.description} onChange={handleChange} />
+                            </label>
+                            <label style={{fontWeight: "bold"}}>Cuisine:
+                            <input className="input-field" type="text" value={editData.cuisine} name="cuisine" onChange={handleChange}/>
+                            </label>
+                            <label style={{fontWeight: "bold"}}>Price:
+                            <select name="price" className="input-field" value={editData.price} onChange={handleChange}>
+                            <option value="Budget-friendly">Budget-friendly</option>
+                            <option value="Moderate">Moderate</option>
+                            <option value="Expensive">Expensive</option>
+                            </select>
+                            </label>
+                            <label style={{fontWeight: "bold"}}>Spicy Level:
+                            <select className="input-field" name="spicy_level" id="spicy_level" value={editData.spicy_level} onChange={handleChange}>
                                 <option value="no spice">no spice</option>
                                 <option value="medium">medium</option>
                                 <option value="very spicy">very spicy</option>
                             </select>
+                            </label>
+                            <label style={{fontWeight: "bold"}}>Rating:
                             <input className="input-field"  type="number" value={editData.rating} name="rating" onChange={handleChange} min="1" max="5" />
-                            <button onClick={saveChanges}><MdSave /> Save</button>
-                            <button onClick={() => setEditMode(false)}>Cancel</button>
+                            </label>
+                            <button className="save-button" onClick={saveChanges}><MdSave /> Save</button>
+                            <button className="save-button" onClick={() => setEditMode(false)}>Cancel</button>
                         </div>
                     ) : (
                         <div>
@@ -331,7 +349,7 @@ const toggleDeleteConfirm = (e, commentId) => {
                                 </div>
                             </div>
 
-                           {user?.id === dish.user_id && <button onClick={() => setEditMode(true)}><MdEdit /> Edit</button>}
+                           {user?.id === dish.user_id && <button className="save-button" onClick={() => setEditMode(true)}><MdEdit /> Edit</button>}
                         </div>
                     )}
                     <hr/>
@@ -395,12 +413,13 @@ const toggleDeleteConfirm = (e, commentId) => {
 
                 </section>
                 <section className="input-comment-box">
+                    <h3>Write your Comment</h3>
                     
                     <textarea  onKeyDown={enterKey} value={commentData} className="text-field" name="comment" onChange={(e) => setCommentData(e.target.value)} ></textarea>
-                      <button onClick={submitComment} disabled={!commentData.trim()}>POST</button>
+                      <button className="post-button" onClick={submitComment} disabled={!commentData.trim()}>POST</button>
 
                         
-                    <button onClick={loadMoreComments} disabled={!isLoadComment}>Load More Comments</button>
+                    <button className="load-button" onClick={loadMoreComments} disabled={!isLoadComment}>Load More Comments</button>
 
                 </section>
             </div>

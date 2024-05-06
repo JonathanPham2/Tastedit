@@ -20,5 +20,6 @@
 
 #modal-content {
   position: absolute;
-  background-color:white;
+  /* background-color:white */
+   background: linear-gradient(to right, #2c3e50, #4c5c68);
 }

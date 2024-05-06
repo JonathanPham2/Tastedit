@@ -36,9 +36,9 @@ function LoginFormModal() {
   }
 
   return (
-    <>
+    <div className="login-form-main">
       <h1>Log In</h1>
-      <form onSubmit={handleSubmit}>
+      <form className="form-container"  onSubmit={handleSubmit}>
         <label>
           Email
           <input
@@ -46,9 +46,13 @@ function LoginFormModal() {
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
+            className="input-login"
           />
         </label>
-        {errors.email && <p>{errors.email}</p>}
+        <div className="login-error-div">
+        {errors.email && <div className="login-error-div"><p style={{margin: "0"}}>{errors.email}</p></div>}
+        </div>
+       
         <label>
           Password
           <input
@@ -56,14 +60,18 @@ function LoginFormModal() {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
+            className="input-login"
           />
         </label>
-        {errors.password && <p>{errors.password}</p>}
-        <button type="submit">Log In</button>
+        <div className="login-error-div">
+        {errors.password && <div className="login-error-div"><p style={{margin: "0"}}>{errors.password}</p></div>}
+        </div>
+
+        <button className="login-submit" type="submit">Log In</button>
         
       </form>
-      <button onClick={handleDemoLogin}>Log In Demo</button>
-    </>
+      <button className="login-submit-demo" onClick={handleDemoLogin}>Log In Demo</button>
+    </div>
   );
 }
 

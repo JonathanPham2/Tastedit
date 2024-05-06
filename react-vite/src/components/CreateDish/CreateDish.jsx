@@ -293,6 +293,16 @@ const stageContent = () => {
         case 1:
             return (
                 <section  className={`vegan-section`}>
+                <h2>Welcome to Tastedit!</h2>
+                <div className="intro-text">
+                     <p>Let's personalize your experience.</p>
+
+                    <p>At Tastedit, we embrace all dietary preferences. Please let us know if the dish you're posting is vegan to help us curate a well-rounded protein type catalog.</p>
+                    <p>
+                    If you choose 'Yes', we will automatically filter our proteins to highlight only plant-based option, but we plan to introduce more protein options in the future!
+                    </p>
+                    
+                </div>
                         <h2>Is this a vegan dish?</h2>
                         <div className="vegan-button">
                         <button className="button-yes" onClick={() => {
@@ -320,7 +330,7 @@ const stageContent = () => {
                         className="dish-name"
                         required
                         value={dishName} onChange={(e) => setDishName(e.target.value)} id="dish_name" type="text" />
-                        <div className="floating-dish-name" style={dishName ? {top: "39%", color: "#ffc107", text_shadow: "2px 2px 20px rgba(0,0, 0, 0.8)"}: null}><label>What is the name of your dish?</label></div>
+                        <div className="floating-dish-name" style={dishName ? {top: "100%", color: "#ffc107", text_shadow: "2px 2px 20px rgba(0,0, 0, 0.8)"}: null}><label>What is the name of your dish?</label></div>
                         <div className="error-div">{errors.dishName && <span>{errors.dishName}</span>}</div>
                         </div>
                         <h2>Select the protein type:</h2>
@@ -349,25 +359,31 @@ const stageContent = () => {
                             name="cuisine"
                             value={cuisine}
                             onChange={(e) => setCuisine(e.target.value)}
-                         /><div className="floating-cuisine" style={cuisine ? {top: "40%", color: "#ffc107", text_shadow: "2px 2px 20px rgba(0,0, 0, 0.8)"}: null}><label>What cuisine is your dish ?</label></div>
+                         /><div className="floating-cuisine" style={cuisine ? {top: "100%", color: "#ffc107", text_shadow: "2px 2px 20px rgba(0,0, 0, 0.8)"}: null}><label>What cuisine is your dish ?</label></div>
+                        
                          </div>
                          {/* ERROR DIV */}
-                         <div className="error-div">{errors.cuisine && <span>{errors.cuisine}</span>}</div>
+                         <div className="error-div error-cuisine">{errors.cuisine && <span>{errors.cuisine}</span>}</div>
+                         <div className="spicy-level">
                          <h2>Choose the spicy level</h2>
-                        <select onChange={(e) => setSpicyLevel(e.target.value)} value={spicyLevel} name="spicy_level" id="spicy_level">
+                         <select onChange={(e) => setSpicyLevel(e.target.value)} value={spicyLevel} name="spicy_level" id="spicy_level">
                             <option value="no spice">No Spice</option>
                             <option value="mild">Mild</option><option value="medium">Medium</option>
                             <option value="very spicy">Very Spicy</option>
                         </select>
+                         </div>
+                        
                         <div className="restaurant">
-                        <h2>Which restaurant did you taste this dish from ?</h2>
+                        <h2  className="restaurant-h2" style={{height: "fit-content"}}>Which restaurant did you taste this dish from ?</h2>
                             <div className="restaurants-buttons-container">
                             <button className="restaurant-button-dropdown">{ !restaurant ? `Choose your restaurant` : restaurant.name}</button>
                             <div className="restaurant-content">
                                 {restaurants?.map(restaurant => (
                                     <button onClick={() => setRestaurant(restaurant)} key={restaurant.id}>{restaurant.name}</button>
+                                
 
                                 ))}
+                                <button disabled style={{backgroundColor: "red"}}>ADD RESTAURANT COMMING SOON</button>
                                 </div>
                                 </div>
                          </div>
@@ -447,7 +463,7 @@ const stageContent = () => {
              <ToastContainer position="top-right" autoClose={3000} hideProgressBar={false} newestOnTop={false} closeOnClick rtl={false} pauseOnFocusLoss draggable/>
             <div className="util-container">
                 <a href="/"><img className="logo-image" src={logo} alt="logo" /></a>
-                <button>Save and Exit</button>
+                {/* <button>Save and Exit</button> */}
             </div>
             {isLoading && <LoadingScreen/>}
 
@@ -474,13 +490,13 @@ const stageContent = () => {
                 
 
                 {stage >1 && stage < 4 &&<div className="back-next-button">
-                            <button onClick={() => setStage(currentStage => currentStage - 1)}>Back</button>
-                            <button onClick={handleNext}>Next</button>
+                            <button  onClick={() => setStage(currentStage => currentStage - 1)}>Back</button>
+                            <button  onClick={handleNext}>Next</button>
                         </div>}
                 
                 {stage === 4 &&  (
                     <div>
-                        <button onClick={() => {setStage(currentStage => currentStage - 1)
+                        <button className="post-dish" onClick={() => {setStage(currentStage => currentStage - 1)
                         
                         
                         }}>Back</button>

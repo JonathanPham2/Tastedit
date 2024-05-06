@@ -16,7 +16,11 @@ const LandingPage = () => {
     const dispatch = useDispatch()
     const [dishes, setDishes] = useState([])
     const socketRef = useRef()
+    const [explored,setExplored ] = useState(false)
    
+    const handleExploreButton = () => {
+        setExplored(!explored)
+    }
 
     // getting the dishes from selector in redux state 
     const fetchedDishes =  useSelector(selectorDishesArray)
@@ -43,7 +47,9 @@ const LandingPage = () => {
     useEffect(() => {
         // if(!socketRef.current){
             let backendUrl = import.meta.env.MODE === "production" ? "https://tastedit.onrender.com" : "http://127.0.0.1:8000"
-            socketRef.current = io(backendUrl)
+            socketRef.current = io(backendUrl, {
+                transports: ["polling"]
+            })
             
             
         
@@ -73,16 +79,16 @@ const LandingPage = () => {
     // for disconnect  upong navigate to dish detail
     return (
         <main className="landing-page">
-            <div className="landing-background">
+            <div className="landing-background" style={{height: `${explored? "50vh": "100vh"}`}}>
                  <Navigation/>
                  <ToastContainer position="top-right" autoClose={3000} hideProgressBar={false} newestOnTop={false} closeOnClick rtl={false} pauseOnFocusLoss draggable />
                  <div className="welcome-container">
                     <h1 className="welcome-text">Welcome to Tastedit</h1>
                     <p className="explore-text">Explore and share the best dishes</p>
                 </div>
-                <button className="explore-button" >Explore now</button>
+                <button onClick={handleExploreButton} className="explore-button" >Explore now</button>
             </div>
-            <DishesList  dishes={dishes} />
+            { explored && <DishesList  dishes={dishes} />}
         </main>
     )
 

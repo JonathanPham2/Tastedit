@@ -26,7 +26,8 @@ class Restaurant(db.Model):
             "city": self.city,
             "street": self.street,
             "description": self.description,
-            "created_at": self.created_at
+            "created_at": self.created_at.isoformat(),
+           
         }
 
     
