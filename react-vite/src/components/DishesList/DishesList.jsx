@@ -25,7 +25,6 @@ const starRender = (rating) => {
 
 const DishesList = React.memo(({dishes, isManage, handleDelete}) => {
     const navigate = useNavigate()
-   const  {setModalContent} = useModal()
 
     
 
@@ -79,4 +78,5 @@ const DishesList = React.memo(({dishes, isManage, handleDelete}) => {
 
     
 })
+DishesList.displayName = 'DishesList';
 export default DishesList

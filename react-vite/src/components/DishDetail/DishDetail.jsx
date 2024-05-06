@@ -11,7 +11,6 @@ import { ToastContainer,  toast, cssTransition} from "react-toastify"
 import { BiCommentEdit } from "react-icons/bi";
 import { FaRegTrashCan } from "react-icons/fa6";
 import LoginFormModal from "../LoginFormModal"
-import OpenModalMenuItem from "../Navigation/OpenModalMenuItem"
 import { useModal } from "../../context/Modal"
 
 
@@ -113,7 +112,7 @@ const DishDetail = () => {
         return ()=> {
             dispatch(clearComment())
         }
-    },[id])
+    },[dispatch,id])
 
     const handleChange = (e) => {
         setEditData({
