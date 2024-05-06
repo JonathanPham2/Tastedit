@@ -187,11 +187,17 @@ const commentReducer = (state =initialState, action ) => {
             }
         }
         case LOAD_MORE_COMMENTS:{
+            const newLoadComments = action.payload.reduce((acc, comment) => {
+                acc[comment.id] = comment
+                return acc
+            }, {...state.comments})
+
+            const newLoadCommentsId = Object.keys(newLoadComments).map(id => parseInt(id)).filter(id => !state.commentIds.includes(id))
             return {
                 ...state,
-                commentIds: [...state.commentIds, ...action.payload.map(comment => comment.id)],
+                commentIds: [...state.commentIds, ...newLoadCommentsId],
                 // using reduce function to normalize the comment data
-                comments: {...state.comments,...action.payload.reduce((acc, comment)=>({...acc,[comment.id]:comment }), {})}
+                comments: newLoadComments
             }
             
             

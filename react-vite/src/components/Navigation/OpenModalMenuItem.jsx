@@ -8,6 +8,9 @@ function OpenModalMenuItem({
   onModalClose // optional: callback function that will be called once the modal is closed
 }) {
   const { setModalContent, setOnModalClose } = useModal();
+  // if(showLogin) {
+  //   setModalContent(modalComponent)
+  // }
 
   const onClick = () => {
     if (onModalClose) setOnModalClose(onModalClose);

@@ -10,6 +10,10 @@ import { ThunkEditComment, clearComment, selectorCommentsArray, thunkDeleteComme
 import { ToastContainer,  toast, cssTransition} from "react-toastify"
 import { BiCommentEdit } from "react-icons/bi";
 import { FaRegTrashCan } from "react-icons/fa6";
+import LoginFormModal from "../LoginFormModal"
+import OpenModalMenuItem from "../Navigation/OpenModalMenuItem"
+import { useModal } from "../../context/Modal"
+
 
 
 
@@ -26,16 +30,21 @@ const DishDetail = () => {
     const user = useSelector(state => state.session.user)
     const dish = useSelector(state => state.dishes[id])
     const comments = useSelector(selectorCommentsArray)
-    console.log("This is the comment state",comments)
     const [currentPage, setCurrentPage] = useState(1)
     const [commentData, setCommentData] = useState("")
     const [isLoadComment, setIsLoadComment] = useState(true)
     const [editCommentId, setEditCommentId] = useState(null)
     const [editCommentData, setEditCommentData] = useState("")
+    const [deleteCommentId, setDeleteCommentId] = useState(null)
+    const {setModalContent} = useModal() // using modal context to open login modal if user not log in
     const dispatch = useDispatch()
     const [editMode, setEditMode] = useState(false);
     const [editData, setEditData] = useState({});
     const editInPutRef = useRef(null)
+    const deleteRef = useRef(null)
+
+   
+   console.log("hu")
 
     
     // css effect
@@ -47,16 +56,36 @@ const DishDetail = () => {
     
                 setEditCommentId(null)
                 setEditCommentData("")
+               
             }
+            
         }
-
+        // 
         document.addEventListener("mousedown", handleClickOutside)
 
         return () => {
-            document.removeEventListener("moussedown", handleClickOutside)
+            document.removeEventListener("mousedown", handleClickOutside)
         }
         
-    },[editCommentId])
+    },[editCommentId, deleteCommentId])
+
+    useEffect(() => {
+        const handleClickOutside = (e) => {
+            e.stopPropagation()
+            
+            if(deleteCommentId && deleteRef.current && !deleteRef.current.contains(e.target)){
+                setDeleteCommentId(null)
+            }
+        }
+        // 
+        document.addEventListener("click", handleClickOutside)
+
+        return () => {
+            document.removeEventListener("click", handleClickOutside)
+        }
+        
+    },[editCommentId, deleteCommentId])
+
 
 
     
@@ -96,13 +125,16 @@ const DishDetail = () => {
     // const sortedComments = comments.sort((a,b)=>{
     //     return new Date(b.created_at) - new Date(a.created_at)
     // })
+    //  function that open the modal if invoke
+    const openLoginModal = () => {
+       setModalContent(<LoginFormModal/>)
+    }
 
 //  post comment and edit comment
 const submitComment = async () => {
 
     if(editCommentId){
         const formData = new FormData()
-        console.log(editCommentData)
         formData.append("comment", editCommentData)
         
         const serverResponse = await dispatch(ThunkEditComment(editCommentId,formData))
@@ -124,7 +156,7 @@ const submitComment = async () => {
 
 
 
-    else if(!editCommentId && !editCommentData){
+    else if( user && !editCommentId && !editCommentData){
             const formData = new FormData();
             formData.append("comment", commentData)
             const serverResponse = await dispatch(thunkPostComment(id,formData))
@@ -136,12 +168,28 @@ const submitComment = async () => {
                         setCommentData("")
                     }
         }
+        else if (!user) {
+            openLoginModal()
+        }
 
 
 }
+// delete confirm pop up
+const toggleDeleteConfirm = (e, commentId) => {
+    e.stopPropagation()
+    setDeleteCommentId(prev => (prev === commentId ? null : commentId))
+
+}
+
 // handle delete
-    const deleteComment = (id) => {
-        dispatch(thunkDeleteComment(id))
+    const deleteComment = async  (id) => {
+       const serverResponse =  await  dispatch(thunkDeleteComment(id))
+       if(serverResponse) {
+        toast.dark("Failed to delete. Please try again")
+       }
+       else {
+        toast.dark("Successfully delete comment")
+       }
     }   
     
     
@@ -149,15 +197,15 @@ const submitComment = async () => {
     //  enter key on submit
      const enterKey = (e) => {
         if(e.key ==="Enter" && !e.shiftKey){
-            e.preventDefault()
+            // e.preventDefault()
 
-        
-            if(user){
-            submitComment(e)
-            }
-            else{
-                return
-            }
+          if(!user){
+            openLoginModal()
+          }
+           else if(commentData.trim() && user) {
+            submitComment()
+          }
+           
         }
     }
 // Edit comment toggle
@@ -235,6 +283,7 @@ const submitComment = async () => {
             <Navigation />
             <ToastContainer position="top-right" autoClose={3000} hideProgressBar={false} newestOnTop={false} closeOnClick rtl={false} pauseOnFocusLoss draggable/>
             
+            
             <section className="dish-view-container">
                 <div className="image-container2">
                     {dish.dish_images.map(image => (
@@ -248,17 +297,17 @@ const submitComment = async () => {
                 {/* Did not imeplement edit for vegan, image, recommended yet */}
                 <div className="dish-details-container">
                 {editMode && user?.id === dish.user_id ? (
-                        <div className="dish-info">
-                            <input type="text" value={editData.name} name="name" onChange={handleChange} />
-                            <textarea id="box-description" name="description" value={editData.description} onChange={handleChange} />
-                            <input type="text" value={editData.cuisine} name="cuisine" onChange={handleChange}/>
-                            <input type="text" value={editData.price} name="price" onChange={handleChange} />
+                        <div className="grid-dish-input">
+                            <input className="input-field" type="text" value={editData.name} name="name" onChange={handleChange} />
+                            <textarea  id="box-description" name="description" value={editData.description} onChange={handleChange} />
+                            <input className="input-field"  type="text" value={editData.cuisine} name="cuisine" onChange={handleChange}/>
+                            <input className="input-field"  type="text" value={editData.price} name="price" onChange={handleChange} />
                             <select name="spicy_level" id="spicy_level" value={editData.spicy_level} onChange={handleChange}>
                                 <option value="no spice">no spice</option>
                                 <option value="medium">medium</option>
                                 <option value="very spicy">very spicy</option>
                             </select>
-                            <input type="number" value={editData.rating} name="rating" onChange={handleChange} min="1" max="5" />
+                            <input className="input-field"  type="number" value={editData.rating} name="rating" onChange={handleChange} min="1" max="5" />
                             <button onClick={saveChanges}><MdSave /> Save</button>
                             <button onClick={() => setEditMode(false)}>Cancel</button>
                         </div>
@@ -274,8 +323,8 @@ const submitComment = async () => {
                                     <p><span>Rating</span>: {dish.rating}</p>
                                 </div>
                                 <div className="dish-info">
-                                    <p><span>Protein Type</span>: {dish.protein_type}</p>
-                                    <p><span>Restaurant Name</span>: {dish.restaurant_id}</p>
+                                    <p><span>Protein Type</span>: {dish.protein_type? dish.protein_type : "Not available"}</p>
+                                    <p><span>Restaurant Name</span>: {dish.restaurant.name}</p>
                                     <p><span>Calories</span>: Coming soon</p>
 
 
@@ -306,19 +355,29 @@ const submitComment = async () => {
 
                     <div>
                         <h2>Comments</h2>
-                        <div ref={editInPutRef}>
-                        {comments.map(comment => (
+                        <div className="comment-box"  ref={editInPutRef}>
+                        { comments.length > 0 ? comments.map(comment => (
                             <div key={comment.id} className="comment-content">
-                                <p className="user-name">Anomnymous</p>
+                                <p className="user-name">{comment.user.username}</p>
                                 {editCommentId === comment.id ? (<input onKeyDown={enterKey}  value={editCommentData} onChange={(e) =>setEditCommentData(e.target.value)} />) :<p>{comment.comment}</p>}
-                                {user.id === comment.user_id && (
+                                {user?.id === comment.user_id && (
                                     <div className="user-comment-action">
                                         {editCommentId === comment.id ? (
                                         <><button onClick={submitComment}>Submit</button>
                                         <button onClick={() => setEditCommentId(null)}>Cancel</button></>): 
                                         <><button onClick={() => toggleEdit(comment)}><BiCommentEdit />
                                         </button>
-                                        <button onClick={() =>  deleteComment(comment.id)}><FaRegTrashCan /></button></>
+                                        <button onClick={(e) =>  toggleDeleteConfirm(e, comment.id)}><FaRegTrashCan /></button>
+                                        {deleteCommentId === comment.id && (
+                                            <div ref={deleteRef} className="delete-confirm">
+                                                <p>Do you really want to delete this comment</p>
+                                                <button onClick={() => deleteComment(comment.id)}>Yes</button>
+                                                <button onClick={() => setDeleteCommentId(null)}>Cancel</button>
+
+                                            </div>
+                                        )}
+                                        </>
+
                                         
                                     }
                                         
@@ -330,7 +389,7 @@ const submitComment = async () => {
                                 )}
                         
                             </div>
-                        ))}
+                        )) : <h3>No comment yet</h3> }
                         </div>
                     </div>
 
@@ -338,7 +397,9 @@ const submitComment = async () => {
                 <section className="input-comment-box">
                     
                     <textarea  onKeyDown={enterKey} value={commentData} className="text-field" name="comment" onChange={(e) => setCommentData(e.target.value)} ></textarea>
-                    <button onClick={submitComment} disabled={!commentData.trim()}>Submit</button>
+                      <button onClick={submitComment} disabled={!commentData.trim()}>POST</button>
+
+                        
                     <button onClick={loadMoreComments} disabled={!isLoadComment}>Load More Comments</button>
 
                 </section>
