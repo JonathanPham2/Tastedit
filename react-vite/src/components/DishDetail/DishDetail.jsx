@@ -6,7 +6,7 @@ import { useEffect, useRef, useState } from "react"
 import { thunkFetchSingleDish, thunkUpdateDish, } from "../../redux/dishes"
 import LoadingScreen from "../LoadingScreen"
 import { MdMessage,MdEdit, MdSave } from "react-icons/md";
-import { ThunkEditComment, clearComment, selectorCommentsArray, thunkFetchComments, thunkLoadMoreComments, thunkPostComment } from "../../redux/comments"
+import { ThunkEditComment, clearComment, selectorCommentsArray, thunkDeleteComment, thunkFetchComments, thunkLoadMoreComments, thunkPostComment } from "../../redux/comments"
 import { ToastContainer,  toast, cssTransition} from "react-toastify"
 import { BiCommentEdit } from "react-icons/bi";
 import { FaRegTrashCan } from "react-icons/fa6";
@@ -26,6 +26,7 @@ const DishDetail = () => {
     const user = useSelector(state => state.session.user)
     const dish = useSelector(state => state.dishes[id])
     const comments = useSelector(selectorCommentsArray)
+    console.log("This is the comment state",comments)
     const [currentPage, setCurrentPage] = useState(1)
     const [commentData, setCommentData] = useState("")
     const [isLoadComment, setIsLoadComment] = useState(true)
@@ -96,7 +97,7 @@ const DishDetail = () => {
     //     return new Date(b.created_at) - new Date(a.created_at)
     // })
 
-//  post comment
+//  post comment and edit comment
 const submitComment = async () => {
 
     if(editCommentId){
@@ -138,6 +139,13 @@ const submitComment = async () => {
 
 
 }
+// handle delete
+    const deleteComment = (id) => {
+        dispatch(thunkDeleteComment(id))
+    }   
+    
+    
+    
     //  enter key on submit
      const enterKey = (e) => {
         if(e.key ==="Enter" && !e.shiftKey){
@@ -267,8 +275,8 @@ const submitComment = async () => {
                                 </div>
                                 <div className="dish-info">
                                     <p><span>Protein Type</span>: {dish.protein_type}</p>
-                                    <p><span>Restaurant Id</span>: {dish.restaurant_id}</p>
-                                    <p><span>Calories</span>: ?</p>
+                                    <p><span>Restaurant Name</span>: {dish.restaurant_id}</p>
+                                    <p><span>Calories</span>: Coming soon</p>
 
 
                                 </div>
@@ -310,7 +318,7 @@ const submitComment = async () => {
                                         <button onClick={() => setEditCommentId(null)}>Cancel</button></>): 
                                         <><button onClick={() => toggleEdit(comment)}><BiCommentEdit />
                                         </button>
-                                        <button><FaRegTrashCan /></button></>
+                                        <button onClick={() =>  deleteComment(comment.id)}><FaRegTrashCan /></button></>
                                         
                                     }
                                         

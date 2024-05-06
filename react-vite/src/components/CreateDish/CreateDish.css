@@ -1,6 +1,12 @@
+
 .create-form-container {
-   background: linear-gradient(120deg, #2c3e50, #4c5c68);
-   padding-bottom: 100px
+   background: linear-gradient(to right, #2c3e50, #4c5c68);
+    height: 100vh ;
+   overflow-x: hidden;
+   display: flex;
+   flex-direction: column;
+    /* grid-template-columns: repeat(1, 1fr); */
+ 
 
 }
 /* This is for transition delay for stage chaning */
@@ -34,14 +40,14 @@ h2 {
 
     color:#ffc107 ;
       /* margin-bottom: 0.5em; */
-      font-size:1.7em;
+      font-size:1.3em;
       outline: none;
       text-decoration: none;
       text-shadow: 2px 2px 8px rgba(0,0, 0, 0.8);
 
 }
 .logo-image {
-    width: 3em;
+    width: 2em;
 }
 .util-container button, .back-next-button button, .stars-container svg {
     cursor: pointer; 
@@ -50,11 +56,12 @@ h2 {
 
 
 .vegan-section {
-    height: 700px;
+  
+   min-height: 700px;
     display: flex;
     flex-direction: column;
     text-align: center;
-    /* box-shadow: 0 0 2px 2px rgba(69, 69, 67, 0.6), inset 0 0 8px 2px rgba(26, 26, 26, 0.6); */
+    
     
 
 }
@@ -65,15 +72,15 @@ h2 {
 }
 
 .name-protein {
-    height: 700px;
+  min-height: 700px;
+    /* height: 100vh; */
     display: flex;
     flex-direction: column;
     text-align: center;
-    /* box-shadow: 0 0 2px 2px rgba(69, 69, 67, 0.6), inset 0 0 8px 2px rgba(26, 26, 26, 0.6); */
+    
     align-items: center;
-    position: relative;
-    justify-content:center;
-    /* gap: 5px; */
+  
+  
 
 }
 .dish-name-container > input {
@@ -113,6 +120,7 @@ h2 {
 /* this part for floating label */
 .dish-name-container{
   position: relative;
+  height: 50px;
 }
 .floating-dish-name {
     position: absolute;
@@ -139,6 +147,7 @@ h2 {
 
 .cuisine-text-container{
   position: relative;
+  height: 50px;
 }
 .floating-cuisine {
     position: absolute;
@@ -211,7 +220,7 @@ h2 {
 }
 
 .last-section {
-    height: 700px;
+   min-height: 700px;
     display: flex;
     flex-direction: column;
     text-align: center;
@@ -225,6 +234,7 @@ h2 {
     display: flex;
     width: 100%;
     justify-content: space-between;
+    /* padding-bottom: 50px; */
 }
 .back-next-button button {
     width: 45%;
@@ -336,10 +346,11 @@ textarea {
     width: 100%;
     background-color: #ddd;
     margin: 20px 0;
+    margin-bottom: 20px;
 
   }
   .progress-bar {
-    height: 5px;
+    height: 10px;
     background-color:#ffc107;
     
     transition: width 1s ease-in-out;
@@ -348,6 +359,17 @@ textarea {
 
   /* ------------------------------------- */
   /* this is the dropdown section */
+  .restaurant {
+    display: grid;
+    grid-template-columns: repeat(2,1fr);
+   /* justify-items: center; */
+   margin-top: 20px;
+   /* gap: 20px; */
+   /* align-items: center; */
+   justify-items: center;
+   height: 80px
+  
+  }
 
   .restaurants-buttons-container {
     position: relative;
@@ -361,10 +383,7 @@ textarea {
     background-color: #3f2020;
     min-width: 160px;
     box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-    z-index: 1;
-    /* left:px; */
     border-radius: 10px;
-    transition: all 10s;
     height: 3rem;
 
   }
@@ -534,4 +553,12 @@ textarea {
   /* max-width: 404px; */
   color: red;
   text-transform: capitalize;
+  margin: 0;
+  padding: 0;
+}
+
+* {
+  /* margin: 0; */
+  padding: 0;
+  box-sizing: border-box; 
 }

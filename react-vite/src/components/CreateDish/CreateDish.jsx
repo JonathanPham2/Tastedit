@@ -359,14 +359,16 @@ const stageContent = () => {
                             <option value="mild">Mild</option><option value="medium">Medium</option>
                             <option value="very spicy">Very Spicy</option>
                         </select>
-
-                        <div className="restaurants-buttons-container">
+                        <div className="restaurant">
+                        <h2>Which restaurant did you taste this dish from ?</h2>
+                            <div className="restaurants-buttons-container">
                             <button className="restaurant-button-dropdown">{ !restaurant ? `Choose your restaurant` : restaurant.name}</button>
                             <div className="restaurant-content">
                                 {restaurants?.map(restaurant => (
                                     <button onClick={() => setRestaurant(restaurant)} key={restaurant.id}>{restaurant.name}</button>
 
                                 ))}
+                                </div>
                                 </div>
                          </div>
                          {/* ERROR DIV */}
@@ -459,7 +461,9 @@ const stageContent = () => {
              >
                 <div ref={nodeRef}>
                     {stageContent()}
+                    
                 </div>
+                
 
              </CSSTransition>
 

@@ -39,9 +39,9 @@ const editComment = comment => ({
     payload: comment
 
 })
-const deleteComment = comment => ({
+const deleteComment = id => ({
     type: DELETE_COMMENT,
-    payload: comment
+    payload: id
 
 })
 
@@ -51,7 +51,7 @@ export const clearComment = () => ({
 // thunk action
 
 export const thunkLoadMoreComments = (id,page) => async(dispatch) => {
-    const res =  await fetch(`/api/dishes/${id}/comments?page=${page}&per_page=3`)
+    const res =  await fetch(`/api/dishes/${id}/comments?page=${page}&per_page=5`)
     if(res.ok){
     
         const moreComments = await res.json()
@@ -129,38 +129,97 @@ export const ThunkEditComment = (id,formData)=> async(dispatch) => {
     }
 }
 
+// delete comment
+export const thunkDeleteComment = (id) => async(dispatch) => {
+    const res = await fetch(`/api/dishes/comments/${id}`, {
+        method: "DELETE"
+    }
+    )
+    if(res.ok){
+        const id = await res.json()
+        dispatch(deleteComment(id))
+
+    }
+    else if(res.status < 500) {
+        const errorMessages = await res.json()
+        return errorMessages
+    }
+    else {
+        return {server: "Something is wrong. Please try again"}
+    }
+}
 
 
 
+// grabbing commentIds and comments from comments state 
+const getCommentIds = state => state.comments.commentIds;
+const getComments = state => state.comments.comments;
+//  use those state in create selector to optimize performance and memoize state 
+export const selectorCommentsArray = createSelector([getCommentIds, getComments],(commentIds, comments)  =>{
+    if(commentIds && comments){
+        return commentIds.map(id => comments[id])
+    }
+    else {
+        return []
+    }
+} 
+    
+    
 
-const selectorComments = (state) => state.comments
-export const selectorCommentsArray = createSelector(selectorComments, (comments) =>
-    Object.values(comments))
+    
+  
+)
+    
+const initialState = {
+    commentIds : [],
+    comments: {}
+}
 
 
-
-const commentReducer = (state ={}, action ) => {
+const commentReducer = (state =initialState, action ) => {
     switch(action.type){
         case LOAD_COMMENTS:{
-            const newState = { ...state}
-            action.payload.forEach(comment => {
-                newState[comment.id] = comment;
-            
-            })
-            return newState
+            return {...state,
+                commentIds: action.payload.map(comment => comment.id),
+                comments: action.payload.reduce((acc, comment) => ({...acc, [comment.id]:comment}), {})
+                    
+                
+            }
         }
         case LOAD_MORE_COMMENTS:{
-            const newState = {...state}
-            action.payload.forEach(comment =>{
-                newState[comment.id] = comment
+            return {
+                ...state,
+                commentIds: [...state.commentIds, ...action.payload.map(comment => comment.id)],
+                // using reduce function to normalize the comment data
+                comments: {...state.comments,...action.payload.reduce((acc, comment)=>({...acc,[comment.id]:comment }), {})}
+            }
             
-            })
-            return newState
+            
+           
         }
         case POST_COMMENT:
-            return{...state,[action.payload.id]:action.payload}
+            return{...state,
+                commentIds: [action.payload.id, ...state.commentIds],
+                comments: {
+                    ...state.comments,[action.payload.id]: action.payload
+                }
+            }
         case EDIT_COMMENT:{
-            return {...state,[action.payload.id]:action.payload}
+            return {...state,
+                commentIds: state.commentIds,
+                comments: {...state.comments, [action.payload.id]:action.payload}
+
+            }
+        }
+        case DELETE_COMMENT: {
+            const {[action.payload]: _, ...newCommentsState} = state.comments
+            
+            
+            return {...state,
+                commentIds: [...state.commentIds.filter(id => id !== action.payload)],
+                comments : newCommentsState
+
+            }
         }
         case CLEAR_COMMENTS :
             return {}

@@ -59,5 +59,14 @@ def edit_comment(id):
         print("-----------------",form.errors)
         return form.errors, 404
 
+@comments_routes.route("/comments/<int:id>", methods=["DELETE"])
+@login_required
+def delete_comment(id):
+    comment_to_delete = Comment.query.get(id)
+    if current_user.id != comment_to_delete.user_id:
+        return jsonify({errorMessage: "Not Authorize"}), 401
     
+    db.session.delete(comment_to_delete)
+    db.session.commit()
+    return jsonify(id), 200
     

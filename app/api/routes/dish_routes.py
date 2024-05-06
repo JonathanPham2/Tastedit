@@ -116,6 +116,7 @@ def delete_dish(id):
     if dish_to_delete.user_id != current_user.id:
         return {"erros": "You are not the owner of this dish post"}, 401
     # if not hititng any above condition will delete the dish
+     # Need to add function that delete image on aws
     db.session.delete(dish_to_delete)
     # commit to database
     db.session.commit()
@@ -127,7 +128,6 @@ def delete_dish(id):
 @login_required
 def get_user_dishes():
     dishes = Dish.query.filter(Dish.user_id == current_user.id).all()
-    # Need to add function that delete image on aws
 
     return jsonify([dish.to_dict() for dish in dishes])
 
