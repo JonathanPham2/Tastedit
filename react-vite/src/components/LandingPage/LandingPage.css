@@ -5,7 +5,8 @@
    box-shadow: 0 0 8px 2px rgba(69, 69, 67, 0.6), inset 0 0 8px 2px rgba(89, 89, 87, 0.6);
    text-align: center;
    /* padding-bottom: 100px; */
-   /* height: 100vh; */
+   /* height: 100%; */
+   transition: all 0.8s;
   
    
  }
@@ -19,10 +20,12 @@
     text-align: center;
     color: white;
     box-shadow: 0 0 8px 2px rgba(69, 69, 67, 0.6), inset 0 0 8px 2px rgba(89, 89, 87, 0.6);
-    height: 50vh;
+    /* height: 50vh; */
     position: relative;
     height:100vh;
+    /* background-color:#2c3e50 ; */
     transition: all 0.8s;
+    /* font-size: 40px;  */
   
 
    
@@ -33,8 +36,10 @@
     background: linear-gradient( to right,  #f3d915, #ffe98f, #bce906);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
+    /* font-size: 40px; */
+    transition: all 0.8s;
     
-  }
+  } 
   
 
 
@@ -42,6 +47,8 @@
 
   .explore-text {
     z-index: 2;
+    /* font-size: 40px; */
+    /* transition: all 0.8s; */
   }
   
   
@@ -83,6 +90,7 @@
  #modal{
   z-index: 2;
  }
+ 
 
  /* ----------------------------- */
  @keyframes fade-in {

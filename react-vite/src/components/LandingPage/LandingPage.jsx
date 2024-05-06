@@ -82,13 +82,17 @@ const LandingPage = () => {
             <div className="landing-background" style={{height: `${explored? "50vh": "100vh"}`}}>
                  <Navigation/>
                  <ToastContainer position="top-right" autoClose={3000} hideProgressBar={false} newestOnTop={false} closeOnClick rtl={false} pauseOnFocusLoss draggable />
-                 <div className="welcome-container">
-                    <h1 className="welcome-text">Welcome to Tastedit</h1>
+                 <div className="welcome-container" style={{fontSize: `${explored? "" :"40px"}`}}>
+                    <h1 className="welcome-text" >Welcome to Tastedit</h1>
                     <p className="explore-text">Explore and share the best dishes</p>
+                    
                 </div>
+                
                 <button onClick={handleExploreButton} className="explore-button" >Explore now</button>
+                
             </div>
-            { explored && <DishesList  dishes={dishes} />}
+            
+            { explored && <DishesList explored={explored}  dishes={dishes} />}
         </main>
     )
 

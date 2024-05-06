@@ -23,13 +23,13 @@ const starRender = (rating) => {
 }
 
 
-const DishesList = React.memo(({dishes, isManage, handleDelete}) => {
+const DishesList = React.memo(({dishes, isManage, handleDelete, explored}) => {
     const navigate = useNavigate()
 
     
 
     return (
-        <div className="dishes-list ">
+        <div className="dishes-list " style={{opacity: `${!explored? "0":"1"}`}}>
             {dishes.map(dish => (
                 <div key={dish.id} className="dish-post-card">
                     <div onClick={() => navigate(`/dishes/${dish.id}`) } >
