@@ -83,3 +83,21 @@
     height: 25px;
     width: 100%;
   }
+  .delete-dish-button {
+    padding: 10px 20px;
+    background-color: #e11919;
+    color: white;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+    transition: all 0.3s;
+    width: 40%;
+    text-align: center;
+    text-transform: uppercase;
+  }
+
+  .delete-dish-button:hover {
+    background: #e11919; 
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2); 
+    transform: scale(1.05);
+  }

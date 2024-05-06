@@ -6,12 +6,14 @@ import Navigation from "../Navigation/Navigation"
 import "./ManageDish.css"
 import { ToastContainer,  toast, cssTransition} from "react-toastify"
 import { FcGallery } from "react-icons/fc"
+import { useModal } from "../../context/Modal"
 
 
 const ManageDish = () => {
     const dispatch = useDispatch()
     const dishes = useSelector(selectorDishesArray)
     const user = useSelector(state => state.session.user)
+    const {closeModal} = useModal()
     const isManage = true
 
     useEffect(() => {
@@ -27,11 +29,15 @@ const ManageDish = () => {
 
 
     // handle delete funciton
-    const handleDelete = (id) => {
-        dispatch(thunkDeleteDish(id))
-        toast.dark("Successfuly Delete Dish", {
-            transition: fade
-        })
+    const handleDelete = async (id) => {
+         dispatch(thunkDeleteDish(id)).then(() => {
+
+                closeModal()
+            toast.dark("Successfuly Delete Dish", {
+                transition: fade
+                }   )
+
+      })
 
     }    
 

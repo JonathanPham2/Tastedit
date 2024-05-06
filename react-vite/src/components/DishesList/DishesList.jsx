@@ -9,6 +9,10 @@ import { LazyLoadImage } from "react-lazy-load-image-component"
 import 'react-lazy-load-image-component/src/effects/blur.css';
 import React from 'react';
 import { useModal } from '../../context/Modal';
+import OpenModalMenuItem from '../Navigation/OpenModalMenuItem';
+import DeleteModal from '../DeleteModal/DeleteModal';
+
+
 // This function help to generate stars on the card
 const starRender = (rating) => {
     let stars = []
@@ -55,7 +59,7 @@ const DishesList = React.memo(({dishes, isManage, handleDelete}) => {
 
                                 {     
                                     isManage && (<div>
-                                        <button onClick={() => handleDelete(dish.id)}>Delete</button>
+                                       <OpenModalMenuItem className={"delete-dish-button"}  modalComponent={<DeleteModal handleDelete={handleDelete} dishId={dish.id} />} itemText={"Delete"}/>
                                     </div>)
                                 }
                     </div>
