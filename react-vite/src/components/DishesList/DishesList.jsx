@@ -29,7 +29,7 @@ const DishesList = React.memo(({dishes, isManage, handleDelete, explored}) => {
     
 
     return (
-        <div className="dishes-list " style={{opacity: `${!explored? "0":"1"}`}}>
+        <div className="dishes-list " >
             {dishes.map(dish => (
                 <div key={dish.id} className="dish-post-card">
                     <div onClick={() => navigate(`/dishes/${dish.id}`) } >
