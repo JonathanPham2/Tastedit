@@ -31,12 +31,12 @@ const LandingPage = () => {
         const result = await response.json()
         
         setSearchResult(result)
-        if(searchResult.length === 0 ){
-            toast.dark("Hmmm... no dishes found. Try checking the fridge instead!",{
-                transition: fade
+        // if(searchResult.length === 0 ){
+        //     toast.dark("Hmmm... no dishes found. Try checking the fridge instead!",{
+        //         transition: fade
                 
-            })
-        }
+        //     })
+        // }
        
     }
    
