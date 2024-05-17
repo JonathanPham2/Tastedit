@@ -7,6 +7,7 @@ import Navigation from "../Navigation/Navigation";
 import io from "socket.io-client"
 import { ToastContainer, toast, cssTransition } from "react-toastify"
 import { useNavigate } from "react-router-dom";
+import SearchBar from "./SearchBar";
 // import { FaDeaf } from "react-icons/fa";
 
 
@@ -75,6 +76,7 @@ const LandingPage = () => {
     return (
         <main className="landing-page">
             <div className="landing-background" style={{height: `${explored? "50vh": "100vh"}`}}>
+                <SearchBar/>
                  <Navigation/>
                  <ToastContainer position="top-right" autoClose={3000} hideProgressBar={false} newestOnTop={false} closeOnClick rtl={false} pauseOnFocusLoss draggable />
                  <div className="welcome-container" style={{fontSize: `${explored? "" :"40px"}`}}>

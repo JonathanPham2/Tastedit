@@ -1,0 +1,6 @@
+.search-form {
+    z-index: 2;
+    position: relative;
+    top: 50px;
+    transition: all 0.8s;
+}
