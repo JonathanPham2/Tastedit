@@ -29,13 +29,14 @@ const LandingPage = () => {
     const handleSearch =  async (query) =>{
         const response = await fetch(`/api/dishes/search?query=${encodeURIComponent(query)}`)
         const result = await response.json()
-        if(result.length === 0 ){
+        
+        setSearchResult(result)
+        if(searchResult.length === 0 ){
             toast.dark("Hmmm... no dishes found. Try checking the fridge instead!",{
                 transition: fade
                 
             })
         }
-        setSearchResult(result)
        
     }
    
@@ -70,7 +71,7 @@ const LandingPage = () => {
         
             socketRef.current.on("connect", () => {
                 socketRef.current.on("dish_added", (newDish) => {
-                    toast.dark("New Dish have been added ", {
+                    toast.dark("Heads up! A tasty new dish has arrived!", {
                         transition: fade
                     })
                     // updaing the dishes state for to trigger re render 
@@ -109,7 +110,7 @@ const LandingPage = () => {
             <>
                 <SearchBar onSearch={handleSearch}/>
 
-             <DishesList explored={explored}  dishes={searchResult.length > 0 ? searchResult : dishes} />
+             <DishesList explored={explored}  dishes={searchResult?.length > 0 ? searchResult : dishes} />
              </>
              }
         </main>

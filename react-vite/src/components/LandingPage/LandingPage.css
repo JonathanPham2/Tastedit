@@ -152,3 +152,67 @@
 .fade-out{
   animation: fade-out 0.3s ease-in both;
 }
+
+
+/* Responsive design */
+@media (max-width: 1200px) {
+  .landing-background {
+    background-position: center;
+  }
+
+  .explore-button {
+    padding: 8px 16px;
+  }
+}
+
+@media (max-width: 992px) {
+  .welcome-container {
+    font-size: 32px;
+  }
+
+  .explore-text {
+    font-size: 28px;
+  }
+
+  .explore-button {
+    padding: 6px 12px;
+    font-size: 16px;
+  }
+}
+
+@media (max-width: 768px) {
+  .landing-background {
+    flex-direction: column;
+    padding: 20px;
+  }
+
+  .welcome-container {
+    font-size: 24px;
+  }
+
+  .explore-text {
+    font-size: 20px;
+  }
+
+  .explore-button {
+    padding: 4px 8px;
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 576px) {
+  .welcome-container {
+    font-size: 20px;
+    z-index: 1;
+  }
+
+  .explore-text {
+    font-size: 16px;
+  }
+
+  .explore-button {
+    padding: 2px 6px;
+    font-size: 12px;
+  }
+  
+}

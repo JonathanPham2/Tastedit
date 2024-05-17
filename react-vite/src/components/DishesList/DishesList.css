@@ -1,14 +1,11 @@
 .dishes-list {
-    /* display: none; */
     opacity: 1;
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     gap: 20px; 
     padding: 20px;
     padding-top: 50px;
-    /* height: 100%; */
-    /* background-color: #666; */
-    /* display: none; */
+   
     transition: all 0.8s;
   }
   .dish-post-card {
@@ -61,7 +58,7 @@
     border: 1px solid #ddd; 
     border-radius: 5px; 
     padding: 10px; 
-    /* height: px; */
+   
     
   }
 
@@ -74,8 +71,7 @@
     border: 1px solid #ddd; 
     border-radius: 5px; 
     padding: 10px; 
-    /* height: px; */
-    /* font-family: ; */
+    
     
   }
   /* ---------------------------- */
@@ -103,7 +99,7 @@
     transform: scale(1.05);
   }
 
-  /* responsive */
+ 
   @media (max-width: 1200px) {
     .dishes-list {
       grid-template-columns: repeat(3, 1fr);
@@ -174,3 +170,4 @@
       padding: 8px 16px;
     }
   }
+  
