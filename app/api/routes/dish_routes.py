@@ -9,6 +9,8 @@ from sqlalchemy.orm import joinedload
 
 dish_routes = Blueprint('dishes', __name__)
 
+
+
 @dish_routes.route("/", methods=["GET"])
 def get_all_dishes():
     dishes = Dish.query.all()
@@ -20,6 +22,28 @@ def get_dish_by_id(id):
     dish = Dish.query.get(id)
     dish_data = dish.to_dict()
     return jsonify(dish_data)
+
+    
+@dish_routes.route("/search", methods=["GET"])
+def search():
+    query = request.args.get("query", "").strip().lower()
+    print("thissssssssssssssss",query)
+    if query:
+        if query == "vegan":
+            results = Dish.query.filter(Dish.vegan.is_(True)).all()
+            return jsonify([dish.to_dict() for dish in results])
+
+        elif query == "none vegan":
+            results = Dish.query.filter(Dish.vegan.is_(False)).all()
+            return jsonify([dish.to_dict() for dish in results])
+        elif "vegan" in query:
+            results = Dish.query.filter(Dish.name.ilike(f"%{query}%") & Dish.vegan.is_(True)).all()
+            return jsonify([dish.to_dict() for dish in results])
+        else:
+            results = Dish.query.filter(Dish.name.ilike(f'%{query}%')).all()
+            return jsonify([dish.to_dict() for dish in results])
+    return jsonify([])
+
 
 
 @dish_routes.route("/new", methods=["POST"])

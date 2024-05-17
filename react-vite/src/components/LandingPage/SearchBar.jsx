@@ -23,8 +23,9 @@ const SearchBar = ({onSearch}) => {
             value={query}
             onChange={handleInputChange}
             placeholder="Search for dishes"
+            className="search-input"
              />
-             <button type="submit">
+             <button type="submit" className="search-button">
                 Search
 
              </button>

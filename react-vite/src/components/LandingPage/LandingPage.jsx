@@ -11,13 +11,33 @@ import SearchBar from "./SearchBar";
 // import { FaDeaf } from "react-icons/fa";
 
 
-
+ //---------------- Style for the toast notify
+ const fade = cssTransition({
+    enter: "fade-in",
+    exit: "fade-out"
+})
 
 const LandingPage = () => {
     const dispatch = useDispatch()
     const [dishes, setDishes] = useState([])
     const socketRef = useRef(null)
     const [explored,setExplored ] = useState(false)
+    const [searchResult, setSearchResult] =  useState([])
+    console.log(searchResult)
+
+    // ---Search functionality-----------------------
+    const handleSearch =  async (query) =>{
+        const response = await fetch(`/api/dishes/search?query=${encodeURIComponent(query)}`)
+        const result = await response.json()
+        if(result.length === 0 ){
+            toast.dark("Hmmm... no dishes found. Try checking the fridge instead!",{
+                transition: fade
+                
+            })
+        }
+        setSearchResult(result)
+       
+    }
    
     const handleExploreButton = () => {
         setExplored(!explored)
@@ -38,11 +58,7 @@ const LandingPage = () => {
 // --------------------------
 // --------------------- Live update and notification for all user that are connected
 
-    //---------------- Style for the toast notify
-    const fade = cssTransition({
-        enter: "fade-in",
-        exit: "fade-out"
-    })
+   
      // real-time notification 
     //   initialize web socket connect between client side and back end  on landing page whe user at landing page they will receive live update and noti if another user post new dish
     useEffect(() => {
@@ -76,7 +92,7 @@ const LandingPage = () => {
     return (
         <main className="landing-page">
             <div className="landing-background" style={{height: `${explored? "50vh": "100vh"}`}}>
-                <SearchBar/>
+                {/* <SearchBar onSeach={handleSearch}/> */}
                  <Navigation/>
                  <ToastContainer position="top-right" autoClose={3000} hideProgressBar={false} newestOnTop={false} closeOnClick rtl={false} pauseOnFocusLoss draggable />
                  <div className="welcome-container" style={{fontSize: `${explored? "" :"40px"}`}}>
@@ -89,7 +105,13 @@ const LandingPage = () => {
                 
             </div>
             
-            { explored && <DishesList explored={explored}  dishes={dishes} />}
+            { explored &&
+            <>
+                <SearchBar onSearch={handleSearch}/>
+
+             <DishesList explored={explored}  dishes={searchResult.length > 0 ? searchResult : dishes} />
+             </>
+             }
         </main>
     )
 
