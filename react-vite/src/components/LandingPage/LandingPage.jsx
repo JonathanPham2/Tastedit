@@ -15,7 +15,7 @@ import { useNavigate } from "react-router-dom";
 const LandingPage = () => {
     const dispatch = useDispatch()
     const [dishes, setDishes] = useState([])
-    const socketRef = useRef()
+    const socketRef = useRef(null)
     const [explored,setExplored ] = useState(false)
    
     const handleExploreButton = () => {
@@ -48,7 +48,7 @@ const LandingPage = () => {
         if(!socketRef.current){
             let backendUrl = import.meta.env.MODE === "production" ? "https://tastedit.onrender.com" : "http://127.0.0.1:8000"
             socketRef.current = io(backendUrl, {
-                // transports: ["polling"]
+                transports: ["polling"]
             })       
         
             socketRef.current.on("connect", () => {
@@ -66,6 +66,7 @@ const LandingPage = () => {
         return () => {
             if(socketRef.current){
                 socketRef.current.disconnect()
+                socketRef.current = null
              } }
     },[])
    
