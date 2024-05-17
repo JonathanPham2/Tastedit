@@ -48,7 +48,7 @@ const LandingPage = () => {
         if(!socketRef.current){
             let backendUrl = import.meta.env.MODE === "production" ? "https://tastedit.onrender.com" : "http://127.0.0.1:8000"
             socketRef.current = io(backendUrl, {
-                transports: ["polling"]
+                // transports: ["polling"]
             })       
         
             socketRef.current.on("connect", () => {

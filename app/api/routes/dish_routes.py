@@ -17,10 +17,8 @@ def get_all_dishes():
 
 @dish_routes.route("/<int:id>", methods=["GET"])
 def get_dish_by_id(id):
-    dish = Dish.query.options(joinedload(Dish.comments)).get(id)
-    print(dish)
+    dish = Dish.query.get(id)
     dish_data = dish.to_dict()
-    dish_data["comments"] = [comment.to_dict() for comment in dish.comments]
     return jsonify(dish_data)
 
 

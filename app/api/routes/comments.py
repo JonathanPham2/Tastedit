@@ -56,7 +56,6 @@ def edit_comment(id):
         db.session.commit()
         return jsonify(comment_to_edit.to_dict()), 201
     else:
-        print("-----------------",form.errors)
         return form.errors, 404
 
 @comments_routes.route("/comments/<int:id>", methods=["DELETE"])
@@ -64,7 +63,7 @@ def edit_comment(id):
 def delete_comment(id):
     comment_to_delete = Comment.query.get(id)
     if current_user.id != comment_to_delete.user_id:
-        return jsonify({errorMessage: "Not Authorize"}), 401
+        return jsonify({"errorMessage": "Not Authorize"}), 401
     
     db.session.delete(comment_to_delete)
     db.session.commit()

@@ -5,7 +5,8 @@ import "./DishDetail.css"
 import { useEffect, useRef, useState } from "react"
 import { thunkFetchSingleDish, thunkUpdateDish, } from "../../redux/dishes"
 import LoadingScreen from "../LoadingScreen"
-import { MdMessage,MdEdit, MdSave } from "react-icons/md";
+import { MdMessage,MdEdit, MdSave, MdFavorite } from "react-icons/md";
+
 import { ThunkEditComment, clearComment, selectorCommentsArray, thunkDeleteComment, thunkFetchComments, thunkLoadMoreComments, thunkPostComment } from "../../redux/comments"
 import { ToastContainer,  toast, cssTransition} from "react-toastify"
 import { BiCommentEdit } from "react-icons/bi";
@@ -243,7 +244,6 @@ const toggleDeleteConfirm = (e, commentId) => {
        }
     }
     
-console.log(isLoadComment)
 
 
     const saveChanges = () => {
@@ -354,6 +354,8 @@ console.log(isLoadComment)
                     <hr/>
                     <div className="comment-count-container">
                         <MdMessage /><span>{comments.length}</span> 
+                        <MdFavorite /><span>{dish.favorites.length}</span>
+
                     </div>
 
 

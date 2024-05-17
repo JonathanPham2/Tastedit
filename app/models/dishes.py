@@ -51,6 +51,7 @@ class Dish(db.Model):
             "rating": self.rating,
             "restaurant": self.restaurant.to_dict(),
             "dish_images": [dish_image.to_dict() for dish_image in self.dish_images],
+            "favorites": [favorite.to_dict() for favorite in self.favorites],
             "created_at": self.created_at.isoformat(),
             "updated_at": self.updated_at.isoformat()
                
