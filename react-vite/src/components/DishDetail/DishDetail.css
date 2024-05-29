@@ -321,7 +321,7 @@
   
   
 .save-button {
-  background: #ffc107;
+    background: #ffc107;
     color: #2c3e50;
     padding: 10px 20px;
     border: none;
@@ -388,5 +388,40 @@
   cursor: not-allowed;
   box-shadow: none; 
   transform: none; 
+}
+
+.edit-comment-button {
+  background: #ffc107;
+  color: #2c3e50;
+  padding: 1% 1%;
+  border: none;
+  border-radius: 5px;
+  font-weight: bold;
+  transition: all 0.3s ease;
+  box-sizing: border-box;
+  margin-right: 2%;
+
+}
+.delete-comment-button {
+  background: #ffc107;
+  color: #2c3e50;
+  padding: 1% 1%;
+  border: none;
+  border-radius: 5px;
+  font-weight: bold;
+  transition: all 0.3s ease;
+  box-sizing: border-box;
+
+}
+.comment-submit-edit {
+  background: #ffc107;
+  color: #2c3e50;
+  padding: 1% 1%;
+  border: none;
+  border-radius: 5px;
+  font-weight: bold;
+  transition: all 0.3s ease;
+  box-sizing: border-box;
+  margin-right: 2%;
 }
 /* responesive */

@@ -27,7 +27,6 @@ def get_dish_by_id(id):
 @dish_routes.route("/search", methods=["GET"])
 def search():
     query = request.args.get("query", "").strip().lower()
-    print("thissssssssssssssss",query)
     if query:
         if query == "vegan":
             results = Dish.query.filter(Dish.vegan.is_(True)).all()

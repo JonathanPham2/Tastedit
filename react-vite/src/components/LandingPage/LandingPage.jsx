@@ -23,20 +23,26 @@ const LandingPage = () => {
     const socketRef = useRef(null)
     const [explored,setExplored ] = useState(false)
     const [searchResult, setSearchResult] =  useState([])
-    console.log(searchResult)
 
     // ---Search functionality-----------------------
     const handleSearch =  async (query) =>{
         const response = await fetch(`/api/dishes/search?query=${encodeURIComponent(query)}`)
         const result = await response.json()
+        console.log(query)
         
-        setSearchResult(result)
-        // if(searchResult.length === 0 ){
-        //     toast.dark("Hmmm... no dishes found. Try checking the fridge instead!",{
-        //         transition: fade
+          setSearchResult(result)
+        if(result.length === 0 && query.length > 0  ){
+            toast.dark("Hmmm... no dishes found. Try checking the fridge instead!",{
+                transition: fade,
+                style:{
+                    
+                    color:"#ffc107",
+                    background: "linear-gradient(120deg, #2c3e50, #4c5c68)",
+                    fontWeight: "bold"
+                }
                 
-        //     })
-        // }
+            })
+        }
        
     }
    
@@ -72,7 +78,9 @@ const LandingPage = () => {
             socketRef.current.on("connect", () => {
                 socketRef.current.on("dish_added", (newDish) => {
                     toast.dark("Heads up! A tasty new dish has arrived!", {
-                        transition: fade
+                        transition: fade,
+                    
+
                     })
                     // updaing the dishes state for to trigger re render 
                     setDishes(prevDishes => [newDish, ...prevDishes])

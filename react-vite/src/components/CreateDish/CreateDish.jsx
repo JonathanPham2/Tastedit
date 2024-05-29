@@ -260,7 +260,13 @@ const CreateDish = () => {
                 if(newDish.id) {
                     toast.dark("Successfully Uploaded", {
                         onClose:() => navigate("/"),
-                        transition: fade
+                        transition: fade,
+                        style:{
+                    
+                            color:"black",
+                            backgroundColor: "#ffc107",
+                            fontWeight: "bold"
+                        }
 
                     }
                 )
