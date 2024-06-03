@@ -184,10 +184,30 @@ const toggleDeleteConfirm = (e, commentId) => {
     const deleteComment = async  (id) => {
        const serverResponse =  await  dispatch(thunkDeleteComment(id))
        if(serverResponse) {
-        toast.dark("Failed to delete. Please try again")
+        toast.dark("Failed to delete. Please try again",{
+            transition: fade,
+            style:{
+                    
+                color:"#ffc107",
+                background: "linear-gradient(120deg, #2c3e50, #4c5c68)",
+                fontWeight: "bold"
+            }
+        }
+        
+        )
        }
        else {
-        toast.dark("Successfully delete comment")
+        toast.dark("Successfully delete comment",
+        {
+            transition: fade,
+            style:{
+                    
+                color:"#ffc107",
+                background: "linear-gradient(120deg, #2c3e50, #4c5c68)",
+                fontWeight: "bold"
+            }
+        }
+        )
         setDeleteCommentId(null)
        }
     }   
@@ -233,7 +253,13 @@ const toggleDeleteConfirm = (e, commentId) => {
 
        if(response){
             toast.dark(response.errorMessage,{
-                transition: fade
+                transition: fade,
+                style:{
+                    
+                    color:"#ffc107",
+                    background: "linear-gradient(120deg, #2c3e50, #4c5c68)",
+                    fontWeight: "bold"
+                }
             })
             setIsLoadComment(false)
         
@@ -382,16 +408,16 @@ const toggleDeleteConfirm = (e, commentId) => {
                                 {user?.id === comment.user_id && (
                                     <div className="user-comment-action">
                                         {editCommentId === comment.id ? (
-                                        <><button onClick={submitComment}>Submit</button>
-                                        <button onClick={() => setEditCommentId(null)}>Cancel</button></>): 
-                                        <><button onClick={() => toggleEdit(comment)}><BiCommentEdit />
+                                        <><button className="edit-comment-button" onClick={submitComment}>Submit</button>
+                                        <button  className="delete-comment-button" onClick={() => setEditCommentId(null)}>Cancel</button></>): 
+                                        <><button className="edit-comment-button" onClick={() => toggleEdit(comment)}><MdEdit /> Edit
                                         </button>
-                                        <button onClick={(e) =>  toggleDeleteConfirm(e, comment.id)}><FaRegTrashCan /></button>
+                                        <button className="delete-comment-button" onClick={(e) =>  toggleDeleteConfirm(e, comment.id)}><FaRegTrashCan /></button>
                                         {deleteCommentId === comment.id && (
                                             <div ref={deleteRef} className="delete-confirm">
                                                 <p>Do you really want to delete this comment</p>
-                                                <button onClick={() => deleteComment(comment.id)}>Yes</button>
-                                                <button onClick={() => setDeleteCommentId(null)}>Cancel</button>
+                                                <button className="comment-submit-edit" onClick={() => deleteComment(comment.id)}>Yes</button>
+                                                <button className="edit-comment-button" onClick={() => setDeleteCommentId(null)}>Cancel</button>
 
                                             </div>
                                         )}
