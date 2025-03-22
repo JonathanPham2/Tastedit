@@ -219,7 +219,7 @@ h2 {
 }
 
 .spicy-level {
-  width: 100
+  width: 100%;
   /* z-index: 2; */
   margin-top: 40px;
    /* position: relative; */
