@@ -520,4 +520,4 @@ const stageContent = () => {
 }
 
 
-export default CreateDish
+export default CreateDis
